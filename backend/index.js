@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 5000
+const port = process.env.port || 5000;
 
 const path = require('path')
 
@@ -24,9 +24,11 @@ const connectToMongoDB = async () => {
 // Call the connectToMongoDB function
 connectToMongoDB();
 
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, './client/build')));
 app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, "../build/index.html"))
+  res.sendFile(path.join(__dirname, "./client/build/index.html"), function (err) {
+    res.status(500).send(err);
+  })
 });
 
 
