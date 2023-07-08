@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import Badge from 'react-bootstrap/Badge';
 import Modal from '../Modal';
 import Cart from '../screens/Cart';
 import { useCart } from '../components/ContextReducer';
@@ -53,7 +52,8 @@ const NavBar = () => {
                                 :
                                 <div>
                                     <button to="/cart" className="btn btn-warning me-2" onClick={() => { setCartView(true) }}>My Cart {" "}
-                                        <Badge pill bg="danger" className='mw-1' >{data.length}</Badge>
+
+                                        <span className='mw-1 badge bg-danger' >{data.length}</span>
                                     </button>
                                     {cartView ? <Modal onClose={() => setCartView(false)}><Cart /></Modal> : null}
                                     <Link to="" className="btn btn-danger" onClick={handleLogout}>Log Out</Link>
