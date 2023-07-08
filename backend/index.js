@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const port = 5000
+
+const path = require('path')
+
 //in nodejs we use require than import
 const mongoDB = require("./db.js")
 // Function to establish MongoDB connection and fetch data
@@ -20,6 +23,12 @@ const connectToMongoDB = async () => {
 
 // Call the connectToMongoDB function
 connectToMongoDB();
+
+app.use(express.static(path.join(__dirname, '../build')));
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, "../build/index.html"))
+});
+
 
 //for cors error, hitting api for thunder client
 app.use((req, res, next) => {
