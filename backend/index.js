@@ -1,0 +1,42 @@
+const express = require('express')
+const app = express()
+const port = 5000
+//in nodejs we use require than import
+const mongoDB = require("./db.js")
+// Function to establish MongoDB connection and fetch data
+const connectToMongoDB = async () => {
+  try {
+    await mongoDB();
+    console.log('Connected to MongoDB');
+
+    // Start the server
+    app.listen(port, () => {
+      console.log(`Example app listening on port ${port}`);
+    });
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+  }
+};
+
+// Call the connectToMongoDB function
+connectToMongoDB();
+
+//for cors error, hitting api for thunder client
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+})
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+//connecting our endpoint /api/createuser using mongoose model
+app.use(express.json());
+app.use('/api', require("./routes/CreateUser"));
+app.use('/api', require("./routes/DisplayData"));
+app.use('/api', require("./routes/OrderData"));
+
