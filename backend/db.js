@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
-const uri = process.env.MONGODB_URI;
+const uri = "mongodb+srv://nakul:qwerty123@foodd.5qdwl8g.mongodb.net/Foodd?retryWrites=true&w=majority";
 //we have to this in index.js (express)
 //make function and export
 const mongoDB = async () => {

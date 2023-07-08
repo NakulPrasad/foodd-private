@@ -9,7 +9,10 @@ node_modules
 /coverage
 
 # production
-/build
+# /build
+
+/backend/package-lock.json
+/backend/client/package-lock.json
 
 # misc
 .DS_Store
