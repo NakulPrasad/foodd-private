@@ -34,7 +34,7 @@ app.get('*', function (req, res) {
 
 //for cors error, hitting api for thunder client
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader("Access-Control-Allow-Origin", "https://crazy-snaps-ray.cyclic.app");
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"

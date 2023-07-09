@@ -23,7 +23,7 @@ const Signup = () => {
     //synthethic envent asked in react interview
     e.preventDefault(); // learn yourself
     //post request using fetch
-    const response = await fetch("http://localhost:5000/api/createuser", {
+    const response = await fetch("https://crazy-snaps-ray.cyclic.app/api/createuser", {
       //as its post method in backend, we have to send dataBody
       method: "POST",
       headers: {
