@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
-// const dotenv = require('dotenv');
-// dotenv.config({ path: './.env' });
-const uri = "mongodb+srv://nakul:qwerty123@foodd.5qdwl8g.mongodb.net/Foodd?retryWrites=true&w=majority";
-//we have to this in index.js (express)
-//make function and export
+
+const uri = process.env.MONGODB_URI;
+
 const mongoDB = async () => {
     try {
         await mongoose.connect(uri);
@@ -17,10 +15,6 @@ const mongoDB = async () => {
 
         global.foodItems = foodData;
         global.foodCategory = catData;
-
-
-        // console.log(global.foodItems);
-
 
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);

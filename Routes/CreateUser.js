@@ -41,11 +41,8 @@ router.post("/createuser",
             res.json({ success: false });
         }
     })
-//backend route for login page
-//jwtkey in .env file.
-// const dotenv = require('dotenv');
-// dotenv.config({ path: './.env' });
-const jwtKey = "mYNAMEiSnAKULpRAsADmAHATO#$";
+
+const jwtKey = process.env.SECRET_JWT;
 
 router.post("/loginuser", [//express validator
 
