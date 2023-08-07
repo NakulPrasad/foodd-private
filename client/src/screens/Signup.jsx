@@ -23,24 +23,30 @@ const Signup = () => {
     //synthethic envent asked in react interview
     e.preventDefault(); // learn yourself
     //post request using fetch
-    const response = await fetch("https://crazy-snaps-ray.cyclic.app/api/createuser", {
-      //as its post method in backend, we have to send dataBody
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        //this should be same in backend like, in backend we use location and here geoloaction:credenta... this error
-        name: credentials.name,
-        email: credentials.email,
-        password: credentials.password,
-        location: credentials.geolocation,
-      }),
-    });
+    const response = await fetch(
+      "https://crazy-snaps-ray.cyclic.app/api/createuser",
+      {
+        //as its post method in backend, we have to send dataBody
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          //this should be same in backend like, in backend we use location and here geoloaction:credenta... this error
+          name: credentials.name,
+          email: credentials.email,
+          password: credentials.password,
+          location: credentials.geolocation,
+        }),
+      }
+    );
     const json = await response.json();
-    console.log(json);
+
     if (!json.success) {
       alert("Enter vaild credentials");
+    } else {
+      alert("User Created!! \n Try Logging IN");
+      navigate("/login");
     }
   };
   const onChange = (event) => {
