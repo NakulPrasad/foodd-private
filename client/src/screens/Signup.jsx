@@ -44,10 +44,10 @@ const Signup = () => {
 
     if (!json.success) {
       alert("Enter vaild credentials");
-    } else {
-      alert("User Created!! \n Try Logging IN");
-      navigate("/login");
     }
+
+    alert("User Created!! \n Try Logging IN");
+    navigate("/login");
   };
   const onChange = (event) => {
     //this should be added to all input feilds
