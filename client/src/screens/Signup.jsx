@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //copy bootstrap snippet
 //added      <form onSubmit={handleSubmit}>
 //handelSubmit calls backend
@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 //on clicking sign in, ridirect to homepage
 
 const Signup = () => {
+  let navigate = useNavigate();
   // default state blank, can access varible via credentials
   const [credentials, setcredentials] = useState({
     name: "",
@@ -45,9 +46,10 @@ const Signup = () => {
     if (!json.success) {
       alert("Enter vaild credentials");
     }
-
-    alert("User Created!! \n Try Logging IN");
-    navigate("/login");
+    if (json.success) {
+      alert("User Created!! \n Try Logging IN");
+      navigate("/");
+    }
   };
   const onChange = (event) => {
     //this should be added to all input feilds
