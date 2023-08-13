@@ -4,28 +4,28 @@ const Login = () => {
   const [credentials, setcredentials] = useState({ email: "", password: "" });
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
-    //synthethic envent asked in react interview
-    e.preventDefault(); // learn yourself
-    //post request using fetch
-    const response = await fetch("https://crazy-snaps-ray.cyclic.app/api/loginuser", {
-      //as its post method in backend, we have to send dataBody
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        //this should be same in backend like, in backend we use location and here geoloaction:credenta... this error
+    e.preventDefault();
 
-        email: credentials.email,
-        password: credentials.password,
-      }),
-    });
+    //post request using fetch
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/api/loginuser`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: credentials.email,
+          password: credentials.password,
+        }),
+      }
+    );
     const json = await response.json();
     // console.log(json);
     if (!json.success) {
       alert("Enter vaild credentials");
     }
-    //after signin redirect to homepage
+
     if (json.success) {
       //saving to local storage
       localStorage.setItem("authToken", json.authToken);

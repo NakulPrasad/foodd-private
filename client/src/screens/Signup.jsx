@@ -25,7 +25,7 @@ const Signup = () => {
     e.preventDefault(); // learn yourself
     //post request using fetch
     const response = await fetch(
-      "https://crazy-snaps-ray.cyclic.app/api/createuser",
+      `${process.env.REACT_APP_BASE_URL}/api/createuser`,
       {
         //as its post method in backend, we have to send dataBody
         method: "POST",
@@ -47,7 +47,7 @@ const Signup = () => {
       alert("Enter vaild credentials");
     }
     if (json.success) {
-      alert("User Created!! \n Try Logging IN");
+      alert("User Created !!\nTry Login !!");
       navigate("/");
     }
   };
