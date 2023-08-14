@@ -16,7 +16,11 @@ app.use(helmet());
 
 app.use(
   helmet.crossOriginResourcePolicy({
-    policy: "cross-origin",
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https://source.unsplash.com", "https://media.istockphoto.com", "https://cdn.pixabay.com", "https://images.unsplash.com"],
+
+    },
   })
 );
 app.use(morgan(" common "));
