@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require("cors")
 const dotenv = require("dotenv")
-const helmet = require("helmet")
+
 const morgan = require("morgan")
 
 const port = process.env.port || 80;
@@ -12,17 +12,7 @@ const path = require('path')
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(helmet());
 
-app.use(
-  helmet.crossOriginResourcePolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https://source.unsplash.com", "https://media.istockphoto.com", "https://cdn.pixabay.com", "https://images.unsplash.com"],
-
-    },
-  })
-);
 app.use(morgan(" common "));
 app.use(cors());
 
