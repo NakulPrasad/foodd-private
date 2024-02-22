@@ -18,15 +18,11 @@ app.use(cors());
 
 const mongoDB = require("./db.js")
 
-
-
-// Function to establish MongoDB connection and fetch data
 const connectToMongoDB = async () => {
   try {
     await mongoDB();
     console.log('Connected to MongoDB');
 
-    // Start the server
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`);
     });
@@ -35,9 +31,7 @@ const connectToMongoDB = async () => {
   }
 };
 
-// Call the connectToMongoDB function
 connectToMongoDB();
-
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, './client/build')));

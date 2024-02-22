@@ -6,11 +6,12 @@
   "scripts": {
     "start": "node index.js",
     "dev-backend": "nodemon index.js",
-    "dev-frontend":"cd client && react-scripts start"
+    "dev-frontend": "cd client && yarn start"
   },
   "author": "Nakul Prasad",
   "license": "ISC",
   "dependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
@@ -19,6 +20,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.0",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "vite": "^5.1.4",
+    "vite-tsconfig-paths": "^4.3.1"
   }
 }
