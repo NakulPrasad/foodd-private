@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// const uri = "mongodb+srv://nakul:qwerty123@foodd.5qdwl8g.mongodb.net/Foodd?retryWrites=true&w=majority";
 const uri = process.env.MONGODB_URI;
 
 const mongoDB = async () => {
