@@ -1,9 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const User = require('../models/User');
-const { check, validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
+import { Router } from 'express';
+const router = Router();
+import User from '../models/User.js';
+import { check, validationResult } from 'express-validator';
+import { genSalt, hash, compare } from 'bcrypt';
+import pkg from 'jsonwebtoken';
+const { sign } = pkg;
+
 
 router.post("/createuser",
     [//express validator
@@ -19,11 +21,11 @@ router.post("/createuser",
             return res.status(400).json({ errors: errors.array() });
         }
         //bcrypt added
-        const salt = await bcrypt.genSalt(10);
-        let secPassword = await bcrypt.hash(req.body.password, salt);
+        const salt = await genSalt(10);
+        let secPassword = await hash(req.body.password, salt);
         try {
             //await is import
-            await User.create({
+            await create({
                 //order can be random
                 // after creating create user, we need to connect to main application
                 //changing from static to dynamic data, 
@@ -59,13 +61,13 @@ router.post("/loginuser", [//express validator
         let email = req.body.email;
         try {
             //findOne return object if found email
-            let userData = await User.findOne({ email });
+            let userData = await findOne({ email });
             if (!userData) {
                 return res.status(400).json({ errors: "Try Again!! Invalid user or password" })
             }
             //if password doesn't match
             //matches userdata ko hash me convert kar mongodb se match karta hai.
-            const pwdCompare = await bcrypt.compare(req.body.password, userData.password)
+            const pwdCompare = await compare(req.body.password, userData.password)
             if (!pwdCompare) {
                 return res.status(400).json({ errors: "Try Again!! Invalid user or password" })
             }
@@ -73,12 +75,12 @@ router.post("/loginuser", [//express validator
             //signing with jwt token...
             const data = {
                 //signing at backend
-                user: {
+                USER: {
                     id: userData.id //saves id from db to id
 
                 }
             }
-            const authToken = jwt.sign(data, jwtKey);
+            const authToken = sign(data, jwtKey);
 
 
             return res.json({ success: true, authToken: authToken })
@@ -88,4 +90,4 @@ router.post("/loginuser", [//express validator
         }
     })
 
-module.exports = router;
+export default router;

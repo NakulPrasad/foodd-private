@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const Order = require('../models/Orders')
+import { Router } from 'express';
+const router = Router();
+import Order from '../models/Orders.js';
 
 //we have to create a route, copy paste form DispalyData.js
 //upon clicking checkout, user.email + data=usecart() {cart.js} (all data in state)
@@ -9,11 +9,11 @@ router.post('/orderData', async (req, res) => {
     await data.splice(0, 0, { Order_date: req.body.order_date })
 
     //if email not exists in db: first order (create) then append new order to db
-    let eId = await Order.findOne({ 'email': req.body.email })
+    let eId = await findOne({ 'email': req.body.email })
     // console.log(eId);
     if (eId === null) {
         try {
-            await Order.create({
+            await create({
                 email: req.body.email,
                 order_data: [data]
             }).then(() => {
@@ -27,7 +27,7 @@ router.post('/orderData', async (req, res) => {
     }
     else {
         try {
-            await Order.findOneAndUpdate({ email: req.body.email },
+            await findOneAndUpdate({ email: req.body.email },
                 { $push: { order_data: data } }).then(() => {
                     res.json({ sucess: true })
                 })
@@ -41,7 +41,7 @@ router.post('/orderData', async (req, res) => {
 //endpoint for order history
 router.post('/myOrderData', async (req, res) => {
     try {
-        let myData = await Order.findOne({ 'email': req.body.email });
+        let myData = await findOne({ 'email': req.body.email });
         res.json({ orderData: myData });
 
     } catch (error) {
@@ -51,4 +51,4 @@ router.post('/myOrderData', async (req, res) => {
 
 })
 
-module.exports = router;
+export default router;

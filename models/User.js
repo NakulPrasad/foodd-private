@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose, { model } from 'mongoose';
 
 const { Schema } = mongoose;
 const UserSchema = new Schema({
@@ -18,12 +18,10 @@ const UserSchema = new Schema({
         type: String,
         require: true
     },
-
     date: {
         type: Date,
         default: Date.now
     }
 
 })
-//model is wrapper helps is inserting data
-module.exports = mongoose.model('user', UserSchema)
+export default model('user', UserSchema)

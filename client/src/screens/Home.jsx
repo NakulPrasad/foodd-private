@@ -3,12 +3,8 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
 
-//
-
-//in react hooks : usecallback and useMemo is important in interview.
-
 const Home = () => {
-  // we use state to fetch data from backend path/api/foodData
+  
   const [search, setSearch] = useState("");
   const [foodCat, setFoodCat] = useState([]);
   const [foodItem, setFoodItem] = useState([]);
@@ -32,11 +28,6 @@ const Home = () => {
   useEffect(() => {
     loadData();
   }, []);
-  //empty dependency means call only first itme on page load
-  //we want to render components after data fetching from db completes,
-  //but in react components renders first then other block of codes executes
-  //method 1: use if else, switch
-  //m2: ternerary operator
 
   return (
     <div>
@@ -44,7 +35,7 @@ const Home = () => {
         <NavBar />
       </div>
       <div>
-        {/* we have to move whole crousel here, in react child to parent can't transfer,  */}
+        
         <div
           id="carouselExampleAutoplaying"
           className="carousel slide"

@@ -1,16 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const uri = process.env.MONGODB_URI;
 
 const mongoDB = async () => {
     try {
         await mongoose.connect(uri);
-
-        // Grab collection and store in fetchData, always after connection established.
-        const fetchedData = mongoose.connection.db.collection("foodItems");
-        // Using find to search database {empty} means all data
+        const fetchedData = connection.db.collection("foodItems");
         const foodData = await fetchedData.find({}).toArray();
-        const foodCategory = mongoose.connection.db.collection("foodCategory");
+        const foodCategory = connection.db.collection("foodCategory");
         const catData = await foodCategory.find({}).toArray();
 
         global.foodItems = foodData;
@@ -21,5 +18,5 @@ const mongoDB = async () => {
     }
 };
 
-module.exports = mongoDB;
+export default mongoDB;
 

@@ -1,8 +1,4 @@
-//order data stores in db for that particular user
-// we have to make schema using mongoose.
-//after creating schema, we have to make a endpoint
-//make new file : OrderData.js in Routes.
-const mongoose = require('mongoose')
+import mongoose, { model } from 'mongoose';
 
 const { Schema } = mongoose;
 
@@ -22,4 +18,4 @@ const OrderSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('order', OrderSchema)
+export default model('order', OrderSchema)

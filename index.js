@@ -1,30 +1,28 @@
-const express = require('express')
-const cors = require("cors")
-const dotenv = require("dotenv")
+import express, { json } from 'express';
+import cors from "cors";
+import { config } from "dotenv";
+import morgan from "morgan";
+import { join } from 'path';
+import mongoDB from "./db.js";
+import createUserRouter from "./Routes/CreateUser.js";
+import displayDataRouter from "./Routes/DisplayData.js";
+import orderDataRouter from "./Routes/OrderData.js";
 
-const morgan = require("morgan")
+const PORT = process.env.PORT || 80;
 
-const port = process.env.port || 80;
-
-const path = require('path')
-
-// CONFIGURATION
-dotenv.config();
+config();
 const app = express();
-app.use(express.json());
-
-app.use(morgan(" common "));
+app.use(json());
+app.use(morgan("common"));
 app.use(cors());
-
-const mongoDB = require("./db.js")
 
 const connectToMongoDB = async () => {
   try {
     await mongoDB();
     console.log('Connected to MongoDB');
 
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
+    app.listen(PORT, () => {
+      console.log(`Example app listening on port ${PORT}`);
     });
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
@@ -33,22 +31,20 @@ const connectToMongoDB = async () => {
 
 connectToMongoDB();
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, './client/build')));
-  app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"), function (err) {
-      res.status(500).send(err);
-    })
-  })
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(join(__dirname, './client/build')));
 
+//   app.get('*', function (req, res) {
+//     res.sendFile(join(__dirname, "./client/build/index.html"), function (err) {
+//       res.status(500).send(err);
+//     })
+//   })
+// }
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('BACKEND WORKING FINE')
 })
 
-app.use(express.json());
-app.use('/api', require("./Routes/CreateUser.js"));
-app.use('/api', require("./Routes/DisplayData.js"));
-app.use('/api', require("./Routes/OrderData.js"));
-
+app.use('/api', createUserRouter);
+app.use('/api', displayDataRouter);
+app.use("/api", orderDataRouter);
