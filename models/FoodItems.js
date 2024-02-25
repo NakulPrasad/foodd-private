@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
-import { Schema, Model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const foodItemsSchema = new Schema({
-_id : mongoose.Schema.Types.ObjectId,
 name: String,
 CategoryName : String,
 img:String,
@@ -13,6 +12,6 @@ options: [{
 description : String,
 })
 
-const foodItems = Model('FoodItem',foodItemsSchema);
-export default foodItems;
+const FoodItems = model('FoodItems',foodItemsSchema);
+export default FoodItems;
 
