@@ -25,12 +25,12 @@ export const addFoodItem =async (req,res)=>{
     }
 }
 
-// export const foodData = async(req, res)=>{
-//     try {
+export const getFoodData = async(req, res)=>{
+    try {
 
-//         return res.send([global.foodItems, global.foodCategory]);
-//     } catch (error) {
-//         console.error(error.message);
-//         res.send("Server error");
-//     }
-// }
+        return res.send([global.foodItems, global.foodCategory]);
+    } catch (error) {
+        console.error(error.message);
+        res.send("Server error");
+    }
+}
