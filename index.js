@@ -1,5 +1,5 @@
 import express from 'express';
-import dotenv from "dotenv"
+import * as dotenv from 'dotenv';
 import cors from "cors";
 import morgan from "morgan";
 import { join } from 'path';
@@ -7,9 +7,10 @@ import  {connectToDB} from "./db.js";
 
 import { apiRouter } from './server.js';
 
+dotenv.config();
+
 const PORT = process.env.PORT || 80;
 
-dotenv.config();
 
 const app = express();
 app.use(cors());

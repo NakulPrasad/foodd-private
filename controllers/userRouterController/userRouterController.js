@@ -1,14 +1,11 @@
-import dotenv from "dotenv"
 import User from "../../models/User.js";
-
-dotenv.config()
 
 const jwtKey = process.env.SECRET_JWT;
 
 export const getMyDetails = async (req, res) => {
     try {
         // const id = req.body
-        const user = await User.find({name : "Eklavya"})
+        const user = await User.find({ name: "Eklavya" })
         if (!user) return res.status(404).json({ msg: "User not found" })
 
         return res.status(200).json({ msg: "found", success: true, data: user })
@@ -19,7 +16,7 @@ export const getMyDetails = async (req, res) => {
 
 export const getOrderDetails = async (req, res) => {
     try {
-        return res.json({msg : "working"});
+        return res.json({ msg: "working" });
     } catch (error) {
         return res.status(500).json({ msg: "Cant getOrder Details", err: error.message })
     }

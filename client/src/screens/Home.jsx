@@ -17,7 +17,7 @@ const Home = () => {
       // console.log(data);
       setFoodItem(data[0]);
       setFoodCat(data[1]);
-      console.log(data[0], data[1]);
+      // console.log(data[0], data[1]);
     } catch (error) {
       console.error("Fetch error:", error.message);
     }
@@ -54,7 +54,7 @@ const Home = () => {
                     setSearch(e.target.value);
                   }}
                 />
-                {/* <button className="btn btn-success" type="submit">Search</button> */}
+             
               </div>
             </div>
             <div className="carousel-item active carousal">
@@ -107,21 +107,18 @@ const Home = () => {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-        {/* we have to move whole crousel here, in react child to parent can't transfer,  */}
+    
       </div>
-      {/* we want to call card dynamically, make cards according to data in db */}
+
       <div className="container">
-        {
-          //as react first render, we set data before render
-          foodCat !== []
-            ? foodCat.map((data) => {
+        { foodCat.map((data) => {
                 return (
                   <div className="row mb-3">
                     <div key={data.id} className="fs-3 m-3">
                       {data.CategoryName}
                     </div>
                     <hr />
-                    {foodItem !== [] ? (
+                    {foodItem && (
                       foodItem
                         .filter(
                           (item) =>
@@ -143,15 +140,13 @@ const Home = () => {
                             </div>
                           );
                         })
-                    ) : (
-                      <div> NO such data found</div>
-                    )}
+                    ) }
                   </div>
                 );
               })
-            : ""
+  
         }
-        {/* <Card /> */}
+  
       </div>
 
       <div>
