@@ -2,27 +2,25 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
+import { URLs } from "../configs/URLs";
 
 const Home = () => {
-  
   const [search, setSearch] = useState("");
   const [foodCat, setFoodCat] = useState([]);
   const [foodItem, setFoodItem] = useState([]);
 
   const loadData = async () => {
-    let response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/api/foodData`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    response = await response.json();
-    setFoodItem(response[0]);
-    setFoodCat(response[1]);
-    // console.log(response[0], response[1]);
+    try {
+      const response = await fetch(URLs.getFoodData);
+      if (!response.ok) throw new Error("Failed to get data");
+      const data = await response.json();
+      // console.log(data);
+      setFoodItem(data[0]);
+      setFoodCat(data[1]);
+      console.log(data[0], data[1]);
+    } catch (error) {
+      console.error("Fetch error:", error.message);
+    }
   };
 
   useEffect(() => {
@@ -35,7 +33,6 @@ const Home = () => {
         <NavBar />
       </div>
       <div>
-        
         <div
           id="carouselExampleAutoplaying"
           className="carousel slide"

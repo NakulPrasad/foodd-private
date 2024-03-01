@@ -19,7 +19,6 @@ export const connectToDB = async () => {
         const catData = await foodCategoryCollection.find({}).toArray();
         
 
-        // Store data globally or handle as needed
         global.foodItems = foodData;
         global.foodCategory = catData;
     } catch (error) {
