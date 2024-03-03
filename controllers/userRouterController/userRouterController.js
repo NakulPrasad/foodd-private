@@ -1,4 +1,9 @@
 import User from "../../models/User.js";
+import { check, validationResult } from 'express-validator';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+
 
 const jwtKey = process.env.SECRET_JWT;
 
@@ -76,24 +81,26 @@ export const loginUser = async (req, res) => {
 
         const { email, password } = req.body;
 
-        const userData = await findOne({ email });
+        const userData = await User.findOne({ email });
         if (!userData) {
+            console.log("NO User"); 
             return res.status(400).json({ errors: "Try Again!! Invalid user or password" });
         }
 
         // Compare passwords
-        const pwdCompare = await compare(password, userData.password);
+        const pwdCompare = await bcrypt.compare(password, userData.password);
         if (!pwdCompare) {
+            console.log("Pass mismaatch");
             return res.status(400).json({ errors: "Try Again!! Invalid user or password" });
         }
 
         // Sign JWT token
-        const authToken = sign({ id: userData.id }, jwtKey);
+        const authToken = jwt.sign({ id: userData.id }, jwtKey);
 
         return res.json({ success: true, authToken });
 
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ success: false, msg: "Invalid Request" });
+        return res.status(500).json({ success: false, msg: "Invalid Request", err: error.message });
     }
 };

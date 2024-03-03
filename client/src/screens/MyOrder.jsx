@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
+import { URLs } from "../configs/URLs";
 
 export default function MyOrder() {
   const [orderData, setorderData] = useState("");
 
   const fetchMyOrder = async () => {
     // console.log(localStorage.getItem('userEmail'))
-    await fetch(`${process.env.REACT_APP_BASE_URL}/api/myOrderData`, {
+    await fetch(URLs.getOrders, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,7 +31,7 @@ export default function MyOrder() {
 
       <div className="container">
         <div className="row">
-          {orderData !== {}
+          {orderData 
             ? Array(orderData).map((data) => {
                 return data.orderData ? (
                   data.orderData.order_data

@@ -9,6 +9,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(URLs.loginUser);
       const response = await fetch(URLs.loginUser, {
         method: "POST",
         headers: {
@@ -20,7 +21,10 @@ const Login = () => {
         }),
       });
       const json = await response.json();
-      // console.log(json);
+      console.log(JSON.stringify({
+        email: credentials.email,
+        password: credentials.password,
+      }),);
       if (!json.success) {
         alert("Enter vaild credentials");
       }

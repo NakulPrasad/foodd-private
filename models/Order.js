@@ -1,6 +1,4 @@
-import mongoose, { model } from 'mongoose';
-
-const { Schema } = mongoose;
+import { model, Schema } from 'mongoose';
 
 const OrderSchema = new Schema({
     email: {
