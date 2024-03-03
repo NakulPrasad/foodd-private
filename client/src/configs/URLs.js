@@ -7,6 +7,5 @@ export const URLs = {
     postOrder : `${BASE_URL}/order/orderCheckout`,
     getOrders : `${BASE_URL}/order/getMyOrders`,
     addUser : `${BASE_URL}/user/addUser`,
-    // TODO
-    // backed 
+
 }

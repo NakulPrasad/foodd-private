@@ -1,6 +1,6 @@
 import User from "../../models/User.js";
 import { check, validationResult } from 'express-validator';
-import bcrypt from 'bcrypt';
+import bcrypt, { genSalt, hash } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 
@@ -27,7 +27,7 @@ export const getOrderDetails = async (req, res) => {
     }
 }
 
-export const createUser = async (req, res) => {
+export const addUser = async (req, res) => {
     try {
         await Promise.all([
             check('name').notEmpty().withMessage('Name is required'),
@@ -47,7 +47,7 @@ export const createUser = async (req, res) => {
         const salt = await genSalt(10);
         let secPassword = await hash(req.body.password, salt);
 
-        await create({
+        await User.create({
 
             name: req.body.name,
             password: secPassword,
@@ -59,9 +59,9 @@ export const createUser = async (req, res) => {
         return res.status(200).json({ success: true });
 
 
-    } catch (error) {
+    } catch (err) {
 
-        return res.status(500).json({ sucess: false, msg: "Invalid Request" })
+        return res.status(500).json({ msg: "Cant't Add User", error: err.message })
     }
 }
 
@@ -83,7 +83,7 @@ export const loginUser = async (req, res) => {
 
         const userData = await User.findOne({ email });
         if (!userData) {
-            console.log("NO User"); 
+            console.log("NO User");
             return res.status(400).json({ errors: "Try Again!! Invalid user or password" });
         }
 
