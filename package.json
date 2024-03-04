@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
-    "dev-backend": "nodemon --watch 'src/**/*.ts' --exec 'node ./node_modules/ts-node/dist/bin.js' src/index.ts",
+    "dev-backend": "nodemon --watch 'src/**/*.ts' --exec",
     "dev-frontend": "cd client && yarn start"
   },
   "author": "Nakul Prasad",

@@ -13,9 +13,9 @@ const NavBar = () => {
         navigate("/login");
     }
 
-    //creating state for cartpage
+
     const [cartView, setCartView] = useState(false);
-    //dynamically changing banner count on my cart
+
     let data = useCart();
 
 

@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
 import { URLs } from "../configs/URLs";
 
 export default function MyOrder() {
-  const [orderData, setorderData] = useState("");
+ const [orderData, setOrderData] = useState(null);
+ const [error, setError] = useState(null);
 
-  const fetchMyOrder = async () => {
-    // console.log(localStorage.getItem('userEmail'))
-    await fetch(URLs.getOrders, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: localStorage.getItem("userEmail"),
-      }),
-    }).then(async (res) => {
-      let response = await res.json();
-      setorderData(response);
-    });
-  };
+ const fetchMyOrder = useCallback(async () => {
+    try {
+      const response = await fetch(URLs.getOrders, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: localStorage.getItem("userEmail"),
+        }),
+      });
+      const data = await response.json();
+      setOrderData(data);
+    } catch (err) {
+      setError(err);
+    }
+ }, []);
 
-  useEffect(() => {
+ useEffect(() => {
     fetchMyOrder();
-  }, []);
+ }, [fetchMyOrder]);
+ 
   return (
     <>
       <NavBar />
@@ -92,7 +96,7 @@ export default function MyOrder() {
                       });
                     })
                 ) : (
-                  <h1 class="display-5 fw-bold px-4 py-5 my-5 text-center">
+                  <h1 className="display-5 fw-bold px-4 py-5 my-5 text-center">
                     You haven't order before
                   </h1>
                 );

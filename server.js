@@ -8,6 +8,3 @@ export const apiRouter = express.Router();
 apiRouter.use("/user",userRouter);
 apiRouter.use("/home",homeRouter);
 apiRouter.use("/order", orderRouter);
-// app.use('/api', createUserRouter);
-// app.use('/api', displayDataRouter);
-// app.use("/api", orderDataRouter);
