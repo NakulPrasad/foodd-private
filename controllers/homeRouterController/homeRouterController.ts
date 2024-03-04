@@ -1,3 +1,5 @@
+import FoodItems from '../../models/FoodItems.js'
+
 export const homeTest = (req,res)=>{
     return res.status(200).json({status:"Sucess", message:"Working"})
 }
