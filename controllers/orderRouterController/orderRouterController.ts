@@ -13,7 +13,7 @@ export const orderCheckout = async (req, res) => {
     // console.log(eId);
     if (eId === null) {
         try {
-            await create({
+            await Order.create({
                 email: req.body.email,
                 order_data: [data]
             }).then(() => {
