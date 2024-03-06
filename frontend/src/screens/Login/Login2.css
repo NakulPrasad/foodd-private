@@ -14,7 +14,7 @@ button {
     align-items: center;
 }
 
-.container {
+.flex-container {
     display: flex;
     justify-content: center;
     margin: auto;
@@ -86,4 +86,11 @@ button {
     color: white;
     font-weight: 700px;
     font-size: 18px;
+}
+
+.gray{
+    background-color: #797979;
+}
+.display-none{
+    display: none;
 }
