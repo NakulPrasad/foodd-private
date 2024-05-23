@@ -3,10 +3,13 @@ import emailIcon from "../../assets/email.png"; // @ts-ignore
 import passwordIcon from "../../assets/password.png";// @ts-ignore
 import personIcon from "../../assets/person.png";
 import "./Login2.css";
+import useFetchData from "../../hooks/useFetchData";
 
 const Login2 = () => {
   const[action, setAction] = useState("Sign Up");
-
+const handleClick = ()=>{
+  setAction("Sign Up");
+}
   return (
     <section className="flex-container flexbox" id="login">
       <div className="form-container">
@@ -40,7 +43,7 @@ const Login2 = () => {
       </div>}
       
       <div className="submit-container flexbox">
-        <button className={action === "Login"? "gray submit" : "submit"} onClick={() => setAction("Sign Up")}>Sign Up</button>
+        <button className={action === "Login"? "gray submit" : "submit"} onClick={handleClick}>Sign Up</button>
         <button className={action === "Sign Up"? "gray submit" : "submit"} onClick={() => setAction("Login")}>Login</button>
       </div>
     </section>

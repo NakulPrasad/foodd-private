@@ -24,9 +24,6 @@ function App() {
             <Route path='/createuser' element={<Signup />} />
             <Route path='/myOrder' element={<MyOrder />} />
             <Route path='/login2' element={<Login2 />} />
-            
-
-
           </Routes>
         </div>
       </Router>

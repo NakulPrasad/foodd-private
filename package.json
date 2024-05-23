@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
-    "dev-backend": "nodemon --watch 'src/**/*.ts' --exec",
-    "dev-frontend": "cd frontend && yarn start"
+    "dev-backend": "nodemon --watch 'src/**/*.ts'",
+    "dev-frontend": "cd frontend && yarn start && tsc --watch",
+    "build-backend": "tsc --project backend/tsconfig.json"
   },
   "author": "Nakul Prasad",
   "license": "ISC",
