@@ -87,7 +87,11 @@ button {
     font-weight: 700px;
     font-size: 18px;
 }
-
+.center {
+    /* display: block; */
+    width: 100%;
+    /* margin-left: 20%; */
+}
 .gray{
     background-color: #797979;
 }
