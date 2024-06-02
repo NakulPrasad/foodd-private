@@ -4,10 +4,13 @@
   "description": "This a Project Devloped to Learn BootStrap",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts",
+    "start": "ts-node index.js",
     "dev-backend": "nodemon --watch 'src/**/*.ts'",
     "dev-frontend": "cd frontend && yarn start && tsc --watch",
-    "build-backend": "tsc --project backend/tsconfig.json"
+    "build-frontend": "cd frontend && vite build",
+    "build-backend": "tsc --project backend/tsconfig.json",
+    "build-install": "yarn install && cd frontend && yarn install"
+
   },
   "author": "Nakul Prasad",
   "license": "ISC",
