@@ -1,7 +1,8 @@
-const NEW_URL = `${process.env.BASE_URL || 'https://foodd-mern.vercel.app'}/api`;
-const BASE_URL = process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/api"
-    : NEW_URL;
+let BASE_URL = "http://localhost:80/api";
+
+if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') {
+    BASE_URL = process.env.BASE_URL || "http://localhost:80/api";
+}
 
 export const URLs = {
     getFoodData: `${BASE_URL}/home/getFoodData`,
