@@ -22,15 +22,15 @@ app.use(morgan("dev"));
 connectToDB()
 
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(join(__dirname, './client/build')));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(join(__dirname, './client/build')));
 
-//   app.get('*', function (req, res) {
-//     res.sendFile(join(__dirname, "./client/build/index.html"), function (err) {
-//       res.status(500).send(err);
-//     })
-//   })
-// }
+  app.get('*', function (req, res) {
+    res.sendFile(join(__dirname, "./client/build/index.html"), function (err) {
+      res.status(500).send(err);
+    })
+  })
+}
 
 app.get('/', (req, res) => {
   res.send('BACKEND WORKING FINE')

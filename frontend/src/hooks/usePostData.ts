@@ -23,9 +23,9 @@ export default function usePostData(url: string, data: object):PostDataResult {
         },
         body: JSON.stringify(data),
       });
+      const jsonData : any = await res.json();
+      setResponseData(jsonData);
       if (res.ok) {
-        const jsonData : any = await res.json();
-        setResponseData(jsonData);
         console.log("Data Published success");
       }
     } catch (error) {

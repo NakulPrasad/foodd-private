@@ -8,11 +8,17 @@ import { URLs } from "../../configs/URLs";
 import usePostData from "../../hooks/usePostData";
 
 const Login2 = () => {
+  
   const [action, setAction] = useState("Sign Up");
+  const [errorMsg, setErrorMsg] = useState("");
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
   });
+  const [validationErrors, setValidationErrors] = useState({
+    email : "",
+    password : ""
+  })
   const { responseData, loading, error, postData } = usePostData(
     URLs.loginUser,
     {
@@ -24,22 +30,63 @@ const Login2 = () => {
   const handleClick = () => {
     setAction("Sign Up");
   };
+
   const handleSubmit = async () => {
     try {
-      await postData().then((responseData) => console.log(responseData));
+      await postData();
+        console.log(responseData);
     } catch (error) {
+      setErrorMsg('Invalid Cred');
       console.error(error);
     }
   };
   const onChange = (event) => {
     const { name, value } = event.target;
+  
+    // Basic validation
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isValidEmail = emailRegex.test(value);
+      setValidationErrors((prevErrors) => ({
+       ...prevErrors,
+        email: isValidEmail? "" : "Invalid email format",
+      }));
+  
+      // Only update the credentials if the email is valid
+      if (isValidEmail) {
+        setCredentials((prevCredentials) => ({
+         ...prevCredentials,
+          email: value,
+        }));
+      }
+    } else if (name === "password") {
+      const isValidPassword = value.length >= 6;
+      setValidationErrors((prevErrors) => ({
+       ...prevErrors,
+        password: isValidPassword? "" : "Password must be at least 6 characters",
+      }));
+  
+      // Only update the credentials if the password meets the criteria
+      if (isValidPassword) {
+        setCredentials((prevCredentials) => ({
+         ...prevCredentials,
+          password: value,
+        }));
+      }
+    }
+  
+    // Update the credentials state regardless of validation for other fields
     setCredentials((prevCredentials) => ({
-      ...prevCredentials,
+     ...prevCredentials,
       [name]: value,
     }));
   };
+  
   return (
     <section className="flex-container flexbox" id="login">
+      {/* {loading && <div>Loading...</div>} */}
+      {errorMsg && <div style={{ color: 'red' }}>{errorMsg}</div>}
+      
       <div className="form-container">
         <div className="header flexbox">
           <div className="text">{action}</div>
@@ -63,6 +110,7 @@ const Login2 = () => {
               onChange={onChange}
             />
           </div>
+            {validationErrors.email && <p className="error">{validationErrors.email}</p>}
           <div className="input">
             <img src={passwordIcon} alt="password" />
             <input
@@ -73,6 +121,7 @@ const Login2 = () => {
               onChange={onChange}
             />
           </div>
+            {validationErrors.password && <p className="error">{validationErrors.password}</p>}
           {action === "Sign Up" && (
             <div className="input">
               <img src={passwordIcon} alt="password" />

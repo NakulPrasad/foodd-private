@@ -19,9 +19,9 @@ export const orderCheckout = async (req, res) => {
             }).then(() => {
                 return res.json({ sucess: true })
             })
-        } catch (error) {
-            console.error(error.message);
-            return res.send("Server error", error.message);
+        } catch (err) {
+            console.error(err.message);
+            return res.status(500).json({ msg: "Internal Server error", error: err.message });
         }
 
     }

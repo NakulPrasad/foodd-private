@@ -111,9 +111,9 @@ const Home = () => {
       </div>
 
       <div className="container">
-        { foodCat.map((data) => {
+        { foodCat.map((data, index) => {
                 return (
-                  <div className="row mb-3">
+                  <div className="row mb-3" key={index}>
                     <div key={data.id} className="fs-3 m-3">
                       {data.CategoryName}
                     </div>

@@ -33,11 +33,11 @@ export default function Cart() {
         }),
       }
     );
-    console.log(JSON.stringify({
-      order_data: data,
-      email: userEmail,
-      order_date: new Date().toUTCString(),
-    }),);
+    // console.log(JSON.stringify({
+    //   order_data: data,
+    //   email: userEmail,
+    //   order_date: new Date().toUTCString(),
+    // }),);
     // console.log("JSON RESPONSE:::::", response.status);
     if (response.status === 200) {
       dispatch({ type: "DROP" });
@@ -65,7 +65,7 @@ export default function Cart() {
           </thead>
           <tbody>
             {data.map((food, index) => (
-              <tr>
+              <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <td>{food.name}</td>
                 <td>{food.qty}</td>

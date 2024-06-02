@@ -98,3 +98,7 @@ button {
 .display-none{
     display: none;
 }
+.error{
+    color: red;
+    display: block;
+}

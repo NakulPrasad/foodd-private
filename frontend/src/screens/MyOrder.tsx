@@ -42,9 +42,9 @@ export default function MyOrder() {
                     .slice(0)
                     .reverse()
                     .map((item) => {
-                      return item.map((arrayData) => {
+                      return item.map((arrayData, index) => {
                         return (
-                          <div>
+                          <div key={index}>
                             {arrayData.Order_date ? (
                               <div className="m-auto mt-5">
                                 {(data = arrayData.Order_date)}
