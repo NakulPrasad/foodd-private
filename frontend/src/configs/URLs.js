@@ -1,7 +1,7 @@
 let BASE_URL = "http://localhost:80/api";
 
 if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') {
-    BASE_URL = process.env.BASE_URL || "http://localhost:80/api";
+    BASE_URL = process.env.VITE_BASE_URL || "http://localhost:80/api";
 }
 
 export const URLs = {
