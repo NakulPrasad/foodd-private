@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:80/api" : "/api/"
+const BASE_URL = process.env.NODE_ENV === "development" ? "http://localhost:80/api" : `${process.env.VITE_APP_BASE_URL}/api`
 
 export const URLs = {
     

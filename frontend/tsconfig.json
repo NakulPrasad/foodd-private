@@ -5,7 +5,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": "./",
-    "outDir": "../build/frontend",
+    "outDir": "../build",
     "lib": ["ES2022"],
     "strict": true,
     "esModuleInterop": true,
