@@ -1,60 +1,42 @@
-const express = require('express')
-const cors = require("cors")
-const dotenv = require("dotenv")
+import express from 'express';
+import * as dotenv from 'dotenv';
+import cors from "cors";
+import morgan from "morgan";
+import { join } from 'path';
+import  {connectToDB} from "./backend/db.js";
 
-const morgan = require("morgan")
+import { apiRouter } from './backend/server.js';
 
-const port = process.env.port || 80;
-
-const path = require('path')
-
-// CONFIGURATION
 dotenv.config();
+
+const PORT = process.env.PORT || 80;
+
+
 const app = express();
-app.use(express.json());
-
-app.use(morgan(" common "));
 app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
+// app.use(cookieParser())
+// app.use(express.static(path.join(process.cwd(), "frontend/dist")))
 
-const mongoDB = require("./db.js")
-
-
-
-// Function to establish MongoDB connection and fetch data
-const connectToMongoDB = async () => {
-  try {
-    await mongoDB();
-    console.log('Connected to MongoDB');
-
-    // Start the server
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
-    });
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-  }
-};
-
-// Call the connectToMongoDB function
-connectToMongoDB();
+connectToDB()
 
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, './client/build')));
+  app.use(express.static(join(__dirname, './client/build')));
+
   app.get('*', function (req, res) {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"), function (err) {
+    res.sendFile(join(__dirname, "./client/build/index.html"), function (err) {
       res.status(500).send(err);
     })
   })
 }
 
-
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('BACKEND WORKING FINE')
+});
+app.use('/api',apiRouter);
+
+app.listen(PORT,()=>{
+  console.log(`Server is running at ${PORT}`)
 })
-
-app.use(express.json());
-app.use('/api', require("./Routes/CreateUser.js"));
-app.use('/api', require("./Routes/DisplayData.js"));
-app.use('/api', require("./Routes/OrderData.js"));
-
