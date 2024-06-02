@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.js",
-    "dev-backend": "nodemon --watch 'src/**/*.ts'",
+    "dev-backend": "cd backend && nodemon --watch 'src/**/*.ts'",
     "dev-frontend": "cd frontend && yarn start && tsc --watch",
     "build-frontend": "cd frontend && vite build",
     "build-backend": "tsc --project backend/tsconfig.json",

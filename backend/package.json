@@ -4,7 +4,7 @@
   "description": "This a Project Devloped to Learn BootStrap",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch 'src/**/*.ts",
+    "start": "node index.js",
     "dev-backend": "nodemon --watch 'src/**/*.ts'",
     "dev-frontend": "cd frontend && yarn start && tsc --watch",
     "build-frontend": "cd frontend && vite build",

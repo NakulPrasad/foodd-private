@@ -24,7 +24,7 @@ connectToDB()
 app.use('/api',apiRouter);
 
 // if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(process.cwd() + '/frontend/dist'));
+//   app.use(express.static(process.cwd() + '../frontend/dist'));
 
 //   app.get('*', function (req, res) {
 //     res.sendFile(process.cwd() + "/frontend/dist/index.html", function (err) {

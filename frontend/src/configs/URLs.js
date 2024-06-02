@@ -1,7 +1,7 @@
-let BASE_URL = "http://localhost:80/api";
+let BASE_URL = "https://foodd-mern-backend.vercel.app/api";
 
-if (typeof process !== 'undefined' && process.env.NODE_ENV === 'production') {
-    BASE_URL = process.env.VITE_BASE_URL || "http://localhost:80/api";
+if (process.env.NODE_ENV === 'production') {
+    BASE_URL = process.env.VITE_BASE_URL || "https://foodd-mern-backend.vercel.app/api";
 }
 
 export const URLs = {
