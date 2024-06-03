@@ -14,6 +14,23 @@ const PORT = process.env.PORT || 80;
 
 const app = express();
 app.use(cors());
+// Function to check if the origin contains 'foodd-mern'
+function isValidOrigin(origin) {
+  return origin && /https?:\/\/.*foodd-mern.*/.test(origin);
+}
+
+app.use(cors({
+  origin: function(origin, callback){
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (isValidOrigin(origin)) {
+      return callback(null, true); // Allow the request if the origin contains 'foodd-mern'
+    } else {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false); // Deny the request if the origin does not contain 'foodd-mern'
+    }
+  }
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 // app.use(cookieParser())
