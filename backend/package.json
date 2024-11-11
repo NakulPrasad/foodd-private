@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev-backend": "nodemon --watch 'src/**/*.ts'",
-    "dev-frontend": "cd frontend && yarn start && tsc --watch",
+    "backend": "node --watch index.js",
+    "frontend": "cd frontend && yarn start && tsc --watch",
     "build-frontend": "cd frontend && vite build",
     "build-backend": "tsc --project backend/tsconfig.json",
     "build-install": "yarn install && cd frontend && yarn install"
-
   },
   "author": "Nakul Prasad",
   "license": "ISC",
