@@ -1,5 +1,6 @@
-import Order from "../../models/Order.js";
-import User from "../../models/User.js";
+import Order from "../../models/orderModel.js";
+import User from "../../models/userModel.js";
+import { Request, Response } from "express";
 
 export const orderTest = (req: Request, res: Response) => {
   return res.status(200).json({ status: "Sucess", message: "Working" });
@@ -45,7 +46,7 @@ export const getMyOrders = async (req: Request, res: Response) => {
   try {
     let myData = await Order.findOne({ email: req.body.email });
     return res.json({ orderData: myData });
-  } catch (error) {
+  } catch (error: any) {
     return res.send("Server error", error.message);
   }
 };

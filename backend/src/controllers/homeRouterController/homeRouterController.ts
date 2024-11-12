@@ -1,16 +1,18 @@
-import FoodItems from "../../models/FoodItems.js";
+import FoodItems from "../../models/itemModel.js";
+import { Request, Response } from "express";
 
 export const homeTest = (req: Request, res: Response) => {
-  return res.status(200).json({ status: "Sucess", message: "Working" });
+  return res.status(200).json({ msg: "Working" });
 };
 
 export const getFoodDetails = async (req: Request, res: Response) => {
   try {
-    const id = "648c815729278cfb1dbce239";
+    // const id = "648c815729278cfb1dbce239";
+    const id = req.query.id;
     const food = await FoodItems.findById(id);
     if (food) return res.status(200).json({ data: food });
     return res.status(500).json({ msg: "Food Added Successfully" });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return res.send({ msg: "Server error", err: error.message });
   }

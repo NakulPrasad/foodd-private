@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import DBConfig from "./configs/config.js";
+import DBConfig from "./configs/dbConfig.js";
 import { log } from "console";
 
 export const connectToDB = async () => {
