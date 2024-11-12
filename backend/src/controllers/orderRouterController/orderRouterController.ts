@@ -3,7 +3,7 @@ import User from "../../models/userModel.js";
 import { Request, Response } from "express";
 
 export const orderTest = (req: Request, res: Response) => {
-  return res.status(200).json({ status: "Sucess", message: "Working" });
+  return res.status(200).json({ message: "Working" });
 };
 
 export const orderCheckout = async (req: Request, res: Response) => {
@@ -20,11 +20,12 @@ export const orderCheckout = async (req: Request, res: Response) => {
       }).then(() => {
         return res.json({ sucess: true });
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error(err.message);
+
       return res
         .status(500)
-        .json({ msg: "Internal Server error", error: err.message });
+        .json({ message: "Internal Server error", error: err.message });
     }
   } else {
     try {
@@ -34,10 +35,10 @@ export const orderCheckout = async (req: Request, res: Response) => {
       ).then(() => {
         return res.json({ sucess: true });
       });
-    } catch (err) {
+    } catch (err: any) {
       return res
         .status(500)
-        .json({ msg: "Internal Server error", error: err.message });
+        .json({ message: "Internal Server error", error: err.message });
     }
   }
 };
@@ -47,6 +48,6 @@ export const getMyOrders = async (req: Request, res: Response) => {
     let myData = await Order.findOne({ email: req.body.email });
     return res.json({ orderData: myData });
   } catch (error: any) {
-    return res.send("Server error", error.message);
+    return res.send("Server error");
   }
 };

@@ -1,7 +1,11 @@
-import express from "express"
-import { getFoodData, getFoodDetails, homeTest } from "../../controllers/homeRouterController/homeRouterController.js"
+import express from "express";
+import {
+  getAllFoodItems,
+  getFoodDetails,
+  homeTest,
+} from "../../controllers/homeRouterController/homeRouterController.js";
 
-export const homeRouter = express.Router()
+export const homeRouter = express.Router();
 
-homeRouter.get("/test", homeTest)
-homeRouter.get("/getFoodData", getFoodData)
+homeRouter.get("/test", homeTest);
+homeRouter.get("/getAllFoodItems", getAllFoodItems);

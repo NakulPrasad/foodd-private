@@ -16,8 +16,9 @@
     "vite-tsconfig-paths": "^4.3.1"
   },
   "scripts": {
-    "frontend": "vite",
-    "build": "vite build",
+    "start": "vite",
+    "dev": "vite",
+    "build-frontend": "cd frontend && vite build",
     "preview": "vite preview"
   },
   "eslintConfig": {

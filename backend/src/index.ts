@@ -2,15 +2,21 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { join } from "path";
-import { connectToDB } from "./db.js";
-import { apiRouter } from "./server.js";
+import { apiRouter } from "./Routes/apiRouter.js";
 import { log } from "console";
+import dbConfig from "./configs/dbConfig2.js";
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(cors());
-// Function to check if the origin contains 'foodd-mern'
+
+/**
+ * @description Function to check if the origin contains 'foodd-mern'
+ * @param origin : string
+ * @returns boolean
+ */
+
 function isValidOrigin(origin: string) {
   if (process.env.NODE_ENV === "production") {
     return origin && /https?:\/\/.*foodd-mern.*/.test(origin);
@@ -26,9 +32,9 @@ app.use(
       if (isValidOrigin(origin)) {
         return callback(null, true); // Allow the request if the origin contains 'foodd-mern'
       } else {
-        const msg =
+        const message =
           "The CORS policy for this site does not allow access from the specified Origin.";
-        return callback(new Error(msg), false); // Deny the request if the origin does not contain 'foodd-mern'
+        return callback(new Error(message), false); // Deny the request if the origin does not contain 'foodd-mern'
       }
     },
   })
@@ -37,7 +43,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 // app.use(cookieParser())
 
-connectToDB();
+/**
+ * Connect to database
+ */
+const dbconfig = new dbConfig();
+dbconfig.connect();
 
 app.use("/apiv1", apiRouter);
 
@@ -54,9 +64,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.get("/", (req, res) => {
-  res.send("BACKEND WORKING FINE");
+  res.send("FOOD-MERN BACKEND WORKING FINE");
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running at ${PORT}`);
+  console.log(`NODE Server is running at ${PORT}`);
 });
