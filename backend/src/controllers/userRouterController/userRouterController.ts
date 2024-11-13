@@ -1,13 +1,14 @@
 import User, { userInterface } from "../../models/userModel.js";
 import { check, validationResult } from "express-validator";
-import bcrypt, { genSalt, hash } from "bcrypt";
+
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+
 import userService from "../../services/userService.js";
 import { log } from "console";
+import authService from "../../services/authService.js";
 
-const jwtKey = process.env.SECRET_JWT;
 const UserService = userService.getInstance();
+const AuthService = authService.getInstance();
 
 export const getMyDetails = async (req: Request, res: Response) => {
   try {
@@ -59,11 +60,9 @@ export const addUser = async (req: Request, res: Response) => {
         .status(401)
         .json({ message: "User Already Exists With Given Email" });
     }
-    const user = await UserService.registerUser(newUser);
-    if (!user) {
-      return res.status(500).json({ message: "Can't Register User" });
-    }
-    return res.status(200).json({ message: "User Added Successfull" });
+    const response = await UserService.registerUser(newUser, res);
+
+    return response;
   } catch (error: any) {
     return res.status(500).json({
       message: "Error Occured During User Registration",
@@ -72,49 +71,40 @@ export const addUser = async (req: Request, res: Response) => {
   }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
+export const removeUser = async (req: Request, res: Response) => {
   try {
-    // Validate email and password
-    await Promise.all([
-      check("email").isEmail().withMessage("Invalid email format").run(req),
-      check("password")
-        .isLength({ min: 6 })
-        .withMessage("Password must be at least 6 characters")
-        .run(req),
-    ]);
-
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { email, password } = req.body;
-
-    const userData = await User.findOne({ email });
-    if (!userData) {
-      console.log("NO User");
+    const id = req.body.id;
+    const sucess = await UserService.deleteUserById(id);
+    if (!sucess) {
       return res
-        .status(400)
-        .json({ errors: "Try Again!! Invalid user or password" });
+        .status(500)
+        .json({ message: "Failed to remove user with provided id" });
     }
-
-    // Compare passwords
-    const pwdCompare = await bcrypt.compare(password, userData.password);
-    if (!pwdCompare) {
-      console.log("Pass mismaatch");
-      return res
-        .status(400)
-        .json({ errors: "Try Again!! Invalid user or password" });
-    }
-
-    // Sign JWT token
-    const authToken = jwt.sign({ id: userData.id }, jwtKey);
-
-    return res.json({ success: true, authToken });
+    return res.status(200).json({ message: "Successfully removed the user" });
   } catch (error: any) {
     console.error(error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Invalid Request", err: error.message });
+    return res.status(500).json({
+      message: "Remove User Failed.",
+      Error: error.message,
+    });
+  }
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const user = {
+      email: req.body.email,
+      password: req.body.password,
+    };
+
+    const response = AuthService.login(user, res);
+
+    return response;
+  } catch (error: any) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Login Failed, check username and password.",
+      Error: error.message,
+    });
   }
 };

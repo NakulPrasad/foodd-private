@@ -1,8 +1,8 @@
-import { check, validationResult } from "express-validator";
-import { Request, Response } from "express";
+import { check, checkSchema, validationResult } from "express-validator";
 import bcrypt, { genSalt, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import User, { userInterface } from "../models/userModel.js";
+import { Request, Response } from "express";
 const jwtKey = process.env.SECRET_JWT;
 
 class userService {
@@ -15,39 +15,101 @@ class userService {
     return userService.instance;
   }
 
-  async registerUser(user: userInterface): Promise<boolean> {
-    //   await Promise.all([
-    //     check("name").notEmpty().withMessage("Name is required"),
-    //     check("email").isEmail().withMessage("Invalid email format"),
-    //     check("password")
-    //       .isLength({ min: 6 })
-    //       .withMessage("Password must be at least 6 characters"),
-    //     check("location").notEmpty().withMessage("Location is required"),
-    //   ]);
-
-    //   const errors = validationResult(req);
-    //   if (!errors.isEmpty()) {
-    //     return res.status(400).json({ errors: errors.array() });
-    //   }
-
-    //Hash Password
-
-    return new Promise(async (resolve, reject) => {
-      const salt = await genSalt(10);
-      let secPassword = await hash(user.password, salt);
-
-      const sucess = await User.create(user);
-      if (sucess) {
-        resolve(true);
-      } else {
-        reject(false);
-      }
+  async validateUser(
+    user: userInterface,
+    res: Response
+  ): Promise<Response | boolean> {
+    const userValidationSchema = checkSchema({
+      name: {
+        isString: true,
+        trim: true,
+        notEmpty: {
+          errorMessage: "Name is required",
+        },
+      },
+      email: {
+        isEmail: {
+          errorMessage: "Invalid email Format",
+        },
+      },
+      password: {
+        isStrongPassword: {
+          options: {
+            minLength: 8,
+          },
+          errorMessage: "Password must be at least 8 characters",
+        },
+      },
+      location: {
+        isString: true,
+        errorMessage: "Location should be a string",
+      },
     });
+
+    const mockRequest = { body: user };
+
+    // Run validation
+    await Promise.all(
+      userValidationSchema.map((validation) => validation.run(mockRequest))
+    );
+
+    // Collect validation results
+    const errors = validationResult(mockRequest);
+
+    // If there are errors, return false and log the errors
+    if (!errors.isEmpty()) {
+      // console.error("Validation errors:", errors.array());
+      return res.status(400).json({ "Validation errors": errors.array() });
+    }
+
+    // If validation passes
+    return true;
+  }
+
+  async registerUser(user: userInterface, res: Response): Promise<Response> {
+    const isValidUser = await this.validateUser(user, res);
+    if (typeof isValidUser !== "boolean") {
+      // console.error("Failed to register user, invalid user inputs");
+      return isValidUser;
+    }
+    const salt = await genSalt(10);
+    let secPassword = await hash(user.password, salt);
+    user.password = secPassword;
+
+    const sucess = await User.create(user);
+    if (!sucess) {
+      // console.error("Failed to register user, can't update database");
+      return res
+        .status(500)
+        .json({ message: "Failed to register user, invalid user inputs" });
+    }
+    return res.status(200).json({ message: "User Added Successfull" });
   }
 
   async getUserById(id: string): Promise<userInterface | null> {
-    const user: userInterface | null = await User.findById(id);
+    const user: userInterface | null = await User.findById(id, { password: 0 });
     return user || null;
+  }
+
+  async getUserByEmail(email: string): Promise<userInterface | null> {
+    const user: userInterface | null = await User.find({
+      email: email,
+      password: 0,
+    });
+    return user || null;
+  }
+
+  async getUserByIdAndUpdate(
+    id: string,
+    update: userInterface
+  ): Promise<boolean> {
+    const user: userInterface | null = await User.findByIdAndUpdate(id, update);
+    return user ? true : false;
+  }
+
+  async deleteUserById(id: string): Promise<boolean> {
+    const user = await User.findByIdAndDelete(id);
+    return user ? true : false;
   }
 }
 export default userService;

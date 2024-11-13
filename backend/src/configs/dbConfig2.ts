@@ -21,16 +21,6 @@ class dbConfig {
       }
       await mongoose.connect(MONGODB_URI);
       console.log("MONGODB connected");
-
-      //   // Access collections and fetch data
-      //   const foodItemCollection = mongoose.connection.collection("foodItems");
-      //   const foodData = await foodItemCollection.find({}).toArray();
-      //   const foodCategoryCollection =
-      //     mongoose.connection.collection("foodCategory");
-      //   const catData = await foodCategoryCollection.find({}).toArray();
-
-      //   global.foodItems = foodData;
-      //   global.foodCategory = catData;
     } catch (error) {
       console.error("Error connecting to MongoDB: ", error);
     }
