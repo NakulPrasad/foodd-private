@@ -5,7 +5,7 @@ import { join } from "path";
 import { apiRouter } from "./Routes/apiRouter.js";
 import { log } from "console";
 import dbConfig from "./configs/dbConfig2.js";
-
+import rateLimiter from "./middleware/rateLimitter.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -41,6 +41,7 @@ app.use(
 );
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(rateLimiter);
 // app.use(cookieParser())
 
 /**

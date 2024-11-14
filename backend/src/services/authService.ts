@@ -1,7 +1,7 @@
 import { Response } from "express";
 import bcrypt, { genSalt, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/userModel.js";
+import User, { userInterface } from "../models/userModel.js";
 import { checkSchema, validationResult } from "express-validator";
 interface userLogin {
   email: string;
@@ -16,6 +16,10 @@ class authService {
       authService.instance = new authService();
     }
     return authService.instance;
+  }
+
+  public static getJWTKEY(): string | null {
+    return authService.jwtKey || null;
   }
 
   async validateUser(user: userLogin): Promise<boolean> {
@@ -62,7 +66,7 @@ class authService {
       return res.status(400).json({ message: "Invalid email or password" });
     }
     const { email, password } = user;
-    const userData = await User.findOne({ email });
+    const userData: userInterface | null = await User.findOne({ email });
     if (!userData) {
       console.error("No user found with provided email");
       return res
@@ -79,8 +83,18 @@ class authService {
         .json({ errors: "Try Again!! Invalid user or password" });
     }
     // Sign JWT token
-    const authToken = jwt.sign({ id: userData.id }, authService.jwtKey);
-    return res.json({ authToken: authToken });
+    const payload = {
+      name: userData.name,
+      email: userData.email,
+    };
+    const options = { expiresIn: "24h" };
+    const JWT_KEY = authService.getJWTKEY();
+    if (!JWT_KEY) {
+      console.error("JWTKEY is empty");
+      return res.status(500).json({ message: "JWTKEY is empty" });
+    }
+    const authToken = jwt.sign(payload, JWT_KEY, options);
+    return res.status(200).json({ authToken: authToken });
   }
 }
 

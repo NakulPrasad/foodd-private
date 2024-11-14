@@ -12,15 +12,21 @@ const AuthService = authService.getInstance();
 
 export const getMyDetails = async (req: Request, res: Response) => {
   try {
-    const id = req.body;
-    const user = await User.find({ name: "Eklavya" });
+    const email: string | null =
+      typeof req.user.email === "string" ? req.user.email : null;
+
+    // log(id);
+    if (!email) {
+      return res.status(400).json({ message: "Invalid Email" });
+    }
+    const user: userInterface | null = await UserService.getUserByEmail(email);
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    return res.status(200).json({ message: "User Found", data: user });
+  } catch (error: any) {
     return res
-      .status(200)
-      .json({ message: "found", success: true, data: user });
-  } catch (err) {
-    return res.status(500).json({ message: "Invalid Request" });
+      .status(500)
+      .json({ message: "Invalid Request", Error: error.message });
   }
 };
 

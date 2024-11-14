@@ -6,10 +6,11 @@ import {
   loginUser,
   removeUser,
 } from "../../controllers/userRouterController/userRouterController.js";
+import authenticateToken from "../../middleware/authMiddleware.js";
 
 export const userRouter = express.Router();
-userRouter.post("/addUser", addUser);
-userRouter.delete("/removeUser", removeUser);
-userRouter.get("/my", getMyDetails);
 userRouter.post("/login", loginUser);
-userRouter.get("/getUser", getUserById);
+userRouter.post("/addUser", authenticateToken, addUser);
+userRouter.delete("/removeUser", authenticateToken, removeUser);
+userRouter.get("/myDetails", authenticateToken, getMyDetails);
+userRouter.get("/getUser", authenticateToken, getUserById);

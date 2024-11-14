@@ -13,7 +13,7 @@ const foodItemSchema = new Schema({
   description: String,
 });
 
-export interface foodItem {
+export interface foodItemInterface {
   name: String;
   CategoryName: String;
   img: String;
@@ -26,5 +26,5 @@ export interface foodItem {
   description: String;
 }
 
-const foodItemModel = model<foodItem>("foodItems", foodItemSchema);
+const foodItemModel = model<foodItemInterface>("foodItems", foodItemSchema);
 export default foodItemModel;

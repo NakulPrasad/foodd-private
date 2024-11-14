@@ -1,10 +1,7 @@
 import { check, checkSchema, validationResult } from "express-validator";
 import bcrypt, { genSalt, hash } from "bcrypt";
-import jwt from "jsonwebtoken";
 import User, { userInterface } from "../models/userModel.js";
 import { Request, Response } from "express";
-const jwtKey = process.env.SECRET_JWT;
-
 class userService {
   private static instance: userService;
   private constructor() {}
@@ -92,10 +89,10 @@ class userService {
   }
 
   async getUserByEmail(email: string): Promise<userInterface | null> {
-    const user: userInterface | null = await User.find({
-      email: email,
-      password: 0,
-    });
+    const user: userInterface | null = await User.findOne(
+      { email: email },
+      { password: 0 }
+    );
     return user || null;
   }
 
