@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "target": "es6",
-    "module": "commonjs",
+    "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "rootDir": "./",
-    "outDir": "../build",
-    "lib": ["ES2022"],
+    "lib": ["ESNext", "DOM"],
     "strict": true,
-    "esModuleInterop": true,
-    "allowJs": true,
-    "checkJs": true,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }

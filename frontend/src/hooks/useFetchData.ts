@@ -1,25 +1,38 @@
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
-export default function fetchData(url: string) {
-  const [data, setData] = useState<object | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<any>(null);
+const useFetchData = (url: string) => {
+  const [responseData, setData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+    // console.log(isLoading);
+    const fetchData = async (url: string) => {
       try {
-        const response: Response | null = await fetch(url);
-        const res: object| null = await response.json();
-        setData(res);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
+        setIsLoading(true);
+        const token = localStorage.getItem("authToken");
+        const dataFromApi = await fetch(url, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+        const jsonData = await dataFromApi.json();
+        setData(jsonData);
+      } catch (error: any) {
+        setError(error.message);
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchData();
+    fetchData(url);
   }, [url]);
 
-  return [data, loading, error ];
-}
+  return [responseData, isLoading, error];
+};
+
+export default useFetchData;

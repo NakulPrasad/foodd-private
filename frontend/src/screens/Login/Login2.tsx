@@ -4,11 +4,16 @@ import passwordIcon from "../../assets/password.png"; // @ts-ignore
 import personIcon from "../../assets/person.png";
 import "./Login2.css";
 // import useFetchData from "../../hooks/useFetchData";
-import { URLs } from "../../configs/URLs";
+import URLs from "../../configs/URLs";
 import usePostData from "../../hooks/usePostData";
+import { useNavigate } from "react-router-dom";
+
+interface LoginResponse {
+  authToken: string;
+}
 
 const Login2 = () => {
-  
+  let navigate = useNavigate();
   const [action, setAction] = useState("Sign Up");
   const [errorMsg, setErrorMsg] = useState("");
   const [credentials, setCredentials] = useState({
@@ -16,16 +21,10 @@ const Login2 = () => {
     password: "",
   });
   const [validationErrors, setValidationErrors] = useState({
-    email : "",
-    password : ""
-  })
-  const { responseData, loading, error, postData } = usePostData(
-    URLs.loginUser,
-    {
-      email: credentials.email,
-      password: credentials.password,
-    }
-  );
+    email: "",
+    password: "",
+  });
+  const { isLoading, postData } = usePostData();
 
   const handleClick = () => {
     setAction("Sign Up");
@@ -33,60 +32,69 @@ const Login2 = () => {
 
   const handleSubmit = async () => {
     try {
-      await postData();
-        console.log(responseData);
+      const response = await postData(URLs.loginUser, credentials);
+      if (!isLoading) {
+        // console.log(response);
+        localStorage.setItem("authToken", response.authToken);
+
+        localStorage.setItem("userEmail", credentials.email);
+
+        navigate("/");
+      }
     } catch (error) {
-      setErrorMsg('Invalid Cred');
+      setErrorMsg("Invalid Cred");
       console.error(error);
     }
   };
-  const onChange = (event) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-  
+
     // Basic validation
     if (name === "email") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const isValidEmail = emailRegex.test(value);
       setValidationErrors((prevErrors) => ({
-       ...prevErrors,
-        email: isValidEmail? "" : "Invalid email format",
+        ...prevErrors,
+        email: isValidEmail ? "" : "Invalid email format",
       }));
-  
+
       // Only update the credentials if the email is valid
       if (isValidEmail) {
         setCredentials((prevCredentials) => ({
-         ...prevCredentials,
+          ...prevCredentials,
           email: value,
         }));
       }
     } else if (name === "password") {
-      const isValidPassword = value.length >= 6;
+      const isValidPassword = value.length >= 8;
       setValidationErrors((prevErrors) => ({
-       ...prevErrors,
-        password: isValidPassword? "" : "Password must be at least 6 characters",
+        ...prevErrors,
+        password: isValidPassword
+          ? ""
+          : "Password must be at least 8 characters",
       }));
-  
+
       // Only update the credentials if the password meets the criteria
       if (isValidPassword) {
         setCredentials((prevCredentials) => ({
-         ...prevCredentials,
+          ...prevCredentials,
           password: value,
         }));
       }
     }
-  
+
     // Update the credentials state regardless of validation for other fields
     setCredentials((prevCredentials) => ({
-     ...prevCredentials,
+      ...prevCredentials,
       [name]: value,
     }));
   };
-  
+
   return (
     <section className="flex-container flexbox" id="login">
-      {/* {loading && <div>Loading...</div>} */}
-      {errorMsg && <div style={{ color: 'red' }}>{errorMsg}</div>}
-      
+      {/* {isLoading && <div>isLoading...</div>} */}
+      {errorMsg && <div style={{ color: "red" }}>{errorMsg}</div>}
+
       <div className="form-container">
         <div className="header flexbox">
           <div className="text">{action}</div>
@@ -110,7 +118,9 @@ const Login2 = () => {
               onChange={onChange}
             />
           </div>
-            {validationErrors.email && <p className="error">{validationErrors.email}</p>}
+          {validationErrors.email && (
+            <p className="error">{validationErrors.email}</p>
+          )}
           <div className="input">
             <img src={passwordIcon} alt="password" />
             <input
@@ -121,7 +131,9 @@ const Login2 = () => {
               onChange={onChange}
             />
           </div>
-            {validationErrors.password && <p className="error">{validationErrors.password}</p>}
+          {validationErrors.password && (
+            <p className="error">{validationErrors.password}</p>
+          )}
           {action === "Sign Up" && (
             <div className="input">
               <img src={passwordIcon} alt="password" />

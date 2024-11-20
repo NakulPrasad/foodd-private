@@ -1,38 +1,41 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 interface PostDataResult {
-  loading: boolean;
-  error: any | null; 
-  responseData: any; 
-  postData: () => Promise<void>; 
+  isLoading: boolean;
+  postData: (url: string, data: object) => Promise<object>;
 }
 
-export default function usePostData(url: string, data: object):PostDataResult {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
-  const [responseData, setResponseData] = useState<any>(null);
+export default function usePostData(): PostDataResult {
+  const [isLoading, setLoading] = useState(false);
 
-  const postData = async () => {
+  const postData = async (url: string, data: object) => {
     setLoading(true);
     try {
+      const token = localStorage.getItem("authToken");
       const res = await fetch(url, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         body: JSON.stringify(data),
       });
-      const jsonData : any = await res.json();
-      setResponseData(jsonData);
+      const jsonData = await res.json();
+      // console.log(jsonData);
       if (res.ok) {
-        console.log("Data Published success");
+        toast.info("Post Request Success");
+        setLoading(false);
+        return jsonData;
       }
-    } catch (error) {
-      setError(error);
+    } catch (error: any) {
+      toast.error(error.message);
+      return error.message;
+    } finally {
       setLoading(false);
     }
   };
 
-  return {responseData, loading, error, postData};
+  return { isLoading, postData };
 }

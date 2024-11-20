@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { URLs } from "../configs/URLs";
+import URLs from "../configs/URLs.ts";
 
 const Signup = () => {
   let navigate = useNavigate();
@@ -13,26 +13,20 @@ const Signup = () => {
   });
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    e.preventDefault(); 
-
-    const response = await fetch(
-      URLs.addUser,
-      {
-
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-
-          name: credentials.name,
-          email: credentials.email,
-          password: credentials.password,
-          location: credentials.geolocation,
-        }),
-      }
-    );
+    const response = await fetch(URLs.addUser, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
+        location: credentials.geolocation,
+      }),
+    });
     const json = await response.json();
 
     if (!json.success) {
@@ -44,12 +38,10 @@ const Signup = () => {
     }
   };
   const onChange = (event) => {
-
     setcredentials({ ...credentials, [event.target.name]: event.target.value });
   };
   return (
     <div className="container mt-5">
-
       <form onSubmit={handleSubmit}>
         <div className="form-outline mb-4">
           <label className="form-label" htmlFor="form2Example1">

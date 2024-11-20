@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { URLs } from "../configs/URLs";
+import URLs from "../configs/URLs.ts";
 
 const Login = () => {
   const [credentials, setcredentials] = useState({ email: "", password: "" });
@@ -21,15 +21,17 @@ const Login = () => {
         }),
       });
       const json = await response.json();
-      console.log(JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
-      }),);
-      if (!json.success) {
+      console.log(
+        JSON.stringify({
+          email: credentials.email,
+          password: credentials.password,
+        })
+      );
+      if (!json) {
         alert("Enter vaild credentials");
       }
 
-      if (json.success) {
+      if (json) {
         localStorage.setItem("authToken", json.authToken);
 
         localStorage.setItem("userEmail", credentials.email);

@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
 const foodItemSchema = new Schema({
-  name: String,
   CategoryName: String,
+  name: String,
   img: String,
   options: [
     {
@@ -14,8 +14,8 @@ const foodItemSchema = new Schema({
 });
 
 export interface foodItemInterface {
-  name: String;
   CategoryName: String;
+  name: String;
   img: String;
   options: [
     {
@@ -26,5 +26,4 @@ export interface foodItemInterface {
   description: String;
 }
 
-const foodItemModel = model<foodItemInterface>("foodItems", foodItemSchema);
-export default foodItemModel;
+export default model("foodItems", foodItemSchema);

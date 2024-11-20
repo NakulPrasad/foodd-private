@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Footer from "../components/Footer";
 import NavBar from "../components/NavBar";
-import { URLs } from "../configs/URLs";
+import URLs from "../configs/URLs";
 
 export default function MyOrder() {
- const [orderData, setOrderData] = useState(null);
- const [error, setError] = useState(null);
+  const [orderData, setOrderData] = useState(null);
+  const [error, setError] = useState(null);
 
- const fetchMyOrder = useCallback(async () => {
+  const fetchMyOrder = useCallback(async () => {
     try {
       const response = await fetch(URLs.getOrders, {
         method: "POST",
@@ -23,19 +23,19 @@ export default function MyOrder() {
     } catch (err) {
       setError(err);
     }
- }, []);
+  }, []);
 
- useEffect(() => {
+  useEffect(() => {
     fetchMyOrder();
- }, [fetchMyOrder]);
- 
+  }, [fetchMyOrder]);
+
   return (
     <>
       <NavBar />
 
       <div className="container">
         <div className="row">
-          {orderData 
+          {orderData
             ? Array(orderData).map((data) => {
                 return data.orderData ? (
                   data.orderData.order_data

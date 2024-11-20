@@ -8,6 +8,6 @@ import {
 import authenticateToken from "../../middleware/authMiddleware.js";
 export const orderRouter = express.Router();
 orderRouter.use(authenticateToken);
-orderRouter.post("/test", orderTest);
+orderRouter.get("/test", orderTest);
 orderRouter.post("/getMyOrders", getMyOrders);
 orderRouter.post("/orderCheckout", orderCheckout);

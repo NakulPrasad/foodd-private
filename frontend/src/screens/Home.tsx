@@ -2,33 +2,40 @@ import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
-import { URLs } from "../configs/URLs";
+import URLs from "../configs/URLs.ts";
+import useFetchData from "../hooks/useFetchData.ts";
 
 const Home = () => {
   const [search, setSearch] = useState("");
   const [foodCat, setFoodCat] = useState([]);
   const [foodItem, setFoodItem] = useState([]);
+  const [responseData, isLoading, error] = useFetchData(URLs.getFoodData);
 
   const loadData = async () => {
+    // console.log(isLoading);
+
     try {
-      const response = await fetch(URLs.getFoodData);
-      if (!response.ok) throw new Error("Failed to get data");
-      const data = await response.json();
-      // console.log(data);
-      setFoodItem(data[0]);
-      setFoodCat(data[1]);
+      if (!isLoading) {
+        console.log(responseData.data[0]);
+
+        setFoodItem(responseData.data[0]);
+        setFoodCat(responseData.data[1]);
+      }
       // console.log(data[0], data[1]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Fetch error:", error.message);
     }
   };
 
   useEffect(() => {
     loadData();
-  }, []);
+    if (!isLoading) {
+      // console.log(responseData);
+    }
+  }, [responseData, isLoading]);
 
   return (
-    <div>
+    <div className="h-screen grid grid-rows-6">
       <div>
         <NavBar />
       </div>
@@ -54,7 +61,6 @@ const Home = () => {
                     setSearch(e.target.value);
                   }}
                 />
-             
               </div>
             </div>
             <div className="carousel-item active carousal">
@@ -107,46 +113,42 @@ const Home = () => {
             <span className="visually-hidden">Next</span>
           </button>
         </div>
-    
       </div>
 
       <div className="container">
-        { foodCat && foodCat.map((data, index) => {
-                return (
-                  <div className="row mb-3" key={index}>
-                    <div key={data.id} className="fs-3 m-3">
-                      {data.CategoryName}
-                    </div>
-                    <hr />
-                    {foodItem && (
-                      foodItem
-                        .filter(
-                          (item) =>
-                            item.CategoryName === data.CategoryName &&
-                            item.name
-                              .toLowerCase()
-                              .includes(search.toLocaleLowerCase())
-                        )
-                        .map((filterItems) => {
-                          return (
-                            <div
-                              key={filterItems._id}
-                              className="col 12 col-md-6 col-lg-3"
-                            >
-                              <Card
-                                foodItem={filterItems}
-                                options={filterItems.options[0]}
-                              ></Card>
-                            </div>
-                          );
-                        })
-                    ) }
-                  </div>
-                );
-              })
-  
-        }
-  
+        {foodCat.length > 0 &&
+          foodCat.map((data, index) => {
+            return (
+              <div className="row mb-3" key={index}>
+                <div key={data.id} className="fs-3 m-3">
+                  {data.CategoryName}
+                </div>
+                <hr />
+                {foodItem &&
+                  foodItem
+                    .filter(
+                      (item) =>
+                        item.CategoryName === data.CategoryName &&
+                        item.name
+                          .toLowerCase()
+                          .includes(search.toLocaleLowerCase())
+                    )
+                    .map((filterItems) => {
+                      return (
+                        <div
+                          key={filterItems._id}
+                          className="col 12 col-md-6 col-lg-3"
+                        >
+                          <Card
+                            foodItem={filterItems}
+                            options={filterItems.options[0]}
+                          ></Card>
+                        </div>
+                      );
+                    })}
+              </div>
+            );
+          })}
       </div>
 
       <div>
