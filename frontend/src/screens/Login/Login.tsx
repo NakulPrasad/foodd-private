@@ -2,11 +2,12 @@ import React, { ChangeEvent, useState } from "react";
 import emailIcon from "../../assets/email.png"; // @ts-ignore
 import passwordIcon from "../../assets/password.png"; // @ts-ignore
 import personIcon from "../../assets/person.png";
-import "./Login2.css";
+import "./Login.css";
 // import useFetchData from "../../hooks/useFetchData";
 import URLs from "../../configs/URLs";
 import usePostData from "../../hooks/usePostData";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface LoginResponse {
   authToken: string;
@@ -17,33 +18,61 @@ const Login2 = () => {
   const [action, setAction] = useState("Sign Up");
   const [errorMsg, setErrorMsg] = useState("");
   const [credentials, setCredentials] = useState({
+    name: "",
     email: "",
     password: "",
+    address: "",
   });
   const [validationErrors, setValidationErrors] = useState({
+    name: "",
     email: "",
     password: "",
+    address: "",
   });
-  const { isLoading, postData } = usePostData();
+  const [isLoading, postData, responseData] = usePostData<LoginResponse>();
 
   const handleClick = () => {
     setAction("Sign Up");
+    // console.log(action);
   };
 
   const handleSubmit = async () => {
-    try {
-      const response = await postData(URLs.loginUser, credentials);
-      if (!isLoading) {
-        // console.log(response);
-        localStorage.setItem("authToken", response.authToken);
+    console.log(action);
+    if (action === "Login") {
+      try {
+        const response = await postData(URLs.loginUser, {
+          email: credentials.email,
+          password: credentials.password,
+        });
+        // debugger;
+        if (!isLoading && response) {
+          // console.log(response);
+          localStorage.setItem("authToken", response.authToken);
 
-        localStorage.setItem("userEmail", credentials.email);
+          localStorage.setItem("userEmail", credentials.email);
 
-        navigate("/");
+          navigate("/");
+        }
+      } catch (error) {
+        setErrorMsg("Invalid Cred");
+        console.error(error);
       }
-    } catch (error) {
-      setErrorMsg("Invalid Cred");
-      console.error(error);
+    } else if (action === "Sign Up") {
+      try {
+        const response = await postData(URLs.addUser, credentials);
+        // debugger;
+        // console.log(response);
+        if (!isLoading && response) {
+          localStorage.setItem("authToken", response.authToken);
+
+          localStorage.setItem("userEmail", credentials.email);
+
+          navigate("/");
+        }
+      } catch (error) {
+        setErrorMsg("Invalid Cred");
+        console.error(error);
+      }
     }
   };
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +110,20 @@ const Login2 = () => {
           password: value,
         }));
       }
+    } else if (name === "name") {
+      const isValidName = value.length >= 1;
+      setValidationErrors((prevErrors) => ({
+        ...prevErrors,
+        name: isValidName ? "" : "Name must be at least 1 characters",
+      }));
+
+      // Only update the credentials if the password meets the criteria
+      if (isValidName) {
+        setCredentials((prevCredentials) => ({
+          ...prevCredentials,
+          name: value,
+        }));
+      }
     }
 
     // Update the credentials state regardless of validation for other fields
@@ -104,8 +147,11 @@ const Login2 = () => {
           {action === "Sign Up" && (
             <div className="input">
               <img src={personIcon} alt="person" />
-              <input type="text" placeholder="Name" />
+              <input type="text" placeholder="Name" required />
             </div>
+          )}
+          {validationErrors.name && (
+            <p className="error">{validationErrors.name}</p>
           )}
 
           <div className="input">

@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import bcrypt, { genSalt, hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import User, { userInterface } from "../models/userModel.js";
@@ -60,7 +60,7 @@ class authService {
     return true;
   }
 
-  async login(user: userLogin, res: Response): Promise<Response> {
+  async login(user: userLogin, req: Request, res: Response): Promise<Response> {
     const isValid = await this.validateUser(user);
     if (!isValid) {
       return res.status(400).json({ message: "Invalid email or password" });
@@ -94,7 +94,9 @@ class authService {
       return res.status(500).json({ message: "JWTKEY is empty" });
     }
     const authToken = jwt.sign(payload, JWT_KEY, options);
-    return res.status(200).json({ authToken: authToken });
+    return res
+      .status(200)
+      .json({ message: "User Found", authToken: authToken });
   }
 }
 

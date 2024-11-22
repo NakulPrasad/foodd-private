@@ -1,5 +1,5 @@
 import { log } from "console";
-import foodCategory, { foodCategoryInterface } from "../models/foodCategory.js";
+import FoodCategory, { foodCategoryInterface } from "../models/foodCategory.js";
 import FoodItem, { foodItemInterface } from "../models/foodModel.js";
 import { Request, Response } from "express";
 
@@ -94,7 +94,34 @@ export default class foodService {
    * @returns foodCategoryInterface[]
    */
 
-  async getAllFoodCategory(): Promise<foodCategoryInterface[]> {
-    return await foodCategory.find({});
+  async getAllFoodCategory(res: Response): Promise<Response> {
+    const foodCategories = await FoodCategory.find({});
+    if (!foodCategories) {
+      return res.status(400).json({ messsage: "Cant get food Categories" });
+    }
+    return res
+      .status(200)
+      .json({ message: "getAllFoodCategory Success", data: foodCategories });
+  }
+
+  async addFoodCategory(
+    food: foodCategoryInterface,
+    res: Response
+  ): Promise<Response> {
+    try {
+      const foodCategoryAdded = await FoodCategory.create(food);
+      if (!foodCategoryAdded) {
+        return res.status(500).json({
+          message: "Failed to add FoodCategory, invalid food category",
+        });
+      }
+      return res
+        .status(200)
+        .json({ message: "Food Category Added Successfully" });
+    } catch (error: any) {
+      return res
+        .status(500)
+        .json({ message: "Failed To add FoodCategory", error: error.message });
+    }
   }
 }

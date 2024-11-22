@@ -10,7 +10,7 @@ import authenticateToken from "../../middleware/authMiddleware.js";
 
 export const userRouter = express.Router();
 userRouter.post("/login", loginUser);
-userRouter.post("/addUser", authenticateToken, addUser);
+userRouter.post("/addUser", addUser);
 userRouter.delete("/removeUser", authenticateToken, removeUser);
-userRouter.get("/myDetails", authenticateToken, getMyDetails);
+userRouter.get("/getMyDetails", authenticateToken, getMyDetails);
 userRouter.get("/getUser", authenticateToken, getUserById);

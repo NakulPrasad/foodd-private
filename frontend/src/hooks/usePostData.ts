@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-interface PostDataResult {
-  isLoading: boolean;
-  postData: (url: string, data: object) => Promise<object>;
-}
-
-export default function usePostData(): PostDataResult {
+const usePostData = <T>() => {
+  const [responseData, setData] = useState<T | null>(null);
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const postData = async (url: string, data: object) => {
+  const postData = async (url: string, data: object): Promise<T | null> => {
     setLoading(true);
     try {
       const token = localStorage.getItem("authToken");
@@ -23,19 +20,26 @@ export default function usePostData(): PostDataResult {
         body: JSON.stringify(data),
       });
       const jsonData = await res.json();
-      // console.log(jsonData);
-      if (res.ok) {
-        toast.info("Post Request Success");
+      console.log(jsonData);
+      // console.log(res);
+      if (!res.ok) {
         setLoading(false);
-        return jsonData;
+        throw new Error(jsonData.message);
       }
+
+      toast.info(jsonData.message);
+      setData(jsonData);
+      return jsonData;
     } catch (error: any) {
-      toast.error(error.message);
-      return error.message;
+      setError(error?.message);
+      toast.error(error?.message);
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  return { isLoading, postData };
-}
+  return [isLoading, postData, responseData];
+};
+
+export default usePostData;

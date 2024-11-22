@@ -2,10 +2,12 @@ import React from "react";
 import { useCart, useDispatchCart } from "../components/ContextReducer";
 import deleteItemPNG from "./deleteItem.png";
 import URLs from "../configs/URLs.ts";
+import usePostData from "../hooks/usePostData.ts";
 
 export default function Cart() {
   let data = useCart();
   let dispatch = useDispatchCart();
+  const [isLoading, postData] = usePostData();
   if (data.length === 0) {
     return (
       <div>
@@ -17,26 +19,13 @@ export default function Cart() {
   }
 
   const handleCheckOut = async () => {
-    let userEmail = localStorage.getItem("userEmail");
-    // console.log(data,localStorage.getItem("userEmail"),new Date())
-    let response = await fetch(URLs.postOrder, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        order_data: data,
-        email: userEmail,
-        order_date: new Date().toUTCString(),
-      }),
-    });
-    // console.log(JSON.stringify({
-    //   order_data: data,
-    //   email: userEmail,
-    //   order_date: new Date().toUTCString(),
-    // }),);
-    // console.log("JSON RESPONSE:::::", response.status);
-    if (response.status === 200) {
+    const order = {
+      order_data: data,
+      order_date: new Date().toUTCString(),
+    };
+    const response = await postData(URLs.postOrder, order);
+
+    if (response && !isLoading) {
       dispatch({ type: "DROP" });
       alert("ORDER PLACED SUCCESSFULLY");
     } else {
@@ -47,7 +36,6 @@ export default function Cart() {
   let totalPrice = data.reduce((total, food) => total + food.price, 0);
   return (
     <div>
-      {/* {console.log(data)} */}
       <div className="container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md">
         <table className="table table-hover ">
           <thead className=" text-success fs-4">

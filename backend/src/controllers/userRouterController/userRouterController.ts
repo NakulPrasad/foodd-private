@@ -63,7 +63,7 @@ export const addUser = async (req: Request, res: Response) => {
     });
     if (existingUser) {
       return res
-        .status(401)
+        .status(409)
         .json({ message: "User Already Exists With Given Email" });
     }
     const response = await UserService.registerUser(newUser, res);
@@ -103,7 +103,7 @@ export const loginUser = async (req: Request, res: Response) => {
       password: req.body.password,
     };
 
-    const response = AuthService.login(user, res);
+    const response = AuthService.login(user, req, res);
 
     return response;
   } catch (error: any) {

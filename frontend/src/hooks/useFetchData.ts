@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-const useFetchData = (url: string) => {
-  const [responseData, setData] = useState("");
+const useFetchData = <T>(url: string) => {
+  const [responseData, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // console.log(isLoading);

@@ -9,5 +9,5 @@ import authenticateToken from "../../middleware/authMiddleware.js";
 export const orderRouter = express.Router();
 orderRouter.use(authenticateToken);
 orderRouter.get("/test", orderTest);
-orderRouter.post("/getMyOrders", getMyOrders);
+orderRouter.get("/getMyOrders", getMyOrders);
 orderRouter.post("/orderCheckout", orderCheckout);
