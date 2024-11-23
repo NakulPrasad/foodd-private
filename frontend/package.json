@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/node": "^20.11.24",
-    "@vitejs/plugin-react": "^4.2.1",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.2",
     "react": "^18.2.0",
@@ -17,7 +15,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build-frontend": "cd frontend && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "eslintConfig": {
@@ -40,13 +38,15 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
+    "@types/node": "^22.9.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "eslint-config-react-app": "^7.0.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   }
 }
