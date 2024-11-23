@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-const useFetchData = <T>(url: string) => {
+const useFetchData = <T>(url: string): [T | null, boolean, string | null] => {
   const [responseData, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,6 +21,9 @@ const useFetchData = <T>(url: string) => {
           },
         });
         const jsonData = await dataFromApi.json();
+        if (!dataFromApi.ok) {
+          throw new Error(jsonData.message);
+        }
         setData(jsonData);
       } catch (error: any) {
         setError(error.message);

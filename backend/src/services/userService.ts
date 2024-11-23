@@ -56,12 +56,10 @@ class userService {
     // If there are errors, return false and log the errors
     if (!errors.isEmpty()) {
       // console.error("Validation errors:", errors.array());
-      return res
-        .status(400)
-        .json({
-          message: "All fields are required",
-          "Validation errors": errors.array(),
-        });
+      return res.status(400).json({
+        message: "All fields are required",
+        "Validation errors": errors.array(),
+      });
     }
 
     // If validation passes
@@ -69,6 +67,8 @@ class userService {
   }
 
   async registerUser(user: userInterface, res: Response): Promise<Response> {
+    console.log(user);
+
     const isValidUser = await this.validateUser(user, res);
     if (typeof isValidUser !== "boolean") {
       // console.error("Failed to register user, invalid user inputs");

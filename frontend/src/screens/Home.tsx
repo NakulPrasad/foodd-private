@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
-import URLs from "../configs/URLs.ts";
-import useFetchData from "../hooks/useFetchData.ts";
+import Card from "../components/FoodCard/Card";
+import URLs from "../configs/URLs";
+import useFetchData from "../hooks/useFetchData";
 import Burger from "../assets/images/burger.jpg";
 import Pizza from "../assets/images/pizza.jpg";
 import Pasta from "../assets/images/pasta.jpg";
@@ -28,8 +28,9 @@ interface FoodItemResponse {
 }
 
 interface FoodCategory {
-  id: string;
+  _id: string;
   CategoryName: string;
+  __v: number;
 }
 interface FoodCategoryResponse {
   data: FoodCategory[];
@@ -37,11 +38,12 @@ interface FoodCategoryResponse {
 
 const Home = () => {
   const [search, setSearch] = useState("");
-  const [foodCategory, setFoodCategory] = useState([]);
+  const [foodCategory, setFoodCategory] = useState<FoodCategory[]>([]);
   const [foodItem, setFoodItem] = useState<FoodItem[]>([]);
-  const [foodItemResponse, isFoodItemLoading, error] =
-    useFetchData<FoodItemResponse>(URLs.getFoodData);
-  const [foodCategoryResponse, isFoodCategoryLoading, foodCategoryError] =
+  const [foodItemResponse, isFoodItemLoading] = useFetchData<FoodItemResponse>(
+    URLs.getFoodData
+  );
+  const [foodCategoryResponse, isFoodCategoryLoading] =
     useFetchData<FoodCategoryResponse>(URLs.getAllFoodCategory);
   const loadData = async () => {
     // console.log(isFoodItemLoading);
@@ -52,6 +54,7 @@ const Home = () => {
       foodCategoryResponse
     ) {
       console.log(foodItemResponse);
+      console.log(foodCategoryResponse);
 
       setFoodItem(foodItemResponse.data);
       setFoodCategory(foodCategoryResponse.data);
@@ -151,7 +154,7 @@ const Home = () => {
           foodCategory.map((data: FoodCategory, index) => {
             return (
               <div className="row mb-3" key={index}>
-                <div key={data.id} className="fs-3 m-3">
+                <div key={data._id} className="fs-3 m-3">
                   {data.CategoryName}
                 </div>
                 <hr />

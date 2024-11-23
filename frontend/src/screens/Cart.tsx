@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart, useDispatchCart } from "../components/ContextReducer";
+import { useCart, useDispatchCart } from "../context/ContextReducer";
 import deleteItemPNG from "./deleteItem.png";
 import URLs from "../configs/URLs.ts";
 import usePostData from "../hooks/usePostData.ts";
@@ -27,9 +27,6 @@ export default function Cart() {
 
     if (response && !isLoading) {
       dispatch({ type: "DROP" });
-      alert("ORDER PLACED SUCCESSFULLY");
-    } else {
-      alert("ORDER NOT PLACED : ERROR WHILE PROCESSING");
     }
   };
 

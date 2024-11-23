@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Modal from "../Modal";
-import Cart from "../screens/Cart";
-import { useCart } from "./ContextReducer";
+import Modal from "../Modal/Modal";
+import Cart from "../../screens/Cart";
+import { useCart } from "../../context/ContextReducer";
 
 const NavBar = () => {
   const navigate = useNavigate();

@@ -1,13 +1,10 @@
-import React from "react";
 import "./App.css";
 import Home from "./screens/Home";
-import Login from "./screens/Login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Signup from "./screens/Signup";
-import { CartProvider } from "./components/ContextReducer";
-import MyOrder from "./screens/MyOrder";
-import Login2 from "./screens/Login/Login";
+import { CartProvider } from "./context/ContextReducer";
+import MyOrder from "./screens/MyOrder/MyOrder";
+import Login from "./screens/Login/Login";
 import Error from "./screens/Error/Error";
 import Root from "./components/Root/Root";
 
@@ -26,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login2 />,
+    element: <Login />,
     errorElement: <Error />,
   },
 ]);

@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatchCart, useCart } from "./ContextReducer";
+import { useEffect, useRef, useState } from "react";
+import { useDispatchCart, useCart } from "../../context/ContextReducer";
 
 interface CardProps {
-  options: Record<string, number>;
-  foodItem: {
-    _id: string;
-    name: string;
-    img: string;
-  };
+  options: any;
+  foodItem: foodItem;
+}
+interface foodItem {
+  _id: string;
+  name: string;
+  img: string;
 }
 
-const Card: React.FC<CardProps> = ({ options, foodItem }) => {
+const Card = ({ options, foodItem }: CardProps) => {
   const priceRef = useRef<HTMLSelectElement>(null);
   let priceOptions = Object.keys(options);
   const [qty, setQty] = useState<number>(1);
@@ -20,9 +21,8 @@ const Card: React.FC<CardProps> = ({ options, foodItem }) => {
 
   const handleAddToCart = async () => {
     //update functionality to cart
-    let food = [];
+    const food: foodItem[] = [];
     for (const item of data) {
-      // agar phle se wo foodItem added hai
       if (item.id === foodItem._id) {
         food = item;
         break;
@@ -64,7 +64,7 @@ const Card: React.FC<CardProps> = ({ options, foodItem }) => {
     });
   };
 
-  const finalPrice: number = parseInt(qty) * (options[size] ?? 0);
+  const finalPrice: number = qty * (options[size] ?? 0);
   useEffect(() => {
     setSize(priceRef.current?.value || "");
   }, []);

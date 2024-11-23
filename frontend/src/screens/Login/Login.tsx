@@ -1,13 +1,11 @@
-import React, { ChangeEvent, useState } from "react";
-import emailIcon from "../../assets/email.png"; // @ts-ignore
-import passwordIcon from "../../assets/password.png"; // @ts-ignore
+import { ChangeEvent, useState } from "react";
+import emailIcon from "../../assets/email.png";
+import passwordIcon from "../../assets/password.png";
 import personIcon from "../../assets/person.png";
 import "./Login.css";
-// import useFetchData from "../../hooks/useFetchData";
 import URLs from "../../configs/URLs";
 import usePostData from "../../hooks/usePostData";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 interface LoginResponse {
   authToken: string;
@@ -21,13 +19,13 @@ const Login2 = () => {
     name: "",
     email: "",
     password: "",
-    address: "",
+    location: "",
   });
   const [validationErrors, setValidationErrors] = useState({
     name: "",
     email: "",
     password: "",
-    address: "",
+    location: "",
   });
   const [isLoading, postData, responseData] = usePostData<LoginResponse>();
 
@@ -37,7 +35,7 @@ const Login2 = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(action);
+    console.log(credentials);
     if (action === "Login") {
       try {
         const response = await postData(URLs.loginUser, {
@@ -63,11 +61,24 @@ const Login2 = () => {
         // debugger;
         // console.log(response);
         if (!isLoading && response) {
-          localStorage.setItem("authToken", response.authToken);
+          try {
+            const response = await postData(URLs.loginUser, {
+              email: credentials.email,
+              password: credentials.password,
+            });
+            // debugger;
+            if (!isLoading && response) {
+              // console.log(response);
+              localStorage.setItem("authToken", response.authToken);
 
-          localStorage.setItem("userEmail", credentials.email);
+              localStorage.setItem("userEmail", credentials.email);
 
-          navigate("/");
+              navigate("/");
+            }
+          } catch (error) {
+            setErrorMsg("Invalid Cred");
+            console.error(error);
+          }
         }
       } catch (error) {
         setErrorMsg("Invalid Cred");
@@ -147,7 +158,13 @@ const Login2 = () => {
           {action === "Sign Up" && (
             <div className="input">
               <img src={personIcon} alt="person" />
-              <input type="text" placeholder="Name" required />
+              <input
+                type="text"
+                placeholder="Name"
+                name="name"
+                required
+                onChange={onChange}
+              />
             </div>
           )}
           {validationErrors.name && (
@@ -161,6 +178,7 @@ const Login2 = () => {
               placeholder="Email"
               name="email"
               value={credentials.email}
+              required
               onChange={onChange}
             />
           </div>
@@ -183,7 +201,12 @@ const Login2 = () => {
           {action === "Sign Up" && (
             <div className="input">
               <img src={passwordIcon} alt="password" />
-              <input type="text" placeholder="Address" />
+              <input
+                type="text"
+                placeholder="Location"
+                name="location"
+                onChange={onChange}
+              />
             </div>
           )}
         </div>
