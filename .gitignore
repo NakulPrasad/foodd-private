@@ -11,10 +11,10 @@ dist
 /coverage
 
 # production
-# /build
+/build
 
-# /package-lock.json
-# /client/package-lock.json
+/package-lock.json
+/client/package-lock.json
 
 # misc
 .DS_Store
