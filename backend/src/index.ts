@@ -6,6 +6,8 @@ import { apiRouter } from "./Routes/apiRouter.js";
 import { log } from "console";
 import dbConfig from "./configs/dbConfig2.js";
 import rateLimiter from "./middleware/rateLimitter.js";
+import passport, { passportRoutes } from "./configs/passportConfig.js";
+
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -67,6 +69,8 @@ if (process.env.NODE_ENV === "production") {
 app.get("/", (req, res) => {
   res.send("FOOD-MERN BACKEND WORKING FINE");
 });
+
+passportRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`NODE Server is running at ${PORT}`);

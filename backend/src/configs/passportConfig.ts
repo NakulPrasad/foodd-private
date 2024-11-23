@@ -1,12 +1,12 @@
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+import passport from "passport";
+import GoogleStrategy from "passport-google-oauth20";
+import session from "express-session";
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "270412715554-h83o5vmfdh24q9hkc6efse6d95ihaaa6.apps.googleusercontent.com", // Replace with your Google Client ID
-      clientSecret: "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", // Replace with your Google Client Secret
+      clientID: process.env.GOOGLE_CLIENTID, // Replace with your Google Client ID
+      clientSecret: process.env.GOOGLE_CLIENTSECRET, // Replace with your Google Client Secret
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
@@ -27,4 +27,53 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-module.exports = passport;
+export const passportRoutes = (app: Express) => {
+  // Setup session
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
+
+  // Initialize Passport
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // Login route
+  app.get(
+    "/auth/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+  );
+
+  // Callback route
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/" }),
+    (req, res) => {
+      res.redirect("/profile");
+    }
+  );
+
+  // Profile route
+  app.get("/profile", (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.redirect("/");
+    }
+    res.send(`
+    <h1>Profile</h1>
+    <pre>${JSON.stringify(req.user, null, 2)}</pre>
+    <a href="/logout">Logout</a>
+  `);
+  });
+
+  // Logout route
+  app.get("/logout", (req, res) => {
+    req.logout(() => {
+      res.redirect("/");
+    });
+  });
+};
+
+export default passport;
