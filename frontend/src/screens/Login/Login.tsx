@@ -219,6 +219,31 @@ const Login2 = () => {
           Lost Password ? <span> Click Here </span>
         </div>
       )}
+      <a
+        href="http://localhost:3000/auth/google"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          backgroundColor: "#4285F4",
+          color: "white",
+          padding: "10px 20px",
+          textDecoration: "none",
+          borderRadius: "5px",
+          fontFamily: "Arial, sans-serif",
+          fontSize: "14px",
+        }}
+      >
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google logo"
+          style={{
+            width: "18px",
+            height: "18px",
+            marginRight: "8px",
+          }}
+        />
+        Login with Google
+      </a>
 
       <div className="submit-container flexbox">
         <button

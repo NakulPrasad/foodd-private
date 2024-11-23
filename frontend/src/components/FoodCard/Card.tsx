@@ -21,7 +21,7 @@ const Card = ({ options, foodItem }: CardProps) => {
 
   const handleAddToCart = async () => {
     //update functionality to cart
-    const food: foodItem[] = [];
+    let food: foodItem[] = [];
     for (const item of data) {
       if (item.id === foodItem._id) {
         food = item;

@@ -1,6 +1,5 @@
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
-import session from "express-session";
 
 passport.use(
   new GoogleStrategy(
@@ -28,19 +27,6 @@ passport.deserializeUser((user, done) => {
 });
 
 export const passportRoutes = (app: Express) => {
-  // Setup session
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: true,
-    })
-  );
-
-  // Initialize Passport
-  app.use(passport.initialize());
-  app.use(passport.session());
-
   // Login route
   app.get(
     "/auth/google",

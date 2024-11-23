@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { join } from "path";
@@ -7,11 +7,11 @@ import { log } from "console";
 import dbConfig from "./configs/dbConfig2.js";
 import rateLimiter from "./middleware/rateLimitter.js";
 import passport, { passportRoutes } from "./configs/passportConfig.js";
+import session from "express-session";
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-app.use(cors());
 
 /**
  * @description Function to check if the origin contains 'foodd-mern'
@@ -41,10 +41,28 @@ app.use(
     },
   })
 );
+const logger = (req: Request, res: Response, next: NextFunction) => {
+  log(req);
+  next();
+};
+app.use(logger);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(rateLimiter);
 // app.use(cookieParser())
+
+// Setup session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 /**
  * Connect to database
