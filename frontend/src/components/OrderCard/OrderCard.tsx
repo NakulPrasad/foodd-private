@@ -1,7 +1,6 @@
-import { order } from "../../screens/MyOrder/MyOrder";
 interface props {
   index: number;
-  order: order;
+  order: any;
 }
 
 const OrderCard = ({ order, index }: props) => {

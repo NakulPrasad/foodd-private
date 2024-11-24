@@ -45,7 +45,13 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
   log(req);
   next();
 };
-app.use(logger);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});
+
+// app.use(logger);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(rateLimiter);
@@ -73,14 +79,19 @@ dbconfig.connect();
 app.use("/apiv1", apiRouter);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(process.cwd() + "../frontend/dist"));
+  app.use(express.static(process.cwd() + "../../frontend/dist")); //this is relative to /dist/index.js
 
   app.get("*", function (req, res) {
-    res.sendFile(process.cwd() + "/frontend/dist/index.html", function (err) {
-      if (err) {
-        res.status(500).send(err);
-      }
-    });
+    if (!req.url.startsWith("/assets")) {
+      res.sendFile(
+        process.cwd() + "../../frontend/dist/index.html",
+        function (err) {
+          if (err) {
+            res.status(500).send(err);
+          }
+        }
+      );
+    }
   });
 }
 
