@@ -8,6 +8,7 @@ import dbConfig from "./configs/dbConfig2.js";
 import rateLimiter from "./middleware/rateLimitter.js";
 import passport, { passportRoutes } from "./configs/passportConfig.js";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 const PORT = process.env.PORT || 3000;
 
@@ -54,15 +55,24 @@ app.use((err, req, res, next) => {
 // app.use(logger);
 app.use(express.json());
 app.use(morgan("dev"));
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", true);
+}
+
 app.use(rateLimiter);
 // app.use(cookieParser())
 
 // Setup session
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "secret2024",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_CONNECTION_URI,
+      ttl: 14 * 24 * 60 * 60, // 14 days
+    }),
   })
 );
 
@@ -78,22 +88,22 @@ dbconfig.connect();
 
 app.use("/apiv1", apiRouter);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(process.cwd() + "../../frontend/dist")); //this is relative to /dist/index.js
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(process.cwd() + "../../frontend/dist")); //this is relative to /dist/index.js
 
-  app.get("*", function (req, res) {
-    if (!req.url.startsWith("/assets")) {
-      res.sendFile(
-        process.cwd() + "../../frontend/dist/index.html",
-        function (err) {
-          if (err) {
-            res.status(500).send(err);
-          }
-        }
-      );
-    }
-  });
-}
+//   app.get("*", function (req, res) {
+//     if (!req.url.startsWith("/assets")) {
+//       res.sendFile(
+//         process.cwd() + "../../frontend/dist/index.html",
+//         function (err) {
+//           if (err) {
+//             res.status(500).send(err);
+//           }
+//         }
+//       );
+//     }
+//   });
+// }
 
 app.get("/", (req, res) => {
   res.send("FOOD-MERN BACKEND WORKING FINE");
