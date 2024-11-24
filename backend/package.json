@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config ./dist/index.js",
     "dev": "nodemon -r dotenv/config --inspect ./dist/index.js",
-    "build": "tsc --project ./tsconfig.json"
+    "build": "tsc"
   },
   "author": "Nakul Prasad",
   "license": "ISC",
