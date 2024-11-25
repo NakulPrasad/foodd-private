@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useCookie } from "./useCookie";
 
 const useFetchData = <T>(url: string): [T | null, boolean, string | null] => {
   const [responseData, setData] = useState<T | null>(null);
@@ -8,10 +9,11 @@ const useFetchData = <T>(url: string): [T | null, boolean, string | null] => {
 
   useEffect(() => {
     // console.log(isLoading);
+    const { getItem } = useCookie();
     const fetchData = async (url: string) => {
       try {
         setIsLoading(true);
-        const token = localStorage.getItem("authToken");
+        const token = getItem("authToken");
         const dataFromApi = await fetch(url, {
           method: "GET",
           mode: "cors",

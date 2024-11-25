@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import { useCookie } from "./useCookie";
 
-const usePostData = <T>() => {
+type UsePostDataReturn<T> = [
+  boolean, // isLoading
+  (url: string, data: object) => Promise<T | null>, // postData
+  T | null, // responseData
+  string | null // error
+];
+
+const usePostData = <T>(): UsePostDataReturn<T> => {
   const [responseData, setData] = useState<T | null>(null);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { getItem } = useCookie();
 
   const postData = async (url: string, data: object): Promise<T | null> => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("authToken");
+      const token = getItem("authToken");
       const res = await fetch(url, {
         method: "POST",
         mode: "cors",
@@ -39,7 +48,7 @@ const usePostData = <T>() => {
     }
   };
 
-  return [isLoading, postData, responseData];
+  return [isLoading, postData, responseData, error];
 };
 
 export default usePostData;

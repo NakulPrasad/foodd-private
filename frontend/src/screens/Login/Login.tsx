@@ -6,6 +6,9 @@ import "./Login.css";
 import URLs from "../../configs/URLs";
 import usePostData from "../../hooks/usePostData";
 import { useNavigate } from "react-router-dom";
+import { useCookie } from "../../hooks/useCookie";
+import { toast } from "react-toastify";
+import { useUser } from "../../hooks/useUser";
 
 interface LoginResponse {
   authToken: string;
@@ -15,6 +18,8 @@ const Login2 = () => {
   let navigate = useNavigate();
   const [action, setAction] = useState("Sign Up");
   const [errorMsg, setErrorMsg] = useState("");
+  const { addUser } = useUser();
+  const { setItem } = useCookie();
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -27,7 +32,7 @@ const Login2 = () => {
     password: "",
     location: "",
   });
-  const [isLoading, postData, responseData] = usePostData<LoginResponse>();
+  const [isLoading, postData] = usePostData<LoginResponse>();
 
   const handleClick = () => {
     setAction("Sign Up");
@@ -35,57 +40,39 @@ const Login2 = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(credentials);
+    // console.log(credentials);
     if (action === "Login") {
-      try {
-        const response = await postData(URLs.loginUser, {
-          email: credentials.email,
-          password: credentials.password,
-        });
-        // debugger;
-        if (!isLoading && response) {
-          // console.log(response);
-          localStorage.setItem("authToken", response.authToken);
-
-          localStorage.setItem("userEmail", credentials.email);
-
-          navigate("/");
-        }
-      } catch (error) {
-        setErrorMsg("Invalid Cred");
-        console.error(error);
-      }
+      await handleLogin();
     } else if (action === "Sign Up") {
-      try {
-        const response = await postData(URLs.addUser, credentials);
-        // debugger;
-        // console.log(response);
-        if (!isLoading && response) {
-          try {
-            const response = await postData(URLs.loginUser, {
-              email: credentials.email,
-              password: credentials.password,
-            });
-            // debugger;
-            if (!isLoading && response) {
-              // console.log(response);
-              localStorage.setItem("authToken", response.authToken);
-
-              localStorage.setItem("userEmail", credentials.email);
-
-              navigate("/");
-            }
-          } catch (error) {
-            setErrorMsg("Invalid Cred");
-            console.error(error);
-          }
-        }
-      } catch (error) {
-        setErrorMsg("Invalid Cred");
-        console.error(error);
-      }
+      await handleSignUp();
     }
   };
+
+  const handleSignUp = async () => {
+    const response = await postData(URLs.addUser, credentials);
+    if (response) {
+      console.log("User Registered Successfully");
+      toast.success("User Registered Successfully");
+    }
+  };
+
+  const handleLogin = async () => {
+    const response = await postData(URLs.loginUser, {
+      email: credentials.email,
+      password: credentials.password,
+    });
+    if (!isLoading && response) {
+      // console.log(response);
+      const user = {
+        email: credentials.email,
+      };
+      setItem("authToken", response.authToken);
+      addUser(user);
+      console.log("User Login Successfully");
+      navigate("/");
+    }
+  };
+
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 

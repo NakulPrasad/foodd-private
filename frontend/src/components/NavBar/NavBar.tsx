@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import Cart from "../../screens/Cart";
 import { useCart } from "../../context/ContextReducer";
+import { useUser } from "../../hooks/useUser";
 
 const NavBar = () => {
   const navigate = useNavigate();
+  // const { getItem, removeItem } = useCookie();
+  const { removeUser, user } = useUser();
 
   const handleLogout = () => {
-    //delete local storage
-    localStorage.removeItem("authToken");
+    removeUser();
     navigate("/login");
   };
 
@@ -29,7 +31,7 @@ const NavBar = () => {
             </Link>
           </li>
 
-          {localStorage.getItem("authToken") ? (
+          {user ? (
             <li className="nav-item">
               <Link to="/myOrder" className="nav-link text-white ">
                 My Orders
@@ -41,7 +43,7 @@ const NavBar = () => {
         </ul>
 
         <div className="text-end">
-          {!localStorage.getItem("authToken") ? (
+          {!user ? (
             <div>
               <Link to="/login" className="btn btn-warning me-2">
                 Login
@@ -53,7 +55,6 @@ const NavBar = () => {
           ) : (
             <div>
               <button
-                to="/cart"
                 className="btn btn-warning me-2"
                 onClick={() => {
                   setCartView(true);

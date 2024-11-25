@@ -1,4 +1,3 @@
-import React from "react";
 import { useCart, useDispatchCart } from "../context/ContextReducer";
 import deleteItemPNG from "./deleteItem.png";
 import URLs from "../configs/URLs.ts";

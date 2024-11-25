@@ -64,7 +64,7 @@ const reducer = (state: CartItem[], action: CartAction): CartItem[] => {
         if (food.id === action.id) {
           arr[index] = {
             ...food,
-            qty: parseInt(action.qty) + parseInt(food.qty),
+            qty: action.qty + food.qty,
             price: action.price + food.price,
           };
         }
@@ -73,7 +73,7 @@ const reducer = (state: CartItem[], action: CartAction): CartItem[] => {
     case "DROP":
       return [];
     default:
-      console.log("Error in reducer");
+      console.error("Error Occurred in Reducer");
       return state;
   }
 };
@@ -82,7 +82,7 @@ interface CartProviderProps {
   children: ReactNode;
 }
 
-export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
+export const CartProvider = ({ children }: CartProviderProps) => {
   const [state, dispatch] = useReducer(reducer, []);
   return (
     <CartDispatchContext.Provider value={dispatch}>
