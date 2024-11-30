@@ -1,5 +1,6 @@
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
+import { Request, Response } from "express";
 
 passport.use(
   new GoogleStrategy(
@@ -10,7 +11,7 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       // Handle user information (e.g., save to DB)
-      console.log(profile); // Log the profile for reference
+      // console.log(profile); // Log the profile for reference
       done(null, profile);
     }
   )
@@ -26,7 +27,7 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-export const passportRoutes = (app: Express) => {
+export const passportRoutes = (app: any) => {
   // Login route
   app.get(
     "/auth/google",
@@ -36,14 +37,19 @@ export const passportRoutes = (app: Express) => {
   // Callback route
   app.get(
     "/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/" }),
-    (req, res) => {
-      res.redirect("/profile");
+    passport.authenticate("google", {
+      failureRedirect: process.env.FRONTEND_URL,
+    }),
+    (req: Request, res: Response) => {
+      const url = process.env.FRONTEND_URL || "/";
+
+      return res.redirect(`${url}/login?login=success`);
+      // res.redirect("/profile");
     }
   );
 
   // Profile route
-  app.get("/profile", (req, res) => {
+  app.get("/profile", (req: Request, res: Response) => {
     if (!req.isAuthenticated()) {
       return res.redirect("/");
     }
@@ -55,7 +61,7 @@ export const passportRoutes = (app: Express) => {
   });
 
   // Logout route
-  app.get("/logout", (req, res) => {
+  app.get("/logout", (req: Request, res: Response) => {
     req.logout(() => {
       res.redirect("/");
     });

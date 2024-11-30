@@ -26,6 +26,7 @@ const usePostData = <T>(): UsePostDataReturn<T> => {
           "Content-Type": "application/json",
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
+        credentials: "include",
         body: JSON.stringify(data),
       });
       const jsonData = await res.json();

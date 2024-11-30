@@ -11,24 +11,28 @@ const UserService = userService.getInstance();
 const AuthService = authService.getInstance();
 
 export const getMyDetails = async (req: Request, res: Response) => {
-  try {
-    const email: string | null =
-      typeof req.user.email === "string" ? req.user.email : null;
-
-    // log(id);
-    if (!email) {
-      return res.status(400).json({ message: "Invalid Email" });
-    }
-    const user: userInterface | null = await UserService.getUserByEmail(email);
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    return res.status(200).json({ message: "User Found", data: user });
-  } catch (error: any) {
-    return res
-      .status(500)
-      .json({ message: "Invalid Request", Error: error.message });
-  }
+  res.json(req.user);
 };
+
+// export const getMyDetails = async (req: Request, res: Response) => {
+//   try {
+//     const email: string | null =
+//       typeof req.user.email === "string" ? req.user.email : null;
+
+//     // log(id);
+//     if (!email) {
+//       return res.status(400).json({ message: "Invalid Email" });
+//     }
+//     const user: userInterface | null = await UserService.getUserByEmail(email);
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     return res.status(200).json({ message: "User Found", data: user });
+//   } catch (error: any) {
+//     return res
+//       .status(500)
+//       .json({ message: "Invalid Request", Error: error.message });
+//   }
+// };
 
 export const getUserById = async (req: Request, res: Response) => {
   try {

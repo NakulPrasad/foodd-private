@@ -30,7 +30,6 @@ function isValidOrigin(origin: string) {
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       if (isValidOrigin(origin)) {
         return callback(null, true); // Allow the request if the origin contains 'foodd-mern'
@@ -40,6 +39,7 @@ app.use(
         return callback(new Error(message), false); // Deny the request if the origin does not contain 'foodd-mern'
       }
     },
+    credentials: true,
   })
 );
 const logger = (req: Request, res: Response, next: NextFunction) => {

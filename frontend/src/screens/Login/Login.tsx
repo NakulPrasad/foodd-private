@@ -48,6 +48,25 @@ const Login2 = () => {
     }
   };
 
+  function openGoogleAuthPopup() {
+    const googleAuthUrl = "http://localhost:3000/auth/google"; // Replace with your Google Auth endpoint
+    const width = 500; // Desired popup width
+    const height = 600; // Desired popup height
+    const left = window.screenX + (window.outerWidth - width) / 2; // Center horizontally
+    const top = window.screenY + (window.outerHeight - height) / 2; // Center vertically
+
+    // Open a new window for the Google Auth
+    const authWindow = window.open(
+      googleAuthUrl,
+      "GoogleAuthPopup",
+      `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=yes,status=no`
+    );
+
+    if (!authWindow) {
+      alert("Popup blocked! Please allow popups for this website.");
+    }
+  }
+
   const handleSignUp = async () => {
     const response = await postData(URLs.addUser, credentials);
     if (response) {
@@ -206,8 +225,23 @@ const Login2 = () => {
           Lost Password ? <span> Click Here </span>
         </div>
       )}
-      <a
-        href="http://localhost:3000/auth/google"
+      <div
+        id="g_id_onload"
+        data-client_id="270412715554-h83o5vmfdh24q9hkc6efse6d95ihaaa6.apps.googleusercontent.com"
+        data-login_uri="http://localhost:5173/login"
+        data-auto_prompt="false"
+      ></div>
+      <div
+        className="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left"
+      ></div>
+      <button
+        onClick={openGoogleAuthPopup}
         style={{
           display: "inline-flex",
           alignItems: "center",
@@ -230,7 +264,7 @@ const Login2 = () => {
           }}
         />
         Login with Google
-      </a>
+      </button>
 
       <div className="submit-container flexbox">
         <button

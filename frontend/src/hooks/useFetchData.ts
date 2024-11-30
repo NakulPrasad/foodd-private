@@ -17,6 +17,7 @@ const useFetchData = <T>(url: string): [T | null, boolean, string | null] => {
         const dataFromApi = await fetch(url, {
           method: "GET",
           mode: "cors",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
