@@ -1,7 +1,7 @@
 import { useCart, useDispatchCart } from "../context/ContextReducer";
 import deleteItemPNG from "./deleteItem.png";
-import URLs from "../configs/URLs.ts";
-import usePostData from "../hooks/usePostData.ts";
+import URLs from "../configs/URLs.js";
+import usePostData from "../hooks/usePostData.js";
 
 export default function Cart() {
   let data = useCart();

@@ -1,12 +1,15 @@
 import passport from "passport";
-import GoogleStrategy from "passport-google-oauth20";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Request, Response } from "express";
+
+const CLIENT_ID = process.env.GOOGLE_CLIENTID || "";
+const CLIENT_SEC = process.env.GOOGLE_CLIENTSECRET || "";
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.GOOGLE_CLIENTID, // Replace with your Google Client ID
-      clientSecret: process.env.GOOGLE_CLIENTSECRET, // Replace with your Google Client Secret
+      clientID: CLIENT_ID,
+      clientSecret: CLIENT_SEC,
       callbackURL: "http://localhost:3000/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
@@ -24,7 +27,10 @@ passport.serializeUser((user, done) => {
 
 // Deserialize user from session
 passport.deserializeUser((user, done) => {
-  done(null, user);
+  if (user) {
+    return done(null, user);
+  }
+  return done(null, null);
 });
 
 export const passportRoutes = (app: any) => {

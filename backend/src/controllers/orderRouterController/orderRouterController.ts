@@ -8,7 +8,8 @@ export const orderTest = (req: Request, res: Response) => {
 
 export const orderCheckout = async (req: Request, res: Response) => {
   const data = req.body.order_data;
-  const email = req.user.email;
+  // const { email } = req.user!;
+  const email = (req.user as any).email;
 
   await data.splice(0, 0, { Order_date: req.body.order_date });
 
@@ -44,7 +45,10 @@ export const orderCheckout = async (req: Request, res: Response) => {
 
 export const getMyOrders = async (req: Request, res: Response) => {
   try {
-    const email = req.user.email;
+    const email = (req.user as any).email;
+    if (!email) {
+      return res.status(404).json({ error: "User not found" });
+    }
     const orders = await Order.findOne({ email: email });
     return res.status(200).json({ orderData: orders });
   } catch (error: any) {

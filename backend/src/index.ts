@@ -9,48 +9,21 @@ import rateLimiter from "./middleware/rateLimitter.js";
 import passport, { passportRoutes } from "./configs/passportConfig.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-
-const PORT = process.env.PORT || 3000;
+import isValidOrigin from "./utils/validOrigin.js";
+import corsMiddleware from "./middleware/corsMiddleware.js";
 
 const app = express();
 
-/**
- * @description Function to check if the origin contains 'foodd-mern'
- * @param origin : string
- * @returns boolean
- */
+app.use(corsMiddleware);
+// const logger = (req: Request, res: Response, next: NextFunction) => {
+//   log(req);
+//   next();
+// };
 
-function isValidOrigin(origin: string) {
-  if (process.env.NODE_ENV === "production") {
-    return origin && /https?:\/\/.*foodd-mern.*/.test(origin);
-  }
-  return origin && /https?:\/\/.*localhost.*/.test(origin);
-}
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (isValidOrigin(origin)) {
-        return callback(null, true); // Allow the request if the origin contains 'foodd-mern'
-      } else {
-        const message =
-          "The CORS policy for this site does not allow access from the specified Origin.";
-        return callback(new Error(message), false); // Deny the request if the origin does not contain 'foodd-mern'
-      }
-    },
-    credentials: true,
-  })
-);
-const logger = (req: Request, res: Response, next: NextFunction) => {
-  log(req);
-  next();
-};
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
-});
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send("Something went wrong!");
+// });
 
 // app.use(logger);
 app.use(express.json());
@@ -111,6 +84,4 @@ app.get("/", (req, res) => {
 
 passportRoutes(app);
 
-app.listen(PORT, () => {
-  console.log(`NODE Server is running at ${PORT}`);
-});
+export default app;

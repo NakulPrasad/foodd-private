@@ -1,4 +1,6 @@
-const isAuthenticated = (req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   // console.log(req);
   if (req.isAuthenticated()) {
     return next();
