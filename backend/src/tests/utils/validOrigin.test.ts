@@ -1,20 +1,10 @@
-import { afterEach, beforeEach, describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import isValidOrigin from "../../utils/validOrigin.js";
 
 describe("isValidOrigin", () => {
-  const originalEnv = process.env.NODE_ENV;
-
-  beforeEach(() => {
-    jest.resetModules();
-    process.env.NODE_ENV = originalEnv; // Clone the original env
-  });
-
-  afterEach(() => {
-    process.env.NODE_ENV = originalEnv; // Restore original env
-  });
 
   test("should validate origin in production environment", () => {
-    process.env.NODE_ENV = "production";
+    vi.stubEnv("NODE_ENV", "production");
 
     // Valid production origins
     expect(isValidOrigin("https://app.foodd-mern.com")).toBe(true);
@@ -27,7 +17,7 @@ describe("isValidOrigin", () => {
   });
 
   test("should validate origin in development environment", () => {
-    process.env.NODE_ENV = "development";
+    vi.stubEnv("NODE_ENV", "development");
 
     // Valid development origins
     expect(isValidOrigin("http://localhost:3000")).toBe(true);
@@ -40,10 +30,12 @@ describe("isValidOrigin", () => {
   });
 
   test("should handle missing origin", () => {
-    process.env.NODE_ENV = "production";
+    // process.env.NODE_ENV = "production";
+    vi.stubEnv("NODE_ENV", "production");
     expect(isValidOrigin("")).toBe(false);
 
-    process.env.NODE_ENV = "development";
+    // process.env.NODE_ENV = "development";
+    vi.stubEnv("NODE_ENV", "development");
     expect(isValidOrigin("")).toBe(false);
   });
 });

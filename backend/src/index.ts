@@ -9,7 +9,6 @@ import rateLimiter from "./middleware/rateLimitter.js";
 import passport, { passportRoutes } from "./configs/passportConfig.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import isValidOrigin from "./utils/validOrigin.js";
 import corsMiddleware from "./middleware/corsMiddleware.js";
 
 const app = express();
@@ -29,12 +28,9 @@ app.use(corsMiddleware);
 app.use(express.json());
 app.use(morgan("dev"));
 
-if (process.env.NODE_ENV === "production") {
-  app.set("trust proxy", true);
-}
 
 app.use(rateLimiter);
-// app.use(cookieParser())
+
 
 // Setup session
 app.use(
@@ -59,28 +55,14 @@ app.use(passport.session());
 const dbconfig = new dbConfig();
 dbconfig.connect();
 
-app.use("/apiv1", apiRouter);
-
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(process.cwd() + "../../frontend/dist")); //this is relative to /dist/index.js
-
-//   app.get("*", function (req, res) {
-//     if (!req.url.startsWith("/assets")) {
-//       res.sendFile(
-//         process.cwd() + "../../frontend/dist/index.html",
-//         function (err) {
-//           if (err) {
-//             res.status(500).send(err);
-//           }
-//         }
-//       );
-//     }
-//   });
-// }
-
+/**
+ * Routes
+ */
 app.get("/", (req, res) => {
   res.send("FOOD-MERN BACKEND WORKING FINE");
 });
+
+app.use("/apiv1", apiRouter);
 
 passportRoutes(app);
 

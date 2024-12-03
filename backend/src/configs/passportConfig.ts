@@ -2,8 +2,8 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Request, Response } from "express";
 
-const CLIENT_ID = process.env.GOOGLE_CLIENTID || "";
-const CLIENT_SEC = process.env.GOOGLE_CLIENTSECRET || "";
+const CLIENT_ID = process.env.GOOGLE_CLIENTID || "error";
+const CLIENT_SEC = process.env.GOOGLE_CLIENTSECRET || "error";
 
 passport.use(
   new GoogleStrategy(

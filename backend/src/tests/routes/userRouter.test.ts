@@ -1,24 +1,69 @@
-import request from "supertest";
-import app from "../../index.js";
 import {
   afterEach,
+  beforeAll,
   beforeEach,
   describe,
   expect,
-  jest,
   test,
-} from "@jest/globals";
+  vi,
+} from "vitest";
+import { BASE_URL } from "../../configs/env.js";
+import URLs from "../../utils/URLs.js";
+import app from "../../index.js";
+const scenarios = [
+  {
+    description: "Valid credentials",
+    user: { email: "test@gmw22ail.com", password: "Zxcvbnm@123" },
+    expectedStatus: 200,
+    expectedProperty: "authToken",
+  },
+  {
+    description: "Empty email",
+    user: { email: "", password: "Zxcvbnm@123" },
+    expectedStatus: 400,
+    expectedProperty: undefined,
+  },
+  {
+    description: "Invalid email format",
+    user: { email: "invalid-email", password: "Zxcvbnm@123" },
+    expectedStatus: 400,
+    expectedProperty: undefined,
+  },
+  {
+    description: "Weak password",
+    user: { email: "test@gmw22ail.com", password: "weakpass" },
+    expectedStatus: 400,
+    expectedProperty: undefined,
+  },
+];
 
 describe("User Routes", () => {
-  test("should fetch user by id", async () => {
-    const res = await request(app).get("/user/getUser");
-    expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty("id", 1);
+  beforeAll(() => {
+    vi.stubEnv("NODE_ENV", "test");
+
+    app.use((req, res, next) => {
+      if (process.env.NODE_ENV === "test") {
+        req.user = { username: "TEST", id: "123123123", email:"test@gmail.com", password: "weakpass" };
+      }
+    });
   });
 
-  test("should return 404 if user not found", async () => {
-    const res = await request(app).get("/user/getUser/9999");
-    expect(res.status).toBe(404);
-    expect(res.body).toHaveProperty("message", "User not found");
-  });
+  scenarios.forEach(
+    ({ description, user, expectedStatus, expectedProperty }) => {
+      test(`should handle ${description}`, async () => {
+        const response = await fetch(`${BASE_URL}/apiv1/user/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user),
+        });
+
+        expect(response.status).toBe(expectedStatus);
+
+        const data = await response.json();
+
+        expect(data).toHaveProperty(expectedProperty);
+      });
+    }
+  );
+
 });

@@ -70,7 +70,7 @@ class authService {
     if (!userData) {
       console.error("No user found with provided email");
       return res
-        .status(400)
+        .status(401)
         .json({ errors: "Try Again!! Invalid user or password" });
     }
 
@@ -79,7 +79,7 @@ class authService {
     if (!pwdCompare) {
       console.log("Wrong Password");
       return res
-        .status(400)
+        .status(401)
         .json({ errors: "Try Again!! Invalid user or password" });
     }
     // Sign JWT token
