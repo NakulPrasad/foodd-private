@@ -55,11 +55,11 @@ const reducer = (state: CartItem[], action: CartAction): CartItem[] => {
         },
       ];
     case "REMOVE":
-      let newArr = [...state];
+      const newArr = [...state];
       newArr.splice(action.index, 1);
       return newArr;
     case "UPDATE":
-      let arr = [...state];
+      const arr = [...state];
       arr.find((food, index) => {
         if (food.id === action.id) {
           arr[index] = {

@@ -15,7 +15,7 @@ interface LoginResponse {
 }
 
 const Login2 = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [action, setAction] = useState("Sign Up");
   const [errorMsg, setErrorMsg] = useState("");
   const { addUser } = useUser();

@@ -13,11 +13,11 @@ interface foodItem {
 
 const Card = ({ options, foodItem }: CardProps) => {
   const priceRef = useRef<HTMLSelectElement>(null);
-  let priceOptions = Object.keys(options);
+  const priceOptions = Object.keys(options);
   const [qty, setQty] = useState<number>(1);
   const [size, setSize] = useState<string>("");
-  let data = useCart();
-  let dispatch = useDispatchCart();
+  const data = useCart();
+  const dispatch = useDispatchCart();
 
   const handleAddToCart = async () => {
     //update functionality to cart

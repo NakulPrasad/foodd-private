@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import Card from "../components/FoodCard/Card";
-import URLs from "../configs/URLs";
-import useFetchData from "../hooks/useFetchData";
-import Burger from "../assets/images/burger.jpg";
-import Pizza from "../assets/images/pizza.jpg";
-import Pasta from "../assets/images/pasta.jpg";
+import Card from "../../components/FoodCard/Card";
+import URLs from "../../configs/URLs";
+import useFetchData from "../../hooks/useFetchData";
+import Burger from "../../assets/images/burger.jpg";
+import Pizza from "../../assets/images/pizza.jpg";
+import Pasta from "../../assets/images/pasta.jpg";
+import './Home.css'
 
 // Represents a single option in the "options" array
 interface FoodOption {
@@ -53,8 +54,8 @@ const Home = () => {
       foodItemResponse &&
       foodCategoryResponse
     ) {
-      console.log(foodItemResponse);
-      console.log(foodCategoryResponse);
+      // console.log(foodItemResponse);
+      // console.log(foodCategoryResponse);
 
       setFoodItem(foodItemResponse.data);
       setFoodCategory(foodCategoryResponse.data);
@@ -74,7 +75,7 @@ const Home = () => {
   ]);
 
   return (
-    <div className="row-span-4">
+    <section id="home" className="row-span-4">
       <div
         id="carouselExampleAutoplaying"
         className="carousel slide"
@@ -184,7 +185,7 @@ const Home = () => {
             );
           })}
       </div>
-    </div>
+    </section>
   );
 };
 

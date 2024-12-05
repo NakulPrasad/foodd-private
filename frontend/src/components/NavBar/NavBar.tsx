@@ -17,7 +17,7 @@ const NavBar = () => {
 
   const [cartView, setCartView] = useState(false);
 
-  let data = useCart();
+  const data = useCart();
 
   return (
     <header className="p-3 bg-dark text-white">
@@ -31,14 +31,19 @@ const NavBar = () => {
             </Link>
           </li>
 
-          {user ? (
-            <li className="nav-item">
-              <Link to="/myOrder" className="nav-link text-white ">
-                My Orders
-              </Link>
-            </li>
-          ) : (
-            ""
+          {user && (
+            <>
+              <li className="nav-item">
+                <Link to="/myOrder" className="nav-link text-white ">
+                  My Orders
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/partner-with-us/new" className="nav-link text-white ">
+                  Add Restraunt
+                </Link>
+              </li>
+            </>
           )}
         </ul>
 

@@ -4,8 +4,8 @@ import URLs from "../configs/URLs.js";
 import usePostData from "../hooks/usePostData.js";
 
 export default function Cart() {
-  let data = useCart();
-  let dispatch = useDispatchCart();
+  const data = useCart();
+  const dispatch = useDispatchCart();
   const [isLoading, postData] = usePostData();
   if (data.length === 0) {
     return (
@@ -29,7 +29,7 @@ export default function Cart() {
     }
   };
 
-  let totalPrice = data.reduce((total, food) => total + food.price, 0);
+  const totalPrice = data.reduce((total, food) => total + food.price, 0);
   return (
     <div>
       <div className="container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md">

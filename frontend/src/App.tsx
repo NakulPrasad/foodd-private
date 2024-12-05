@@ -1,5 +1,5 @@
 import "./App.css";
-import Home from "./screens/Home";
+import Home from "./screens/Home/Home";
 import {
   createBrowserRouter,
   Navigate,
@@ -13,8 +13,11 @@ import Error from "./screens/Error/Error";
 import Root from "./components/Root/Root";
 import { AuthProvider } from "./context/AuthContext";
 import { useCookie } from "./hooks/useCookie";
+import Partner from "./screens/Partner/Partner";
 
-const PrivateRoute = ({ element }: React.ReactElement) => {
+
+
+const PrivateRoute = ({ element }: any) => {
   const { getItem } = useCookie();
   const isAuthenticated = getItem("user");
 
@@ -31,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/myOrder",
         element: <MyOrder />,
+      },
+      {
+        path: "/partner-with-us/new/",
+        element: <Partner />,
       },
     ],
   },
