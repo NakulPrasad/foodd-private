@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
-import emailIcon from "../../assets/email.png";
-import passwordIcon from "../../assets/password.png";
-import personIcon from "../../assets/person.png";
+import emailIcon from "../../assets/icons/email.png";
+import passwordIcon from "../../assets/icons/password.png";
+import personIcon from "../../assets/icons/person.png";
 import "./Login.css";
 import URLs from "../../configs/URLs";
 import usePostData from "../../hooks/usePostData";
