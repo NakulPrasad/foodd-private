@@ -1,23 +1,34 @@
-import "./App.css";
-import Home from "./screens/Home/Home";
+import "@mantine/carousel/styles.css";
+import { MantineProvider } from "@mantine/core";
+import "@mantine/core/styles.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { CartProvider } from "./context/ContextReducer";
-import MyOrder from "./screens/MyOrder/MyOrder";
-import Login from "./screens/Login/Login";
-import Error from "./screens/Error/Error";
 import Root from "./components/Root/Root";
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/ContextReducer";
 import { useCookie } from "./hooks/useCookie";
+import Error from "./screens/Error/Error";
+import Home from "./screens/Home/Home";
+import Login from "./screens/Login/Login";
+import MyOrder from "./screens/MyOrder/MyOrder";
 import Partner from "./screens/Partner/Partner";
 
+interface PrivateRouteProps {
+  element: React.ReactElement;
+}
 
+/**
+ * @description This function checks for authentication before accessing to user.
+ * @param element React Component
+ * @returns React Component if authenticated else redirected to /login
+ */
 
-const PrivateRoute = ({ element }: any) => {
+const PrivateRoute = ({ element }: PrivateRouteProps) => {
   const { getItem } = useCookie();
   const isAuthenticated = getItem("user");
 
@@ -52,7 +63,9 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <RouterProvider router={router} />
+        <MantineProvider>
+          <RouterProvider router={router} />
+        </MantineProvider>
       </CartProvider>
     </AuthProvider>
   );

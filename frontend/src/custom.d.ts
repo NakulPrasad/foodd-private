@@ -1,3 +1,8 @@
+/**
+ * @description This file stores the custom import types that TS compiler demands.
+ * 
+ */
+
 declare module "*.png" {
   const value: string;
   export default value;

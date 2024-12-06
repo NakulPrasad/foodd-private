@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import Burger from "../../assets/images/burger.jpg";
+import Pasta from "../../assets/images/pasta.jpg";
+import Pizza from "../../assets/images/pizza.jpg";
 import Card from "../../components/FoodCard/Card";
 import URLs from "../../configs/URLs";
 import useFetchData from "../../hooks/useFetchData";
-import Burger from "../../assets/images/burger.jpg";
-import Pizza from "../../assets/images/pizza.jpg";
-import Pasta from "../../assets/images/pasta.jpg";
-import './Home.css'
+import "./Home.css";
+import { Carousel } from '@mantine/carousel'
 
 // Represents a single option in the "options" array
 interface FoodOption {
@@ -42,7 +43,7 @@ const Home = () => {
   const [foodCategory, setFoodCategory] = useState<FoodCategory[]>([]);
   const [foodItem, setFoodItem] = useState<FoodItem[]>([]);
   const [foodItemResponse, isFoodItemLoading] = useFetchData<FoodItemResponse>(
-    URLs.getFoodData
+    URLs.getFoodData,
   );
   const [foodCategoryResponse, isFoodCategoryLoading] =
     useFetchData<FoodCategoryResponse>(URLs.getAllFoodCategory);
@@ -76,7 +77,25 @@ const Home = () => {
 
   return (
     <section id="home" className="row-span-4">
-      <div
+      <Carousel withIndicators height={500} loop>
+      <Carousel.Slide>            <img
+              src={Burger}
+              className="brightness-50"
+              alt="..."
+            /></Carousel.Slide>
+      <Carousel.Slide>            <img
+              src={Pizza}
+              className="brightness-50"
+              alt="..."
+            /></Carousel.Slide>
+      <Carousel.Slide>            <img
+              src={Pasta}
+              className="brightness-50"
+              alt="..."
+            /></Carousel.Slide>
+      {/* ...other slides */}
+    </Carousel>
+      {/* <div
         id="carouselExampleAutoplaying"
         className="carousel slide"
         data-bs-ride="carousel"
@@ -100,12 +119,7 @@ const Home = () => {
             </div>
           </div>
           <div className="carousel-item active carousal">
-            <img
-              src={Burger}
-              className="d-block w-100"
-              style={{ filter: "brightness(30%)", objectFit: "fill" }}
-              alt="..."
-            />
+
           </div>
           <div className="carousel-item carousal">
             <img
@@ -148,7 +162,7 @@ const Home = () => {
           ></span>
           <span className="visually-hidden">Next</span>
         </button>
-      </div>
+      </div> */}
 
       <div className="container">
         {foodCategory &&
@@ -166,7 +180,7 @@ const Home = () => {
                         item.CategoryName === data.CategoryName &&
                         item.name
                           .toLowerCase()
-                          .includes(search.toLocaleLowerCase())
+                          .includes(search.toLocaleLowerCase()),
                     )
                     .map((filterItems: FoodItem) => {
                       return (
