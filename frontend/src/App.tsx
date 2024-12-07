@@ -1,7 +1,6 @@
 import "@mantine/carousel/styles.css";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import {
   createBrowserRouter,
@@ -17,6 +16,7 @@ import Home from "./screens/Home/Home";
 import Login from "./screens/Login/Login";
 import MyOrder from "./screens/MyOrder/MyOrder";
 import Partner from "./screens/Partner/Partner";
+import Checkout from "./screens/Checkout/Checkout";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -49,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/partner-with-us/new/",
         element: <Partner />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
   },

@@ -7,6 +7,7 @@ import URLs from "../../configs/URLs";
 import useFetchData from "../../hooks/useFetchData";
 import "./Home.css";
 import { Carousel } from '@mantine/carousel'
+import Footer from "../../components/Footer/Footer";
 
 // Represents a single option in the "options" array
 interface FoodOption {
@@ -199,7 +200,9 @@ const Home = () => {
             );
           })}
       </div>
+      <Footer />
     </section>
+    
   );
 };
 
