@@ -45,36 +45,37 @@ function getStrength(password: string) {
 
 const InputPasswordReq = ({form}:InputPasswordReqProps)=> {
   const [popoverOpened, setPopoverOpened] = useState(false);
-  const [value, setValue] = useState('');
   const checks = requirements.map((requirement, index) => (
-    <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(value)} />
+    <PasswordRequirement key={index} label={requirement.label} meets={requirement.re.test(form.getValues().password)} />
   ));
 
-  const strength = getStrength(value);
+  const strength = getStrength(form.getValues().password);
+
   const color = strength === 100 ? 'teal' : strength > 50 ? 'yellow' : 'red';
 
   return (
+
+    
     <Popover opened={popoverOpened} position="bottom" width="target" transitionProps={{ transition: 'pop' }}>
       <Popover.Target>
         <div
           onFocusCapture={() => setPopoverOpened(true)}
           onBlurCapture={() => setPopoverOpened(false)}
         >
+
           <PasswordInput
            id={form.key('password')}
             withAsterisk
             label="Your password"
             placeholder="Your password"
-            value={value}
-            onChange={(event) => setValue(event.currentTarget.value)}
             key={form.key('password')}
-            // {...form.getInputProps('password')}
+            {...form.getInputProps('password')}
           />
         </div>
       </Popover.Target>
       <Popover.Dropdown>
         <Progress color={color} value={strength} size={5} mb="xs" />
-        <PasswordRequirement label="Includes at least 6 characters" meets={value.length > 5} />
+        <PasswordRequirement label="Includes at least 6 characters" meets={form.getValues().password.length > 5} />
         {checks}
       </Popover.Dropdown>
     </Popover>

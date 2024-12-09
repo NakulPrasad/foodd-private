@@ -18,11 +18,9 @@ const InputPassword = ({form}:InputPasswordProps)=> {
     id={form.key('password')}
       mx="auto"
       label="Password"
-      defaultValue="secret"
       placeholder='*****'
       visibilityToggleIcon={VisibilityToggleIcon}
       withAsterisk
-      key={form.key('password')}
       {...form.getInputProps('password')}
     />
   );

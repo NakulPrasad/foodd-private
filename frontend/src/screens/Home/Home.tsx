@@ -1,13 +1,11 @@
+import { Carousel } from "@mantine/carousel";
 import { useEffect, useState } from "react";
-import Burger from "../../assets/images/burger.jpg";
-import Pasta from "../../assets/images/pasta.jpg";
-import Pizza from "../../assets/images/pizza.jpg";
+
 import Card from "../../components/FoodCard/Card";
+import Footer from "../../components/Footer/Footer";
 import URLs from "../../configs/URLs";
 import useFetchData from "../../hooks/useFetchData";
 import "./Home.css";
-import { Carousel } from '@mantine/carousel'
-import Footer from "../../components/Footer/Footer";
 
 // Represents a single option in the "options" array
 interface FoodOption {
@@ -78,24 +76,7 @@ const Home = () => {
 
   return (
     <section id="home" className="row-span-4">
-      <Carousel withIndicators height={500} loop>
-      <Carousel.Slide>            <img
-              src={Burger}
-              className="brightness-50"
-              alt="..."
-            /></Carousel.Slide>
-      <Carousel.Slide>            <img
-              src={Pizza}
-              className="brightness-50"
-              alt="..."
-            /></Carousel.Slide>
-      <Carousel.Slide>            <img
-              src={Pasta}
-              className="brightness-50"
-              alt="..."
-            /></Carousel.Slide>
-      {/* ...other slides */}
-    </Carousel>
+
       {/* <div
         id="carouselExampleAutoplaying"
         className="carousel slide"
@@ -202,7 +183,6 @@ const Home = () => {
       </div>
       <Footer />
     </section>
-    
   );
 };
 

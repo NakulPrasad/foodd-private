@@ -1,14 +1,14 @@
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import emailIcon from "../../assets/icons/email.png";
 import passwordIcon from "../../assets/icons/password.png";
 import personIcon from "../../assets/icons/person.png";
-import "./Login.css";
 import URLs from "../../configs/URLs";
-import usePostData from "../../hooks/usePostData";
-import { useNavigate } from "react-router-dom";
 import { useCookie } from "../../hooks/useCookie";
-import { toast } from "react-toastify";
+import usePostData from "../../hooks/usePostData";
 import { useUser } from "../../hooks/useUser";
+import "./Login.css";
 
 interface LoginResponse {
   authToken: string;
@@ -59,7 +59,7 @@ const Login2 = () => {
     const authWindow = window.open(
       googleAuthUrl,
       "GoogleAuthPopup",
-      `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=yes,status=no`
+      `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=yes,status=no`,
     );
 
     if (!authWindow) {

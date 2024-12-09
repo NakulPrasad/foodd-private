@@ -1,0 +1,37 @@
+.bg_tranparent {
+  background-color: transparent;
+}
+
+.bg_gradient {
+  background: linear-gradient(
+    0deg,
+    rgb(201, 188, 244) 0%,
+    rgb(255, 255, 255) 95.83%
+  );
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+}
+
+.mw {
+  max-width: 25rem;
+}
+
+.section_m {
+  margin: var(--section-m);
+}
+
+.h1 {
+  letter-spacing: -0.43px;
+  overflow: hidden;
+  color: var(--heading-grey);
+}
+
+.h2 {
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.4px;
+  overflow: hidden;
+}
+
+.collection_img {
+  height: 10rem;
+}

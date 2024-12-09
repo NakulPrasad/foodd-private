@@ -2,6 +2,10 @@
     border: none;
 }
 
+.h1{
+    font-family: 'ProximaNova';
+}
+
 .mx{
     margin: 0 8px;
 }

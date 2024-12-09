@@ -26,6 +26,7 @@ import {
   Drawer,
   Group,
   HoverCard,
+  Image,
   ScrollArea,
   SimpleGrid,
   Text,
@@ -38,7 +39,7 @@ import { MantineLogo } from '@mantinex/mantine-logo';
 import classes from './NavBar.module.css';
 import React from 'react'
 import Drawerr from '../Drawer/Drawer'
-
+import Logo from '/img/LOGO-bgremove.png'
 
 
 
@@ -62,21 +63,18 @@ const NavBar = () => {
 
   return (
      <Box>
-      <header className={classes.header}>
+      <header className={`${classes.header} section-mx`}>
         <Group justify="space-between" h="100%">
-          <Text>
-          <MantineLogo size={30} />
+          <Image src={Logo} className={classes.logo}/>
 
-          </Text>
-
-          <Group h="100%" gap={0} visibleFrom="sm">
-            <Link to="/" className={classes.link}>
+          <Group h="100%" gap={0} visibleFrom="sm" >
+            <Link to="/" className={classes.link} >
               Home
             </Link>
 
-            <a href="#" className={classes.link}>
+            <Link to="#" className={classes.link}>
               Learn
-            </a>
+            </Link>
             <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
               <HoverCard.Target>
                 <a href="#" className={classes.link}>

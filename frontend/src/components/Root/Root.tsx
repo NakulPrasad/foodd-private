@@ -5,10 +5,7 @@ const Root = () => {
   return (
     <>
       <NavBar />
-      <div className="px-8">
-
       <Outlet />
-      </div>
     </>
   );
 };

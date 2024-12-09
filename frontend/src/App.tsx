@@ -7,16 +7,19 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import "./App.css";
 import Root from "./components/Root/Root";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/ContextReducer";
 import { useCookie } from "./hooks/useCookie";
+import Checkout from "./screens/Checkout/Checkout";
+import City from "./screens/City/City";
 import Error from "./screens/Error/Error";
 import Home from "./screens/Home/Home";
 import Login from "./screens/Login/Login";
 import MyOrder from "./screens/MyOrder/MyOrder";
 import Partner from "./screens/Partner/Partner";
-import Checkout from "./screens/Checkout/Checkout";
+import Theme from "./theme/theme";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -54,6 +57,10 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: <Checkout />,
       },
+      {
+        path: "/city/?",
+        element: <City />,
+      },
     ],
   },
   {
@@ -67,7 +74,7 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <MantineProvider>
+        <MantineProvider theme={Theme}>
           <RouterProvider router={router} />
         </MantineProvider>
       </CartProvider>

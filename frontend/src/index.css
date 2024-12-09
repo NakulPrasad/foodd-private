@@ -1,0 +1,17 @@
+:root {
+  --section-mx: 0 calc(10% + 36px);
+  --section-my: calc(2%) 0;
+  --section-m: calc(2%) calc(10% + 36px);
+
+  --space-md : 1rem;
+
+  --heading-grey: rgba(2, 6, 12, 0.75);
+  
+  --font-weight-light: 300; 
+  --font-weight-regular: 400; 
+  --font-weight-medium: 500; 
+  --font-weight-semi-bold: 600; 
+  --font-weight-bold: 700; 
+  --font-weight-extra-bold: 800; 
+  --font-weight-black: 900; 
+}
