@@ -139,6 +139,11 @@ import {
           lineHeight: rem("24px"),
           fontWeight: "600",
         },
+        h5: {
+          fontSize: rem("16px"),
+          lineHeight: rem("19px"),
+          fontWeight: "400",
+        },
       },
     },
     shadows: {

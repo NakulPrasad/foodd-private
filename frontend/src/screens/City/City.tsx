@@ -1,5 +1,5 @@
 import { Carousel } from "@mantine/carousel";
-import { Box, Button, Divider, Flex, Image, Text, Title } from "@mantine/core";
+import { Box, Button, Divider, Flex, Group, Image, SimpleGrid, Text, Title } from "@mantine/core";
 import { useRef } from "react";
 import CollectionCard from "../../components/Cards/CollectionCard/CollectionCard";
 import RestaurantCard from "../../components/Cards/RestaurantCard/RestaurantCard";
@@ -11,6 +11,7 @@ import Chinese from "/img/chinese.png";
 import CityHeader from "/img/city_header.png";
 import KFC from "/img/kfc.jpg";
 import PizzaHut from "/img/pizzahut.jpg";
+import { IconArrowRight, IconDownload, IconPhoto } from "@tabler/icons-react";
 
 
 const City = () => {
@@ -39,7 +40,7 @@ const City = () => {
               Order Food <br />
               Online in Hyderabad
             </Title>
-          <svg width="128px" height="10px" viewBox="0 0 78 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 5.25939C27 -0.240624 53.5 -0.2406 77 4.25939" stroke="#FF5200" stroke-width="1.5"></path></svg>
+          <svg width="128px" height="10px" viewBox="0 0 78 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 5.25939C27 -0.240624 53.5 -0.2406 77 4.25939" stroke="#FF5200" strokeWidth="1.5"></path></svg>
 
           </Box>
 
@@ -105,8 +106,38 @@ const City = () => {
         </Carousel>
       </section>
       <Divider/>
-      <section id="restraunts">
-        <Title order={2}>Restaurants with online food delivery in Hyderabad</Title>
+      <section id="restraunts" className={classes.section_m}>
+        <Title className={classes.h2} order={2}>Restaurants with online food delivery in Hyderabad</Title>
+        {/* <Group justify="center">
+      <Button leftSection={<IconPhoto size={14} />} variant="default">
+        Gallery
+      </Button>
+
+      <Button rightSection={<IconDownload size={14} />}>Download</Button>
+
+      <Button
+        variant="light"
+        leftSection={<IconPhoto size={14} />}
+        rightSection={<IconArrowRight size={14} />}
+      >
+        Visit gallery
+      </Button>
+    </Group> */}
+     <SimpleGrid cols={4} spacing={"xl"}>
+      
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+     <RestaurantCard image={PizzaHut} />
+
+    </SimpleGrid>
       </section>
     </>
   );

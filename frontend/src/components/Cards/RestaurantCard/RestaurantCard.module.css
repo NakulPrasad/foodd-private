@@ -16,6 +16,19 @@
     overflow-wrap: break-word;
   }
   
+  .mt{
+    margin-top: -2px;
+    padding-left: var(--mantine-spacing-3xs);
+  }
+
+  .h5{
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.3px;
+    color: rgba(2, 6, 12, 0.92);
+  }
+  
   .wrapper{
     padding: var(--mantine-spacing-xs);
   }
