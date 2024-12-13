@@ -4,6 +4,7 @@ export const shadcnCssVariableResolver: CSSVariablesResolver = (theme) => ({
     variables: {
       // variables that do not depend on color scheme
 
+      "--image-height-sm" : "2rem",
       "--mantine-heading-font-weight": "800",
       "--mantine-primary-color-filled-hover": alpha("var(--mantine-primary-color-filled)", 0.9),
       "--mantine-primary-color-light": "var(--mantine-color-secondary-light)",

@@ -6,20 +6,44 @@
   margin: var(--section-my);
 }
 
-.h4 {
-  font-size: var(--fontsize-3);
-  font-weight: 700;
-  letter-spacing: -0.3px;
-  overflow: hidden;
-  overflow-wrap: break-word;
+.section_m {
+  margin: var(--section-m);
 }
 
-.description_sm {
+
+.description {
   font-weight: 200;
   font-size: 16px;
   letter-spacing: -0.3px;
   overflow: hidden;
   overflow-wrap: break-word;
+  color: rgba(2, 6, 12, 0.6);
+}
+
+.description_sm{
+  font-weight: 200;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.3px;
+  color: rgba(2, 6, 12, 0.45);
+}
+
+.description_sm_bold{
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.3px;
+  color: rgba(2, 6, 12, 0.45);
+}
+
+
+.rating{
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.3px;
+  color: rgba(2, 6, 12, 0.6);
+  margin-left: 2px;
 }
 
 .globalMantineInput {

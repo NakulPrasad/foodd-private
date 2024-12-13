@@ -1,17 +1,65 @@
 :root {
+  /* Section */
+
   --section-mx: 0 calc(10% + 36px);
   --section-my: calc(2%) 0;
   --section-m: calc(2%) calc(10% + 36px);
 
-  --space-md : 1rem;
+  /* Spacing */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem;  /* 8px */
+  --space-md: 1rem;    /* 16px */
+  --space-lg: 1.5rem;  /* 24px */
+  --space-xl: 2rem;    /* 32px */
+  --space-2xl: 3rem;    /* 48px */
 
   --heading-grey: rgba(2, 6, 12, 0.75);
-  
-  --font-weight-light: 300; 
-  --font-weight-regular: 400; 
-  --font-weight-medium: 500; 
-  --font-weight-semi-bold: 600; 
-  --font-weight-bold: 700; 
-  --font-weight-extra-bold: 800; 
-  --font-weight-black: 900; 
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semi-bold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+  --font-weight-black: 900;
+
+  /* Image  */
+  --img-h-sm: 2rem;
+   --img-w-sm: 2rem;
+   --img-h-md:3rem;
+   --img-w-md: 3rem
+
+  /* Icons */
+  --icon-veg-h: 1rem;
+  --icon-veg-w: 1rem;
+}
+
+h1 {
+  letter-spacing: -0.43px;
+  overflow: hidden;
+  color: var(--heading-grey);
+}
+
+h2 {
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.4px;
+  overflow: hidden;
+}
+
+h3 {
+  letter-spacing: -0.3px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  color: rgba(2, 6, 12, 0.75);
+}
+h4 {
+  letter-spacing: -0.3px;
+  color: rgba(2, 6, 12, 0.75);
+  overflow: hidden;
+}
+
+h5 {
+  letter-spacing: -0.3px;
+  color: rgba(2, 6, 12, 0.92);
+  overflow: hidden;
 }

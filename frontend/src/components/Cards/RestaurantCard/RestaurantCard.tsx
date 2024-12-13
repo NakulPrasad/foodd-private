@@ -20,11 +20,11 @@ const restaurant = ({ image }: CollectionCardProps) => {
         <Title order={4} className={classes.h4}>
           Pizza Hut
         </Title>
-        <Flex align={"center"} className={classes}>
+        <Flex align={"center"}>
             <IconStar />
             <Flex className={classes.mt}>
 
-            <Title order={5} className={classes.h5}>
+            <Title order={5}>
             4.6 <IconPointFilled size={9}/> 30-35 mins
             </Title>
             </Flex>

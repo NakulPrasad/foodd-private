@@ -20,6 +20,7 @@ import Login from "./screens/Login/Login";
 import MyOrder from "./screens/MyOrder/MyOrder";
 import Partner from "./screens/Partner/Partner";
 import Theme from "./theme/theme";
+import Restaurant from "./screens/Restaurant/Restaurant";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: "/city/?",
         element: <City />,
+      },
+      {
+        path: "/restraunt/?",
+        element: <Restaurant />,
       },
     ],
   },
