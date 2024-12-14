@@ -4,8 +4,9 @@
   "description": "Backend for food-mern application",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "node -r dotenv/config ./dist/server.js",
+    "start": "nodemon --env-file=.env.production ./dist/server.js",
     "dev": "nodemon --env-file=.env.development ./dist/server.js",
+    "prod": "nodemon --env-file=.env.production ./dist/server.js",
     "backend": "npx ts-node ./src/server.ts",
     "build": "tsc",
     "test": "vitest --watch"
