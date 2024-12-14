@@ -49,7 +49,7 @@ describe("User Routes", () => {
   });
 
   scenarios.forEach(
-    ({ description, user, expectedStatus, expectedProperty }) => {
+    ({ description, user, expectedStatus, expectedProperty }:any) => {
       test(`should handle ${description}`, async () => {
         const response = await fetch(`${BASE_URL}/apiv1/user/login`, {
           method: "POST",

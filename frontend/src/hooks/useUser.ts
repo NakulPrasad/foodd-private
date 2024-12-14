@@ -18,8 +18,8 @@ export const useUser = () => {
   const removeUser = () => {
     setUser(null);
     removeItem("authToken");
-    removeItem("user");
-    // setItem("user", "");
+    // removeItem("user");
+    setItem("user", "");
   };
   return { user, setUser, addUser, removeUser };
 };

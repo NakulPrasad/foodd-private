@@ -34,7 +34,7 @@ class userService {
           options: {
             minLength: 8,
           },
-          errorMessage: "Password must be at least 8 characters",
+          errorMessage: "Password must be at least 8 characters and be alphnumberic of both cases with special character",
         },
       },
       location: {
@@ -57,8 +57,8 @@ class userService {
     if (!errors.isEmpty()) {
       // console.error("Validation errors:", errors.array());
       return res.status(400).json({
-        message: "All fields are required",
-        "Validation errors": errors.array(),
+        message: "Validation Error Occurred, All fields required and Password must be strong.",
+        "ValidationErrors": errors.array(),
       });
     }
 

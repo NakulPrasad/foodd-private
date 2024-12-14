@@ -31,9 +31,14 @@ const usePostData = <T>(): UsePostDataReturn<T> => {
       });
       const jsonData = await res.json();
       console.log(jsonData);
+      if(jsonData?.ValidationErrors){
+        jsonData.ValidationErrors.map(error=>{
+          throw new Error(error.msg)
+          
+        })
+      }
       // console.log(res);
       if (!res.ok) {
-        setLoading(false);
         throw new Error(jsonData.message);
       }
 

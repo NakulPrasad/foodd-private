@@ -4,11 +4,13 @@ import Modal from "../Modal/Modal";
 import Cart from "../../screens/Cart";
 import { useCart } from "../../context/ContextReducer";
 import { useUser } from "../../hooks/useUser";
+import { useCookie } from "../../hooks/useCookie";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  // const { getItem, removeItem } = useCookie();
-  const { removeUser, user } = useUser();
+  const { getItem, removeItem } = useCookie();
+  const { removeUser } = useUser();
+  const user = getItem('user')
 
   const handleLogout = () => {
     removeUser();

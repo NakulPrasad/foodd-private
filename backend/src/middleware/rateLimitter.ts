@@ -5,6 +5,7 @@ import app from "../index.js";
  * @description limits the request to 100 per minute
  */
 if (process.env.NODE_ENV === "production") {
+  if(app)
   app.set("trust proxy", true); //for rate limiter in production
 }
 

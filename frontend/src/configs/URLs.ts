@@ -1,7 +1,7 @@
 let BASE_URL = "http://localhost:3000/apiv1";
-if (process.env.NODE_ENV === "production") {
+if (import.meta.env.VITE_NODE_ENV === "production") {
   BASE_URL =
-    process.env.VITE_BASE_URL || "https://foodd-mern-backend.vercel.app/apiv1";
+  import.meta.env.VITE_BASE_URL || "error";
 }
 
 const URLs = {

@@ -1,16 +1,21 @@
 import cors from "cors";
 import isValidOrigin from "../utils/validOrigin.js";
+import { FRONTEND_URL, BACKEND_URL } from "../configs/env.js";
+
+const allowedOrigins = [FRONTEND_URL, BACKEND_URL]
+console.log(allowedOrigins);
+
 
 const corsMiddleware = cors({
-  origin: function (origin, callback) {
-    // Allow the request if there's no origin (e.g., same-origin request) or it's valid
-    if (!origin || isValidOrigin(origin)) return callback(null, true);
-    else {
-      const message =
-        "The CORS policy for this site does not allow access from the specified Origin.";
-      return callback(new Error(message), false); // Deny the request if the origin does not contain 'foodd-mern'
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
   },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
   credentials: true,
 });
 

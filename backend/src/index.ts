@@ -1,9 +1,7 @@
-import express, { NextFunction } from "express";
-import cors from "cors";
+import express, { NextFunction, Request, Response } from "express";
 import morgan from "morgan";
-import { join } from "path";
+import path, { join } from "path";
 import { apiRouter } from "./Routes/apiRouter.js";
-import { log } from "console";
 import dbConfig from "./configs/dbConfig2.js";
 import rateLimiter from "./middleware/rateLimitter.js";
 import passport, { passportRoutes } from "./configs/passportConfig.js";
@@ -14,23 +12,15 @@ import corsMiddleware from "./middleware/corsMiddleware.js";
 const app = express();
 
 app.use(corsMiddleware);
-// const logger = (req: Request, res: Response, next: NextFunction) => {
-//   log(req);
-//   next();
-// };
 
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send("Something went wrong!");
-// });
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
+});
 
-// app.use(logger);
+
 app.use(express.json());
 app.use(morgan("dev"));
-
-
-app.use(rateLimiter);
-
 
 // Setup session
 app.use(
@@ -58,12 +48,40 @@ dbconfig.connect();
 /**
  * Routes
  */
+
+app.use("/apiv1", apiRouter);
+
+// Connecting frontend
+// Serve static files from the React app in production
+if (process.env.NODE_ENV === "production") {
+  app.use(
+    express.static(path.join(path.resolve(), "../frontend/dist"), {
+      setHeaders: (res, path) => {
+        if (path.endsWith(".css")) {
+          res.set("Content-Type", "text/css");
+        } else if (path.endsWith(".js")) {
+          res.set("Content-Type", "application/javascript");
+        } else if (path.endsWith(".html")) {
+          res.set("Content-Type", "text/html");
+        }
+      },
+    })
+  );
+  app.get("*", function (req, res) {
+    res.sendFile(
+      path.join(path.resolve(), "../frontend/dist/index.html"),
+      function (err) {
+        res.status(500).send(err);
+      }
+    );
+  });
+}
+
 app.get("/", (req, res) => {
   res.send("FOOD-MERN BACKEND WORKING FINE");
 });
 
-app.use("/apiv1", apiRouter);
-
-passportRoutes(app);
+// passportRoutes(app);
+// app.use(rateLimiter);
 
 export default app;

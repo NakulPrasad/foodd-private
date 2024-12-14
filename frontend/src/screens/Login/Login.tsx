@@ -253,6 +253,7 @@ const Login2 = () => {
           fontFamily: "Arial, sans-serif",
           fontSize: "14px",
         }}
+        disabled
       >
         <img
           src="https://developers.google.com/identity/images/g-logo.png"

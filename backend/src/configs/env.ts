@@ -6,3 +6,4 @@ export const GOOGLE_CLIENTSECRET=process.env.GOOGLE_CLIENTSECRET
 export const GOOGLE_CLIENTID=process.env.GOOLE_CLIENTID
 export const SESSION_SECRET=process.env.SESSION_SECRET
 export const FRONTEND_URL=process.env.FRONTEND_URL
+export const BACKEND_URL=process.env.BACKEND_URL
