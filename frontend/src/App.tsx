@@ -15,8 +15,6 @@ import { useCookie } from "./hooks/useCookie";
 import Checkout from "./screens/Checkout/Checkout";
 import City from "./screens/City/City";
 import Error from "./screens/Error/Error";
-import Home from "./screens/Home/Home";
-import Login from "./screens/Login/Login";
 import MyOrder from "./screens/MyOrder/MyOrder";
 import Partner from "./screens/Partner/Partner";
 import Theme from "./theme/theme";
@@ -42,10 +40,13 @@ const PrivateRoute = ({ element }: PrivateRouteProps) => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PrivateRoute element={<Root />} />,
+    element: <Root />,
     errorElement: <Error />,
     children: [
-      { path: "/", element: <Home /> },
+      {
+        path:"/",
+        element: <City/>
+      },
       {
         path: "/myOrder",
         element: <MyOrder />,
@@ -55,23 +56,21 @@ const router = createBrowserRouter([
         element: <Partner />,
       },
       {
-        path: "/checkout",
-        element: <Checkout />,
-      },
-      {
-        path: "/city/?",
-        element: <City />,
-      },
-      {
-        path: "/restraunt/?",
+        path: "/restraunt/*",
         element: <Restaurant />,
       },
+
     ],
   },
   {
-    path: "/login",
-    element: <Login />,
+    element: <PrivateRoute element={<Root />} />,
     errorElement: <Error />,
+    children: [
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+    ],
   },
 ]);
 

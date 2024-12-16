@@ -1,34 +1,30 @@
 import { Carousel } from "@mantine/carousel";
-import { Box, Button, Divider, Flex, Group, Image, SimpleGrid, Text, Title } from "@mantine/core";
-import { useRef } from "react";
+import {
+  Box,
+  Divider,
+  Flex,
+  Image,
+  SimpleGrid,
+  Title,
+  useMantineTheme,
+} from "@mantine/core";
 import CollectionCard from "../../components/Cards/CollectionCard/CollectionCard";
 import RestaurantCard from "../../components/Cards/RestaurantCard/RestaurantCard";
+import CustomCarousel from "../../components/Carousel/Carousel";
+import restraunts from "../../utils/restraunt.json";
 import classes from "./City.module.css";
 import Biryani from "/img/biryani.png";
 import Burger from "/img/burger.png";
-import BurgerKing from "/img/burgerking.jpg";
 import Chinese from "/img/chinese.png";
 import CityHeader from "/img/city_header.png";
-import KFC from "/img/kfc.jpg";
-import PizzaHut from "/img/pizzahut.jpg";
-import { IconArrowRight, IconDownload, IconPhoto } from "@tabler/icons-react";
-
+import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const City = () => {
-  const carouselRef = useRef(null);
-  const handleNext = () => {
-    if (carouselRef.current) {
-      carouselRef.current.next();
-    }
-  };
+  const theme = useMantineTheme();
 
-  const handlePrevious = () => {
-    if (carouselRef.current) {
-      carouselRef.current.previous();
-    }
-  };
   return (
-    <>
+    <section id="city">
       <header id="banner">
         <Flex
           align={"center"}
@@ -36,12 +32,23 @@ const City = () => {
           className={classes.bg_gradient}
         >
           <Box className={classes.mw}>
-            <Title order={1} textWrap="balance" className="h1" >
+            <Title order={1} textWrap="balance" className="h1">
               Order Food <br />
               Online in Hyderabad
             </Title>
-          <svg width="128px" height="10px" viewBox="0 0 78 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 5.25939C27 -0.240624 53.5 -0.2406 77 4.25939" stroke="#FF5200" strokeWidth="1.5"></path></svg>
-
+            <svg
+              width="128px"
+              height="10px"
+              viewBox="0 0 78 6"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1 5.25939C27 -0.240624 53.5 -0.2406 77 4.25939"
+                stroke="#FF5200"
+                strokeWidth="1.5"
+              ></path>
+            </svg>
           </Box>
 
           <Image
@@ -54,20 +61,12 @@ const City = () => {
         </Flex>
       </header>
       <section id="suggestions" className={classes.section_m}>
-        <Flex>
-          <Title order={2} className={classes.h2}>What's on your mind?</Title>
-          {/* <Button onClick={handlePrevious}> Prev</Button>
-          <Button onClick={handleNext}> Nex</Button> */}
-        </Flex>
-
-        <Carousel
-          ref={carouselRef}
-          withIndicators
+        <CustomCarousel
+          title="What's on your mind?"
           slideSize={{ base: "26%", md: "12%" }}
-          slideGap={{ base: "sm", md: 2 }}
+          slideGap={{ base: "sm", md: "sm" }}
           align="start"
           slidesToScroll={2}
-          className="px-5"
         >
           <Carousel.Slide>
             <CollectionCard image={Biryani} />
@@ -78,68 +77,39 @@ const City = () => {
           <Carousel.Slide>
             <CollectionCard image={Chinese} />
           </Carousel.Slide>
-        </Carousel>
+        </CustomCarousel>
       </section>
       <section id="topbrands" className={classes.section_m}>
-        <Title order={2} className={classes.h2}>Top restaurant chains in Hyderabad</Title>
-        <Carousel
-          ref={carouselRef}
-          withIndicators
+        <CustomCarousel
+          title="Top restaurant chains in Hyderabad"
           slideSize={"30%"}
           slideGap={"xl"}
           align="start"
           slidesToScroll={2}
           className="px-5"
+       
         >
-          <Carousel.Slide>
-            <RestaurantCard image={KFC} />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <RestaurantCard image={BurgerKing} />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <RestaurantCard image={PizzaHut} />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <RestaurantCard image={KFC} />
-          </Carousel.Slide>
-        </Carousel>
+          {restraunts.map((restraunt, index) => {
+            return (
+              <Carousel.Slide key={index} >
+                <RestaurantCard restraunt={restraunt}  />
+              </Carousel.Slide>
+            );
+          })}
+        </CustomCarousel>
       </section>
-      <Divider/>
+      <Divider className={classes.divider}/>
       <section id="restraunts" className={classes.section_m}>
-        <Title className={classes.h2} order={2}>Restaurants with online food delivery in Hyderabad</Title>
-        {/* <Group justify="center">
-      <Button leftSection={<IconPhoto size={14} />} variant="default">
-        Gallery
-      </Button>
-
-      <Button rightSection={<IconDownload size={14} />}>Download</Button>
-
-      <Button
-        variant="light"
-        leftSection={<IconPhoto size={14} />}
-        rightSection={<IconArrowRight size={14} />}
-      >
-        Visit gallery
-      </Button>
-    </Group> */}
-     <SimpleGrid cols={4} spacing={"xl"}>
-      
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-     <RestaurantCard image={PizzaHut} />
-
-    </SimpleGrid>
+        <Title order={2} py={theme.spacing.md}>
+          Restaurants with online food delivery in Hyderabad
+        </Title>
+        <SimpleGrid cols={4} spacing={theme.spacing.xl} onClick={(e)=>console.log(e.target)}>
+          {restraunts.map((restraunt, index) => {
+            return <RestaurantCard restraunt={restraunt}  key={index}/>;
+          })}
+        </SimpleGrid>
       </section>
-    </>
+    </section>
   );
 };
 

@@ -18,15 +18,8 @@ const ModalCart = () => {
           <Title order={5}>Choose your Crust</Title>
 
           <List withPadding icon={<Image src={IconNonVeg} className={classes.icon}/>}>
-            <List.Item>Clone or download repository from GitHub</List.Item>
-            <List.Item>Install dependencies with yarn</List.Item>
-            <List.Item>
-              To start development server run npm start command
-            </List.Item>
-            <List.Item>
-              Run tests to make sure your changes do not break the build
-            </List.Item>
-            <List.Item>Submit a pull request once you are done</List.Item>
+            <List.Item>Korean Sweet Chilli Cheese Burst</List.Item>
+            <List.Item>Cheese Burst</List.Item>
           </List>
         </Flex>
       </Modal>

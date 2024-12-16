@@ -25,17 +25,6 @@ import {
   import './fonts/ProximaNova.css'
   
   
-  const CONTAINER_SIZES: Record<string, string> = {
-    xxs: rem("200px"),
-    xs: rem("300px"),
-    sm: rem("400px"),
-    md: rem("500px"),
-    lg: rem("600px"),
-    xl: rem("1400px"),
-    xxl: rem("1600px"),
-  };
-  
-  const zincColors:MantineColorsTuple = ["#fafafa","#f4f4f5","#e4e4e7","#d4d4d8","#a1a1aa","#52525b","#3f3f46","#27272a","#18181b","#09090b","#71717A"];
   const slateColors:MantineColorsTuple  = ["#f8fafc","#f1f5f9","#e2e8f0","#cbd5e1","#94a3b8","#475569","#334155","#1e293b","#0f172a","#020817","#64748B"];
   const stoneColors:MantineColorsTuple  = ["#fafaf9","#f5f5f4","#e7e5e4","#d6d3d1","#a8a29e","#57534e","#44403c","#292524","#1c1917","#0c0a09","#78716C"];
   const grayColors:MantineColorsTuple  = ["#f9fafb","#f3f4f6","#e5e7eb","#d1d5db","#9ca3af","#4b5563","#374151","#1f2937","#111827","#030712","#6B7280"];
@@ -51,7 +40,6 @@ import {
 
  const shadcnTheme = createTheme({
     colors: {
-      zinc: zincColors,
       slate: slateColors,
       stone: stoneColors,
       gray: grayColors,
@@ -98,7 +86,7 @@ import {
       xl: rem("24px"),
       "2xl": rem("28px"),
       "3xl": rem("32px"),
-      "logo": rem("44px"),
+      logo: rem("44px"),
     },
     fontSizes: {
       xs: rem("12px"),
@@ -213,17 +201,6 @@ import {
       return defaultResolvedColors;
     },
     components: {
-      Container: Container.extend({
-        vars: (_, { size, fluid }) => ({
-          root: {
-            "--container-size": fluid
-              ? "100%"
-              : size !== undefined && size in CONTAINER_SIZES
-                ? CONTAINER_SIZES[size]
-                : rem(size),
-          },
-        }),
-      }),
       Card: Card.extend({
         defaultProps: {
           p: "xl",
@@ -276,25 +253,6 @@ import {
           root: {
             borderColor: "var(--mantine-color-default-border)",
           },
-        }),
-      }),
-      Table: Table.extend({
-        styles: () => ({
-          table: {
-            borderColor: "var(--mantine-color-default-border)",
-          },
-          tr: {
-            borderColor: "var(--mantine-color-default-border)",
-          },
-          th: {
-            borderColor: "var(--mantine-color-default-border)",
-          },
-          td: {
-            borderColor: "var(--mantine-color-default-border)",
-          },
-        }),
-        classNames: () => ({
-          tr: "globalMantineTableRow",
         }),
       }),
       Checkbox: Checkbox.extend({

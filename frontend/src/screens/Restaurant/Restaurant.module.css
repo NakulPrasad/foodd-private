@@ -16,3 +16,10 @@
 .menu_text_div{
   padding: 32px 0px 16px;
 }
+
+.overview{
+  border-radius: 20px;
+    border: 1px solid rgba(2, 6, 12, 0.15);
+    background: white;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 8px 16px 0px;
+}
