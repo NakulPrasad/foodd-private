@@ -14,8 +14,37 @@ import IconVeg from "/icons/veg-icon.png";
 import Pizza from "/img/pizza.jpg";
 import ModalCart from "../../Modal/Modal2";
 
-const MenuCard = () => {
+
+interface IFoodItem{
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  rating: number;
+  is_veg: boolean;
+  options: FoodOption[];
+}
+
+export interface FoodOption {
+  name: string;
+  type: string;
+  values: IValue[];
+}
+
+interface IMenuCardProps {
+  foodItem:IFoodItem;
+  // category?: string
+}
+
+interface IValue{
+  label : string;
+  price : number
+}
+
+const MenuCard = (props : IMenuCardProps) => {
   const theme = useMantineTheme();
+  console.log(props.foodItem)
 
   return (
     <Flex justify={"space-between"} className={classes.bd}>
@@ -23,23 +52,22 @@ const MenuCard = () => {
         <Box>
           <Image src={IconVeg} className={classes.icon} />
         </Box>
-        <Title order={3}>My Box - Non Veg</Title>
+        <Title order={3}>{props.foodItem.name}</Title>
         <Title order={4} className="description">
-          $319
+        &#8377;{props.foodItem.price}
         </Title>
         <Title order={5} className="rating">
           <IconStarFilled color="green" size={9}/> 4.7(27)
         </Title>
         <Text className="description">
-          Serves 1 | 1 personal non veg pizza, 2 pc garlic bread & 1 Pepsi PET.
-          For Meals, refer to the nutritional data for individual products.
+          {props.foodItem.description}
         </Text>
       </Flex>
       <Flex direction={"column"} justify={"center"} align={"center"} className={classes.ml} >
-        <Image radius={theme.radius.sm} src={Pizza} className={classes.img} />
+        <Image radius={theme.radius.sm} src={props.foodItem.image_url} className={classes.img} />
         <Flex direction={"column"} className={classes.translate}>
         
-        <ModalCart/>
+        <ModalCart name={props.foodItem.name} options={props.foodItem.options} price={props.foodItem.price}/>
         <Text className="description_sm">Customisable</Text>
 
         </Flex>

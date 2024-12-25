@@ -15,22 +15,30 @@ import CustomCrousel from "../../components/Carousel/Carousel";
 import CouponCard from "../../components/CouponCard/CouponCard";
 import classes from "./Restaurant.module.css";
 import  IconwaveLeft from "../../assets/icons/waveLeft.svg?react"
-import { foodItems } from "../../utils/dummyData";
+import { foodItems, foodItems_category } from "../../utils/dummyData";
 import IconwaveRight from "../../assets/icons/waveRight.svg?react"
 import { coupons } from "../../utils/dummyData";
 const Restaurant = () => {
   const theme = useMantineTheme();
 
-  const items = foodItems.map((item) => (
+  const items = foodItems_category.map((item) => (
 
     <Accordion.Item key={item.category} value={item.category}>
       <Accordion.Control>
         <Title order={3}>{item.category}</Title>
       </Accordion.Control>
-      <Accordion.Panel>
-        <MenuCard />
-      </Accordion.Panel>
-      <Divider mx="md" />
+      {
+        item.items.map(food=>{
+          return(<Accordion.Panel>
+            <MenuCard foodItem = {food}/>
+            <Divider my="md" />
+          </Accordion.Panel>
+          )
+
+        })
+      }
+      
+      <Divider my="md" />
     </Accordion.Item>
   ));
 
