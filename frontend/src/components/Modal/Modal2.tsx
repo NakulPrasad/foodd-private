@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import { FoodOption } from "../Cards/MenuCard/MenuCard";
+import { FoodOption, IValue } from "../Cards/MenuCard/MenuCard";
 import classes from "./Modal2.module.css";
 
 interface IModalCartProps {
@@ -22,53 +22,83 @@ const ModalCart = (props: IModalCartProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const title = (
     <Flex direction={"column"}>
-      <Text>{props.name} • ₹379 - ₹849</Text>
+      <Text>{props.name} • ₹{props.price} - ₹{props.price + 650}</Text>
       <Title order={3}>Customise as per your taste</Title>
     </Flex>
   );
 
-  const [value, setValue] = useState<Record<string, string | string[] | number>>({price : props.price});
-  const [total, setTotal] = useState(props.price);
+  const [value, setValue] = useState<Record<string, IValue | IValue[] | number>>({});
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  // console.log(props.options)
   const handleChange = (
     groupName: string,
-    selectedValue: string | string[],
-    // price : number
+    selectedValue: IValue | IValue[] |number,
   ) => {
+    // console.log(groupName)
     setValue((prev) => ({
       ...prev,
       [groupName]: selectedValue,
-      // [price] : prev.price
+
     }));
   };
 
-  useEffect(()=>{
+  const handleAddToCart = ()=>{
     console.log(value);
-    
-  }, [value])
+  }
+
+  useEffect(() => {
+    // console.log(value);
+    let calculatedTotal = props.price;
+  
+    Object.entries(value).forEach(([key, val]) => {
+      if (Array.isArray(val)) {
+        // For arrays, parse each item and add the prices
+        val.forEach((item) => {
+          const price = Object.values(item)[1];
+          calculatedTotal += parseInt(price, 10);
+        });
+      }
+      else if (typeof val === "object") {
+        // For strings, parse JSON and add the price
+        const price = Object.values(val)[1];
+        
+        calculatedTotal += parseInt(price, 10);
+      } 
+    });
+ 
+    setTotalPrice(calculatedTotal);
+  }, [value]);
+
+  const handleClose = ()=>{
+    close();
+    setTotalPrice(props.price)
+  }
+  
   return (
     <>
-      <Modal opened={opened} onClose={close} title={title} centered>
+      <Modal opened={opened} onClose={handleClose} title={title} centered>
         <Flex direction={"column"} className={classes.modalBody}>
           {props.options.map((option, index) => (
             <div key={index}>
               {option.type === "checkbox" && (
+           
                 <Checkbox.Group
-                  value={
-                    Array.isArray(value[option.name])
-                      ? (value[option.name] as string[])
-                      : []
-                  }
+                // value={
+                //   Array.isArray(value[option.name])
+                //   ? (value[option.name] as string[])
+                //   : []
+                // }
+                
+                
                   onChange={(selectedValues) =>
-                    handleChange(option.name, selectedValues, )
+                    handleChange(option.name,  selectedValues.map((selected) => JSON.parse(selected)) )
                   }
                   label={`Choose ${option.name}`}
                 >
                   {option.values.map((v, idx) => (
                     <Checkbox
                       key={idx}
-                      value={JSON.stringify({[v.label ]: v.price})}
+                      value={JSON.stringify({ label: v.label, price: v.price })}
                       className={classes.checkbox}
                       label={
                         <Flex justify={"space-around"}>
@@ -82,20 +112,24 @@ const ModalCart = (props: IModalCartProps) => {
               )}
               {option.type === "select" && (
                 <Radio.Group
-                  value={
-                    typeof value[option.name] === "string"
-                      ? (value[option.name] as string)
-                      : ""
-                  }
+                required
+                // value={
+                //   typeof value[option.name] === "object"
+                //     ? (value[option.name] as IValue).label
+                //     : ""
+                // }
+                // defaultValue={'thin'}
                   onChange={(selectedValues) =>
-                    handleChange(option.name, selectedValues)
+                    
+                    handleChange(option.name, JSON.parse(selectedValues))
                   }
                   label={`Choose ${option.name}`}
                 >
                   {option.values.map((v, idx) => (
                     <Radio
                       key={idx}
-                      value={JSON.stringify({[v.label ]: v.price})}
+                      value={JSON.stringify({ label: v.label, price: v.price })}
+            
                       label={
                         <Flex justify={"space-around"}>
                           <Text>{v.label} - </Text>
@@ -111,7 +145,7 @@ const ModalCart = (props: IModalCartProps) => {
         </Flex>
 
         <Flex>
-          {value.price}<Button>Add Item to cart</Button>
+          {totalPrice}<Button onClick={handleAddToCart}>Add Item to cart</Button>
         </Flex>
       </Modal>
 

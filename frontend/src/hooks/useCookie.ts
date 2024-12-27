@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { User } from "./useUser";
+import { IUser } from "./useUser";
 export const useCookie = () => {
-  const setItem = (name: string, value: JSON | string | User) => {
+  const setItem = (name: string, value: JSON | string | IUser) => {
     try {
       Cookies.set(name, JSON.stringify(value), { expires: 1 });
     } catch (error: any) {

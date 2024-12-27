@@ -1,57 +1,37 @@
-import { memo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Modal from '../Modal/Modal'
-import Cart from '../../screens/Cart'
-import { useCart } from '../../context/ContextReducer'
-import { useUser } from '../../hooks/useUser'
+import { memo } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../hooks/useUser";
 
 import {
-  IconBook,
-  IconChartPie3,
-  IconChevronDown,
-  IconCode,
-  IconCoin,
-  IconFingerprint,
-  IconNotification,
-  IconUser
-} from '@tabler/icons-react';
-import {
-  Anchor,
   Box,
-  Burger,
   Button,
   Center,
-  Collapse,
-  Divider,
-  Drawer,
   Group,
   HoverCard,
   Image,
-  ScrollArea,
-  SimpleGrid,
   Text,
-  ThemeIcon,
-  UnstyledButton,
   useMantineTheme,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { MantineLogo } from '@mantinex/mantine-logo';
-import classes from './NavBar.module.css';
-import React from 'react'
-import Drawerr from '../Drawer/Drawer'
-import Logo from '/img/LOGO-bgremove.png'
-
-
+} from "@mantine/core";
+import { IconChevronDown } from "@tabler/icons-react";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { useCookie } from "../../hooks/useCookie";
+import LoginDrawer from "../Drawer/LoginDrawer";
+import classes from "./NavBar.module.css";
+import Logo from "/img/LOGO-bgremove.png";
+import { RootState } from "../../redux/store";
+import { clearAuth } from "../../redux/slices/authSlice";
 
 const NavBar = () => {
-  // const navigate = useNavigate()
-  // // const { getItem, removeItem } = useCookie();
-  // const { removeUser, user } = useUser()
+  const navigate = useNavigate();
+  const { getItem, removeItem } = useCookie();
+  const { removeUser, user } = useUser();
+  const { isAuthenticated } = useAppSelector((state : RootState) => state.auth);
+  const dispatch = useAppDispatch();
 
-  // const handleLogout = () => {
-  //   removeUser()
-  //   navigate('/login')
-  // }
+  const handleLogout = () => {
+    removeUser();
+    dispatch(clearAuth());
+  };
 
   // const [cartView, setCartView] = useState(false)
 
@@ -59,23 +39,27 @@ const NavBar = () => {
 
   const theme = useMantineTheme();
 
-
-
   return (
-     <Box>
+    <Box>
       <header className={`${classes.header} section-mx`}>
         <Group justify="space-between" h="100%">
-          <Image src={Logo} className={classes.logo}/>
+          <Image src={Logo} className={classes.logo} />
 
-          <Group h="100%" gap={0} visibleFrom="sm" >
-            <Link to="/" className={classes.link} >
+          <Group h="100%" gap={0} visibleFrom="sm">
+            <Link to="/" className={classes.link}>
               Home
             </Link>
 
             <Link to="#" className={classes.link}>
               Learn
             </Link>
-            <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
+            <HoverCard
+              width={600}
+              position="bottom"
+              radius="md"
+              shadow="md"
+              withinPortal
+            >
               <HoverCard.Target>
                 <a href="#" className={classes.link}>
                   <Center inline>
@@ -87,8 +71,7 @@ const NavBar = () => {
                 </a>
               </HoverCard.Target>
 
-              <HoverCard.Dropdown style={{ overflow: 'hidden' }}>
-
+              <HoverCard.Dropdown style={{ overflow: "hidden" }}>
                 <div className={classes.dropdownFooter}>
                   <Group justify="space-between">
                     <div>
@@ -96,7 +79,8 @@ const NavBar = () => {
                         Cart Empty
                       </Text>
                       <Text size="xs" c="dimmed">
-                      Good food is always cooking! Go ahead, order some yummy items from the menu.
+                        Good food is always cooking! Go ahead, order some yummy
+                        items from the menu.
                       </Text>
                     </div>
                   </Group>
@@ -106,15 +90,16 @@ const NavBar = () => {
           </Group>
 
           <Group visibleFrom="sm">
-            <Drawerr variant="default" title="Sign In"/>
+            {isAuthenticated ? (
+              <Button onClick={handleLogout}>Sign Out</Button>
+            ) : (
+            <LoginDrawer variant="default" title="Sign In" />
+            )}
           </Group>
-
-          
         </Group>
       </header>
-
     </Box>
-  
+
     // <header className='p-3 bg-dar'>
     //   <div className='d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start '>
     //     <span className='fs-4 mx-3 fst-italic '>Foodd</span>
@@ -180,7 +165,7 @@ const NavBar = () => {
     //     </div>
     //   </div>
     // </header>
-  )
-}
+  );
+};
 
 export default memo(NavBar);

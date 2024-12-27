@@ -19,6 +19,8 @@ import MyOrder from "./screens/MyOrder/MyOrder";
 import Partner from "./screens/Partner/Partner";
 import Theme from "./theme/theme";
 import Restaurant from "./screens/Restaurant/Restaurant";
+import { Provider } from 'react-redux';
+import store from "./redux/store";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -76,13 +78,15 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
+    // <AuthProvider>
+    //   <CartProvider>
+      <Provider store={store}>
         <MantineProvider theme={Theme}>
           <RouterProvider router={router} />
         </MantineProvider>
-      </CartProvider>
-    </AuthProvider>
+        </Provider>
+      /* </CartProvider>
+    </AuthProvider> */
   );
 }
 

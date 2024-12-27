@@ -169,8 +169,8 @@ export const foodItems_category = [
             "type": "select",
             "values": [
               { "label": "Small", "price": 0 },
-              { "label": "Medium", "price": 399 },
-              { "label": "Large", "price": 499 }
+              { "label": "Medium", "price": 100 },
+              { "label": "Large", "price": 200 }
             ]
           },
           {
@@ -207,9 +207,9 @@ export const foodItems_category = [
             "name": "Size",
             "type": "select",
             "values": [
-              { "label": "Small", "price": 349 },
-              { "label": "Medium", "price": 449 },
-              { "label": "Large", "price": 549 }
+              { "label": "Small", "price": 0 },
+              { "label": "Medium", "price": 100 },
+              { "label": "Large", "price": 200 }
             ]
           },
           {

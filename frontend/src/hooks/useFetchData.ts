@@ -28,6 +28,7 @@ const useFetchData = <T>(url: string): [T | null, boolean, string | null] => {
           throw new Error(jsonData.message);
         }
         setData(jsonData);
+        return jsonData;
       } catch (error: any) {
         setError(error.message);
         toast.error(error.message);
@@ -38,7 +39,7 @@ const useFetchData = <T>(url: string): [T | null, boolean, string | null] => {
     fetchData(url);
   }, [url]);
 
-  return [responseData, isLoading, error];
+  return [responseData, isLoading, error,];
 };
 
 export default useFetchData;

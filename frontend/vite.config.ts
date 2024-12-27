@@ -9,7 +9,13 @@ export default defineConfig({
     sourcemap: false,
   },
   optimizeDeps: {
-    include: ['@mantine/core', '@mantine/hooks'],
+    include: ['@mantine/core', '@mantine/hooks', '@tabler/icons-react'],
+  },
+  resolve: {
+    alias: {
+      // /esm/icons/index.mjs only exports the icons statically, so no separate chunks are created
+      '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
+    },
   },
   
   

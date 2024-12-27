@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { Request, Response } from "express";
+import authenticateToken from "../middleware/authMiddleware.js";
 
 const CLIENT_ID = process.env.GOOGLE_CLIENTID || "error";
 const CLIENT_SEC = process.env.GOOGLE_CLIENTSECRET || "error";
@@ -35,6 +36,9 @@ passport.deserializeUser((user, done) => {
 
 export const passportRoutes = (app: any) => {
   // Login route
+  app.get("/apiv1/auth/check", authenticateToken, (req: Request, res: Response)=>{
+      res.json({ok: true, message : "authentication sucess", user : req.user})
+  });
   app.get(
     "/auth/google",
     passport.authenticate("google", { scope: ["profile", "email"] })

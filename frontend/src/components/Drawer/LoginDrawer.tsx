@@ -18,14 +18,16 @@ import { toast } from "react-toastify";
 import URLs from "../../configs/URLs";
 import { useCookie } from "../../hooks/useCookie";
 import usePostData from "../../hooks/usePostData";
-import { useUser } from "../../hooks/useUser";
-import InputEmail from "../Inputs/inputEmail";
+import { IUser, useUser } from "../../hooks/useUser";
+import InputEmail from "../Inputs/InputEmail";
 import InputPassword from "../Inputs/InputPassword";
 import InputPasswordReq from "../Inputs/InputPasswordReq";
-import classes from "./Drawer.module.css";
-
+import classes from "./LoginDrawer.module.css";
+import {setAuth} from '../../redux/slices/authSlice'
+import { useAppDispatch } from "../../hooks/reduxHooks";
 interface LoginResponse {
   authToken: string;
+  user: IUser;
 }
 
 interface DrawerProps {
@@ -33,15 +35,15 @@ interface DrawerProps {
   title: string;
 }
 
-const Drawerr = ({ variant, title }: DrawerProps) => {
+const LoginDrawer = ({ variant, title }: DrawerProps) => {
   const theme = useMantineTheme();
-  const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
   const [isNewUser, setIsNewUser] = useState(true);
   const [isLoading, postData] = usePostData<LoginResponse>();
 
   const { addUser } = useUser();
-  const { setItem } = useCookie();
+
+  const dispatch = useAppDispatch();
 
   const toggleIsLoggedIn = () => {
     setIsNewUser((isNewUser) => !isNewUser);
@@ -101,13 +103,11 @@ const Drawerr = ({ variant, title }: DrawerProps) => {
     });
     if (!isLoading && response) {
       // console.log(response);
-      const user = {
-        email: form.values.email,
-      };
-      setItem("authToken", response.authToken);
-      addUser(user);
-      console.log("User Login Successfully");
-      navigate("/");
+      addUser(response.authToken);
+      dispatch(setAuth(response))
+      // console.log("User Login Successfully");
+      // navigate("/");
+      close();
     }
   };
 
@@ -122,7 +122,7 @@ const Drawerr = ({ variant, title }: DrawerProps) => {
   return (
     <>
       <Drawer opened={opened} onClose={close} position="right" padding={"xl"}>
-        <Title order={2} className="h1">
+        <Title order={2}>
           {isNewUser ? RegisterUser.title : LoginUser.title}
         </Title>
         <Text span size="xs" >
@@ -174,4 +174,4 @@ const Drawerr = ({ variant, title }: DrawerProps) => {
   );
 };
 
-export default Drawerr;
+export default LoginDrawer;
