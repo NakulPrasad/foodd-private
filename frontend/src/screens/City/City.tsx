@@ -17,8 +17,6 @@ import Biryani from "/img/biryani.png";
 import Burger from "/img/burger.png";
 import Chinese from "/img/chinese.png";
 import CityHeader from "/img/city_header.png";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const City = () => {
   const theme = useMantineTheme();
@@ -87,25 +85,28 @@ const City = () => {
           align="start"
           slidesToScroll={2}
           className="px-5"
-       
         >
           {restraunts.map((restraunt, index) => {
             return (
-              <Carousel.Slide key={index} >
-                <RestaurantCard restraunt={restraunt}  />
+              <Carousel.Slide key={index}>
+                <RestaurantCard restraunt={restraunt} />
               </Carousel.Slide>
             );
           })}
         </CustomCarousel>
       </section>
-      <Divider className={classes.divider}/>
+      <Divider className={classes.divider} />
       <section id="restraunts" className={classes.section_m}>
         <Title order={2} py={theme.spacing.md}>
           Restaurants with online food delivery in Hyderabad
         </Title>
-        <SimpleGrid cols={4} spacing={theme.spacing.xl} onClick={(e)=>console.log(e.target)}>
+        <SimpleGrid
+          cols={4}
+          spacing={theme.spacing.xl}
+          onClick={(e) => console.log(e.target)}
+        >
           {restraunts.map((restraunt, index) => {
-            return <RestaurantCard restraunt={restraunt}  key={index}/>;
+            return <RestaurantCard restraunt={restraunt} key={index} />;
           })}
         </SimpleGrid>
       </section>

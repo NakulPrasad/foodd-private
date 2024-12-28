@@ -13,33 +13,11 @@ import classes from "./MenuCard.module.css";
 import IconVeg from "/icons/veg-icon.png";
 import Pizza from "/img/pizza.jpg";
 import ModalCart from "../../Modal/Modal2";
-
-
-interface IFoodItem{
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image_url: string;
-  rating: number;
-  is_veg: boolean;
-  options: FoodOption[];
-}
-
-export interface FoodOption {
-  name: string;
-  type: string;
-  values: IValue[];
-}
+import { IFoodItem } from "../../../types/cart.types";
 
 interface IMenuCardProps {
   foodItem:IFoodItem;
   // category?: string
-}
-
-export interface IValue{
-  label : string;
-  price : number
 }
 
 const MenuCard = (props : IMenuCardProps) => {
@@ -67,7 +45,7 @@ const MenuCard = (props : IMenuCardProps) => {
         <Image radius={theme.radius.sm} src={props.foodItem.image_url} className={classes.img} />
         <Flex direction={"column"} className={classes.translate}>
         
-        <ModalCart name={props.foodItem.name} options={props.foodItem.options} price={props.foodItem.price}/>
+        <ModalCart item= {props.foodItem}/>
         <Text className="description_sm">Customisable</Text>
 
         </Flex>

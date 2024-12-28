@@ -13,22 +13,19 @@ import { isEmail, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconUser } from "@tabler/icons-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import URLs from "../../configs/URLs";
-import { useCookie } from "../../hooks/useCookie";
-import usePostData from "../../hooks/usePostData";
-import { IUser, useUser } from "../../hooks/useUser";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useUser } from "../../hooks/useUser";
+import {
+  useLoginRequestMutation,
+  useRegisterRequestMutation,
+} from "../../redux/slices/apiSlice";
+import { setAuth } from "../../redux/slices/authSlice";
 import InputEmail from "../Inputs/InputEmail";
 import InputPassword from "../Inputs/InputPassword";
 import InputPasswordReq from "../Inputs/InputPasswordReq";
+import Spinner from "../Loader/Spinner";
 import classes from "./LoginDrawer.module.css";
-import {setAuth} from '../../redux/slices/authSlice'
-import { useAppDispatch } from "../../hooks/reduxHooks";
-interface LoginResponse {
-  authToken: string;
-  user: IUser;
-}
 
 interface DrawerProps {
   variant: string;
@@ -39,7 +36,10 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
   const theme = useMantineTheme();
   const [opened, { open, close }] = useDisclosure(false);
   const [isNewUser, setIsNewUser] = useState(true);
-  const [isLoading, postData] = usePostData<LoginResponse>();
+  const [loginRequest, { isLoading: isLoginLoading }] =
+    useLoginRequestMutation();
+  const [registerRequest, { isLoading: isRegisterLoading }] =
+    useRegisterRequestMutation();
 
   const { addUser } = useUser();
 
@@ -56,10 +56,6 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
       password: "",
     },
     validateInputOnChange: true,
-
-    // onValuesChange: (values) => {
-    //   console.log(values);
-    // },
 
     validate: {
       email: isEmail("Invalid email"),
@@ -96,24 +92,22 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
   };
 
   const handleLogin = async () => {
-    console.log("Current values:", form.values);
-    const response = await postData(URLs.loginUser, {
+    const response = await loginRequest({
       email: form.values.email,
       password: form.values.password,
     });
-    if (!isLoading && response) {
-      // console.log(response);
-      addUser(response.authToken);
-      dispatch(setAuth(response))
-      // console.log("User Login Successfully");
-      // navigate("/");
+
+    if (response.data && response.data.authToken) {
+      addUser(response.data.authToken);
+      dispatch(setAuth(response.data));
+      console.log("User Login Successfully");
       close();
     }
   };
 
   const handleSignUp = async () => {
-    const response = await postData(URLs.addUser, form.values);
-    if (response) {
+    const response = await registerRequest(form.values);
+    if (response.data && response.data.message) {
       console.log("User Registered Successfully");
       toast.success("User Registered Successfully");
     }
@@ -121,11 +115,12 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
 
   return (
     <>
+      {isLoginLoading || (isRegisterLoading && <Spinner />)}
       <Drawer opened={opened} onClose={close} position="right" padding={"xl"}>
         <Title order={2}>
           {isNewUser ? RegisterUser.title : LoginUser.title}
         </Title>
-        <Text span size="xs" >
+        <Text span size="xs">
           or{" "}
         </Text>
         <Anchor

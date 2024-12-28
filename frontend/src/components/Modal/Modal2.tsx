@@ -9,26 +9,36 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import { FoodOption, IValue } from "../Cards/MenuCard/MenuCard";
 import classes from "./Modal2.module.css";
+import { IFoodItem, IFoodOption, IValue } from "../../types/cart.types";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 interface IModalCartProps {
-  name: string;
-  options: FoodOption[];
-  price : number;
+  item : IFoodItem;
 }
 
 const ModalCart = (props: IModalCartProps) => {
   const [opened, { open, close }] = useDisclosure(false);
   const title = (
     <Flex direction={"column"}>
-      <Text>{props.name} • ₹{props.price} - ₹{props.price + 650}</Text>
+      <Text>{props.item.name} • ₹{props.item.price} - ₹{props.item.price + 650}</Text>
       <Title order={3}>Customise as per your taste</Title>
     </Flex>
   );
 
   const [value, setValue] = useState<Record<string, IValue | IValue[] | number>>({});
   const [totalPrice, setTotalPrice] = useState(0);
+  const dispatch = useAppDispatch();
+
+  const cartItem = {
+    id: props.item.id,
+    restaurantId : props.item.restaurantId,
+    name : props.item.name,
+    price : totalPrice,
+    options : value,
+    quantity : 1,
+  }
 
   const handleChange = (
     groupName: string,
@@ -43,12 +53,15 @@ const ModalCart = (props: IModalCartProps) => {
   };
 
   const handleAddToCart = ()=>{
-    console.log(value);
+    dispatch(addToCart(cartItem))
+    // console.log(value);
+    console.log(cartItem)
+    close();
   }
 
   useEffect(() => {
     // console.log(value);
-    let calculatedTotal = props.price;
+    let calculatedTotal = props.item.price;
   
     Object.entries(value).forEach(([key, val]) => {
       if (Array.isArray(val)) {
@@ -71,25 +84,19 @@ const ModalCart = (props: IModalCartProps) => {
 
   const handleClose = ()=>{
     close();
-    setTotalPrice(props.price)
+    setTotalPrice(props.item.price)
   }
   
   return (
     <>
       <Modal opened={opened} onClose={handleClose} title={title} centered>
         <Flex direction={"column"} className={classes.modalBody}>
-          {props.options.map((option, index) => (
+          {props.item.options.map((option, index) => (
             <div key={index}>
               {option.type === "checkbox" && (
            
                 <Checkbox.Group
-                // value={
-                //   Array.isArray(value[option.name])
-                //   ? (value[option.name] as string[])
-                //   : []
-                // }
-                
-                
+                              
                   onChange={(selectedValues) =>
                     handleChange(option.name,  selectedValues.map((selected) => JSON.parse(selected)) )
                   }
@@ -113,12 +120,7 @@ const ModalCart = (props: IModalCartProps) => {
               {option.type === "select" && (
                 <Radio.Group
                 required
-                // value={
-                //   typeof value[option.name] === "object"
-                //     ? (value[option.name] as IValue).label
-                //     : ""
-                // }
-                // defaultValue={'thin'}
+
                   onChange={(selectedValues) =>
                     
                     handleChange(option.name, JSON.parse(selectedValues))

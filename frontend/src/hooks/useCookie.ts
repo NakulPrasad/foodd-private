@@ -1,13 +1,14 @@
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
-import { IUser } from "./useUser";
+
 export const useCookie = () => {
-  const setItem = (name: string, value: JSON | string | IUser) => {
+  const setItem = (name: string, value: JSON | string | undefined | null) => {
+    if(!value){
+      throw new Error ("setItem : value is empty")
+    }
     try {
       Cookies.set(name, JSON.stringify(value), { expires: 1 });
     } catch (error: any) {
       console.error(error);
-      toast(error.message);
     }
   };
   const getItem = (name: string) => {
@@ -19,7 +20,6 @@ export const useCookie = () => {
       return null;
     } catch (error: any) {
       console.error(error);
-      toast.error(error.message);
     }
   };
   const removeItem = (name: string) => {
@@ -27,7 +27,6 @@ export const useCookie = () => {
       Cookies.remove(name);
     } catch (error: any) {
       console.error(error);
-      toast.error(error.message);
     }
   };
   return { setItem, getItem, removeItem };

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUser } from "../../hooks/useUser";
 
 import {
@@ -14,28 +14,22 @@ import {
 } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { useCookie } from "../../hooks/useCookie";
+import { clearAuth } from "../../redux/slices/authSlice";
+import { RootState } from "../../redux/store";
 import LoginDrawer from "../Drawer/LoginDrawer";
 import classes from "./NavBar.module.css";
 import Logo from "/img/LOGO-bgremove.png";
-import { RootState } from "../../redux/store";
-import { clearAuth } from "../../redux/slices/authSlice";
 
 const NavBar = () => {
-  const navigate = useNavigate();
-  const { getItem, removeItem } = useCookie();
-  const { removeUser, user } = useUser();
-  const { isAuthenticated } = useAppSelector((state : RootState) => state.auth);
+  const { removeUser } = useUser();
+  const { isAuthenticated } = useAppSelector((state: RootState) => state.auth);
+  const { cartItems } = useAppSelector((state: RootState) => state.cart);
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     removeUser();
     dispatch(clearAuth());
   };
-
-  // const [cartView, setCartView] = useState(false)
-
-  // const data = useCart()
 
   const theme = useMantineTheme();
 
@@ -61,14 +55,20 @@ const NavBar = () => {
               withinPortal
             >
               <HoverCard.Target>
-                <a href="#" className={classes.link}>
+                <Link to="/checkout" className={classes.link}>
                   <Center inline>
                     <Box component="span" mr={5}>
+                      {cartItems && (
+                        <Text span c={theme.primaryColor}>
+                          {" "}
+                          {cartItems.length}{" "}
+                        </Text>
+                      )}
                       Cart
                     </Box>
                     <IconChevronDown size={16} color={theme.colors.blue[6]} />
                   </Center>
-                </a>
+                </Link>
               </HoverCard.Target>
 
               <HoverCard.Dropdown style={{ overflow: "hidden" }}>
@@ -93,78 +93,12 @@ const NavBar = () => {
             {isAuthenticated ? (
               <Button onClick={handleLogout}>Sign Out</Button>
             ) : (
-            <LoginDrawer variant="default" title="Sign In" />
+              <LoginDrawer variant="default" title="Sign In" />
             )}
           </Group>
         </Group>
       </header>
     </Box>
-
-    // <header className='p-3 bg-dar'>
-    //   <div className='d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start '>
-    //     <span className='fs-4 mx-3 fst-italic '>Foodd</span>
-
-    //     <ul className='nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0'>
-    //       <li className='nav-item'>
-    //         <Link to='/' className='nav-link active text-white'>
-    //           Home
-    //         </Link>
-    //       </li>
-
-    //       {user && (
-    //         <>
-    //           <li className='nav-item'>
-    //             <Link to='/myOrder' className='nav-link text-white '>
-    //               My Orders
-    //             </Link>
-    //           </li>
-    //           <li className='nav-item'>
-    //             <Link to='/partner-with-us/new' className='nav-link text-white '>
-    //               Add Restraunt
-    //             </Link>
-    //           </li>
-    //         </>
-    //       )}
-    //     </ul>
-
-    //     <div className='text-end'>
-    //       {!user
-    //         ? (
-    //           <div>
-    //             <Link to='/login' className='btn btn-warning me-2'>
-    //               Login
-    //             </Link>
-    //             <Link to='/login' className='btn btn-warning'>
-    //               Sign-up
-    //             </Link>
-    //           </div>
-    //           )
-    //         : (
-    //           <div>
-    //             <button
-    //               className='btn btn-warning me-2'
-    //               onClick={() => {
-    //                 setCartView(true)
-    //               }}
-    //             >
-    //               My Cart{' '}
-    //               <span className='mw-1 badge bg-danger'>{data.length}</span>
-    //             </button>
-    //             {cartView
-    //               ? (
-    //                 <Modal onClose={() => setCartView(false)}>
-    //                   <Cart />
-    //                 </Modal>
-    //                 )
-    //               : null}
-    //             <Link to='' className='btn btn-danger' onClick={handleLogout}>
-    //               Log Out
-    //             </Link>
-    //           </div>
-    //           )}
-    //     </div>
-    //   </div>
-    // </header>
   );
 };
 

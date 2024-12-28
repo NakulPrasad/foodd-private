@@ -68,20 +68,19 @@ const Checkout = () => {
               </p>
             </p>
           </Flex>
- 
-            <Flex align={"center"} justify={"center"}>
-              <Checkbox />
-              <p>
-                <span>Opt in for No-contact Delivery</span>
-                <br />
-                <span>
-                  Unwell, or avoiding contact? Please select no-contact
-                  delivery. Partner will safely place the order outside your
-                  door (not for COD)
-                </span>
-              </p>
-            </Flex>
-   
+
+          <Flex align={"center"} justify={"center"}>
+            <Checkbox />
+            <p>
+              <span>Opt in for No-contact Delivery</span>
+              <br />
+              <span>
+                Unwell, or avoiding contact? Please select no-contact delivery.
+                Partner will safely place the order outside your door (not for
+                COD)
+              </span>
+            </p>
+          </Flex>
         </Grid.Col>
       </Grid>
     </section>

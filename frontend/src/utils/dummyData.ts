@@ -1,8 +1,9 @@
-import { ICoupon } from "../components/CouponCard/CouponCard"
+import { ICoupon } from "../types/coupon.types"
 
 export const foodItems = [
     {
-      "id": 1,
+      "id": "1",
+      "restaurantId" : "1",
       "name": "Margherita Pizza",
       "description": "Classic pizza with mozzarella cheese, fresh basil, and tomato sauce.",
       "price": 299.0,
@@ -29,7 +30,8 @@ export const foodItems = [
       ]
     },
     {
-      "id": 2,
+      "id": "2",
+      "restaurantId" : "1",
       "name": "Veg Burger",
       "description": "Delicious veggie patty with lettuce, tomato, and a soft bun.",
       "price": 149.0,
@@ -40,7 +42,8 @@ export const foodItems = [
       "options": []
     },
     {
-      "id": 3,
+      "id": "3",
+      "restaurantId" : "1",
       "name": "Chicken Wings",
       "description": "Spicy and crispy chicken wings served with a dipping sauce.",
       "price": 249.0,
@@ -51,7 +54,8 @@ export const foodItems = [
       "options": []
     },
     {
-      "id": 4,
+      "id": "4",
+      "restaurantId" : "1",
       "name": "Pepperoni Pizza",
       "description": "A pizza topped with pepperoni slices and mozzarella cheese.",
       "price": 349.0,
@@ -73,7 +77,8 @@ export const foodItems = [
       ]
     },
     {
-      "id": 5,
+      "id": "5",
+      "restaurantId" : "1",
       "name": "Pasta Alfredo",
       "description": "Creamy Alfredo sauce with penne pasta, served hot.",
       "price": 199.0,
@@ -84,7 +89,8 @@ export const foodItems = [
       "options": []
     },
     {
-      "id": 6,
+      "id": "6",
+      "restaurantId" : "1",
       "name": "Cheese Burger",
       "description": "Juicy beef patty with melted cheese, lettuce, tomato, and a soft bun.",
       "price": 189.0,
@@ -95,7 +101,8 @@ export const foodItems = [
       "options": []
     },
     {
-      "id": 7,
+      "id": "7",
+      "restaurantId" : "1",
       "name": "Garlic Bread",
       "description": "Soft bread topped with garlic butter and herbs.",
       "price": 99.0,
@@ -106,7 +113,8 @@ export const foodItems = [
       "options": []
     },
     {
-      "id": 8,
+      "id": "8",
+      "restaurantId" : "1",
       "name": "Caesar Salad",
       "description": "Crisp romaine lettuce with Caesar dressing, croutons, and parmesan.",
       "price": 159.0,
@@ -117,7 +125,8 @@ export const foodItems = [
       "options": []
     },
     {
-      "id": 9,
+      "id": "9",
+      "restaurantId" : "1",
       "name": "BBQ Chicken Pizza",
       "description": "Pizza with BBQ sauce, grilled chicken, red onions, and mozzarella.",
       "price": 399.0,
@@ -139,7 +148,8 @@ export const foodItems = [
       ]
     },
     {
-      "id": 10,
+      "id": "10",
+      "restaurantId" : "1",
       "name": "Chocolate Lava Cake",
       "description": "Warm chocolate cake with a molten chocolate center, served with vanilla ice cream.",
       "price": 199.0,
@@ -156,7 +166,8 @@ export const foodItems_category = [
     "category": "Pizza",
     "items": [
       {
-        "id": 1,
+        "id": "1",
+        "restaurantId" : "1",
         "name": "Margherita Pizza",
         "description": "Classic pizza with mozzarella cheese, fresh basil, and tomato sauce.",
         "price": 299,
@@ -195,7 +206,8 @@ export const foodItems_category = [
         ]
       },
       {
-        "id": 4,
+        "id": "4",
+        "restaurantId" : "1",
         "name": "Pepperoni Pizza",
         "description": "A pizza topped with pepperoni slices and mozzarella cheese.",
         "price": 349,
@@ -224,7 +236,8 @@ export const foodItems_category = [
         ]
       },
       {
-        "id": 9,
+        "id": "9",
+        "restaurantId" : "1",
         "name": "BBQ Chicken Pizza",
         "description": "Pizza with BBQ sauce, grilled chicken, red onions, and mozzarella.",
         "price": 399,
@@ -258,7 +271,8 @@ export const foodItems_category = [
     "category": "Burger",
     "items": [
       {
-        "id": 2,
+        "id": "2",
+        "restaurantId" : "1",
         "name": "Veg Burger",
         "description": "Delicious veggie patty with lettuce, tomato, and a soft bun.",
         "price": 149,
@@ -268,7 +282,8 @@ export const foodItems_category = [
         "options": []
       },
       {
-        "id": 6,
+        "id": "6",
+        "restaurantId" : "1",
         "name": "Cheese Burger",
         "description": "Juicy beef patty with melted cheese, lettuce, tomato, and a soft bun.",
         "price": 189,
@@ -283,7 +298,8 @@ export const foodItems_category = [
     "category": "Starter",
     "items": [
       {
-        "id": 3,
+        "id": "3",
+        "restaurantId" : "1",
         "name": "Chicken Wings",
         "description": "Spicy and crispy chicken wings served with a dipping sauce.",
         "price": 249,
@@ -298,7 +314,8 @@ export const foodItems_category = [
     "category": "Pasta",
     "items": [
       {
-        "id": 5,
+        "id": "5",
+        "restaurantId" : "1",
         "name": "Pasta Alfredo",
         "description": "Creamy Alfredo sauce with penne pasta, served hot.",
         "price": 199,
@@ -313,7 +330,8 @@ export const foodItems_category = [
     "category": "Side",
     "items": [
       {
-        "id": 7,
+        "id": "7",
+        "restaurantId" : "1",
         "name": "Garlic Bread",
         "description": "Soft bread topped with garlic butter and herbs.",
         "price": 99,
@@ -328,7 +346,8 @@ export const foodItems_category = [
     "category": "Salad",
     "items": [
       {
-        "id": 8,
+        "id": "8",
+        "restaurantId" : "1",
         "name": "Caesar Salad",
         "description": "Crisp romaine lettuce with Caesar dressing, croutons, and parmesan.",
         "price": 159,
@@ -343,7 +362,8 @@ export const foodItems_category = [
     "category": "Dessert",
     "items": [
       {
-        "id": 10,
+        "id": "10",
+        "restaurantId" : "1",
         "name": "Chocolate Lava Cake",
         "description": "Warm chocolate cake with a molten chocolate center, served with vanilla ice cream.",
         "price": 199,
@@ -360,6 +380,7 @@ export const foodItems_category = [
 export const coupons :ICoupon[] = [
     {
       "id": "COUPON1",
+      "restaurantId" : "1",
       "title": "Flat 20% Off",
       "description": "Get a flat 20% discount on your order above ₹300.",
       "discount_type": "percentage",
@@ -375,6 +396,7 @@ export const coupons :ICoupon[] = [
     },
     {
       "id": "COUPON2",
+      "restaurantId" : "1",
       "title": "₹100 Off",
       "description": "Get ₹100 off on your first order above ₹500.",
       "discount_type": "flat",
@@ -391,6 +413,7 @@ export const coupons :ICoupon[] = [
     },
     {
       "id": "COUPON3",
+      "restaurantId" : "1",
       "title": "Free Delivery",
       "description": "Enjoy free delivery on orders above ₹200.",
       "discount_type": "delivery",
@@ -406,6 +429,7 @@ export const coupons :ICoupon[] = [
     },
     {
       "id": "COUPON4",
+      "restaurantId" : "1",
       "title": "Buy 1 Get 1 Free",
       "description": "Buy 1 main course and get 1 free.",
       "discount_type": "bogo",
@@ -421,6 +445,7 @@ export const coupons :ICoupon[] = [
     },
     {
       "id": "COUPON5",
+      "restaurantId" : "1",
       "title": "Weekend Special",
       "description": "Extra ₹50 off on orders above ₹400 during weekends.",
       "discount_type": "flat",
