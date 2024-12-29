@@ -1,5 +1,9 @@
 import { BASE_URL } from "../configs/env.js";
 
+/**
+ * @description Contains all the URLs used throught application.
+ */
+
 const URLs = {
   getFoodData: `${BASE_URL}/apiv1/food/getAllFoodItems`,
   getAllFoodCategory: `${BASE_URL}/food/getAllFoodCategory`,

@@ -1,9 +1,8 @@
 import express from "express";
-import { homeRouter } from "./homeRouter/homeRouter.js";
-import { userRouter } from "./userRouter/userRouter.js";
-import { orderRouter } from "./orderRouter/orderRouter.js";
-import authenticateToken from "../middleware/authMiddleware.js";
 import { foodRouter } from "./foodRouter/foodRouter.js";
+import { homeRouter } from "./homeRouter/homeRouter.js";
+import { orderRouter } from "./orderRouter/orderRouter.js";
+import { userRouter } from "./userRouter/userRouter.js";
 
 export const apiRouter = express.Router();
 

@@ -1,3 +1,4 @@
+import express from "express";
 import {
   addFoodCategory,
   addFoodItem,
@@ -7,7 +8,6 @@ import {
   getAllFoodItems,
 } from "../../controllers/foodRouterController/foodRouterController.js";
 import authenticateToken from "../../middleware/authMiddleware.js";
-import express from "express";
 
 export const foodRouter = express.Router();
 foodRouter.use(authenticateToken);

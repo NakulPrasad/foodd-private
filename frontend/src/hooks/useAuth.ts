@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { apiSlice } from "../redux/slices/apiSlice";
 import { setAuth, setAuthenticationToken } from "../redux/slices/authSlice";
-import store from "../redux/store";
+import store, { RootState } from "../redux/store";
 import { ILoginRequest } from "../types/authentication.types";
-import { useAppDispatch } from "./reduxHooks";
+import { useAppDispatch, useAppSelector } from "./reduxHooks";
 import { useCookie } from "./useCookie";
 import { useUser } from "./useUser";
 
 export const useAuth = () => {
-  const { getItem } = useCookie();
+  const { getItem, setItem } = useCookie();
   const { addUser, removeUser } = useUser();
   const [authToken] = useState(() => getItem("authToken"));
   const dispatch = useAppDispatch();
 
   const checkAuth = async () => {
+    if (!authToken) return;
     const checkAuthResponse = await store
       .dispatch(apiSlice.endpoints.checkAuth.initiate())
       .unwrap();
     dispatch(setAuthenticationToken({ authToken: authToken }));
-    if (!authToken) return;
     if (checkAuthResponse) {
       dispatch(setAuth(checkAuthResponse));
     }
@@ -30,5 +30,14 @@ export const useAuth = () => {
   const logout = () => {
     removeUser();
   };
-  return { login, logout, authToken, checkAuth };
+
+  const isAuthenticated = ()=>{
+    const user = useAppSelector((state : RootState) => state.auth.isAuthenticated)
+    return user;
+  }
+
+  const setAuthToken=(token : string)=>{
+    setItem("authToken", token )
+  }
+  return { login, logout, authToken, checkAuth, isAuthenticated, setAuthToken };
 };

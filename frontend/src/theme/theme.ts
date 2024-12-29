@@ -94,7 +94,7 @@ import {
       md: rem("16px"),
       lg: rem("18px"),
       xl: rem("20px"),
-      "2xl": rem("24px"),
+      xxl: rem("24px"),
       "3xl": rem("30px"),
       "4xl": rem("36px"),
       "5xl": rem("48px"),

@@ -21,15 +21,15 @@ import { coupons } from "../../utils/dummyData";
 const Restaurant = () => {
   const theme = useMantineTheme();
 
-  const items = foodItems_category.map((item) => (
+  const items = foodItems_category.map((item, index) => (
 
-    <Accordion.Item key={item.category} value={item.category}>
+    <Accordion.Item key={index} value={item.category}>
       <Accordion.Control>
         <Title order={3}>{item.category}</Title>
       </Accordion.Control>
       {
-        item.items.map(food=>{
-          return(<Accordion.Panel>
+        item.items.map((food, index)=>{
+          return(<Accordion.Panel key={index}>
             <MenuCard foodItem = {food}/>
             <Divider my="md" />
           </Accordion.Panel>
@@ -45,7 +45,7 @@ const Restaurant = () => {
   return (
     <>
       <main id="restraunt" className={classes.section_m}>
-        <Title p={theme.spacing.md} order={2}>
+        <Title py={theme.spacing.md} order={2}>
           Domino's Pizza
         </Title>
         <Flex
@@ -74,10 +74,10 @@ const Restaurant = () => {
             slidesToScroll={2}
             className="px-5"
           >
-            {coupons.map(coupon=>{
+            {coupons.map((coupon, index)=>{
               return(
 
-                <Carousel.Slide>
+                <Carousel.Slide key={index}>
                <CouponCard coupon={coupon} />
              </Carousel.Slide>
               )
@@ -99,9 +99,9 @@ const Restaurant = () => {
           <IconwaveRight/>
         </Flex>
 
-        <Input.Wrapper>
+        {/* <Input.Wrapper>
           <Input variant="filled" placeholder="Search for dishes" />
-        </Input.Wrapper>
+        </Input.Wrapper> */}
 
         <Accordion variant="filled" defaultValue="Apples">
           {items}

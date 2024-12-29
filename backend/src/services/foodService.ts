@@ -1,7 +1,6 @@
-import { log } from "console";
+import { Response } from "express";
 import FoodCategory, { foodCategoryInterface } from "../models/foodCategory.js";
 import FoodItem, { foodItemInterface } from "../models/foodModel.js";
-import { Request, Response } from "express";
 
 /**
  * @description This class manages all the operations related to food data.
@@ -49,7 +48,7 @@ export default class foodService {
 
   async deleteFoodItemByName(
     foodName: string,
-    res: Response
+    res: Response,
   ): Promise<Response> {
     try {
       const foodItems = await FoodItem.findOneAndDelete({ name: foodName });
@@ -106,7 +105,7 @@ export default class foodService {
 
   async addFoodCategory(
     food: foodCategoryInterface,
-    res: Response
+    res: Response,
   ): Promise<Response> {
     try {
       const foodCategoryAdded = await FoodCategory.create(food);

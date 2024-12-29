@@ -1,8 +1,8 @@
-import { Response, Request } from "express";
-import bcrypt, { genSalt, hash } from "bcrypt";
+import bcrypt from "bcrypt";
+import { Request, Response } from "express";
+import { checkSchema, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import User, { userInterface } from "../models/userModel.js";
-import { checkSchema, validationResult } from "express-validator";
 interface userLogin {
   email: string;
   password: string;
@@ -44,7 +44,7 @@ class authService {
 
     // Run validation
     await Promise.all(
-      userValidationSchema.map((validation) => validation.run(mockRequest))
+      userValidationSchema.map((validation) => validation.run(mockRequest)),
     );
 
     // Collect validation results
@@ -94,6 +94,7 @@ class authService {
       return res.status(500).json({ message: "JWTKEY is empty" });
     }
     const authToken = jwt.sign(payload, JWT_KEY, options);
+    req.user = userData;
     return res
       .status(200)
       .json({ message: "User Found", authToken: authToken });

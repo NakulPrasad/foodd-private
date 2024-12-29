@@ -26,10 +26,12 @@ export interface ICartItem{
     restaurantId: string;
     name: string;
     price: number;
-    // image_url: string;
-    // rating: number;
-    // is_veg: boolean;
-    options: IFoodOption[];
+    image_url?: string;
+    rating?: number;
+    is_veg?: boolean;
+    options: any;
     quantity : number;
 }
+
+
 

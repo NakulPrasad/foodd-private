@@ -21,7 +21,7 @@ export interface foodItemInterface {
     {
       size: String;
       price: Number;
-    }
+    },
   ];
   description: String;
 }

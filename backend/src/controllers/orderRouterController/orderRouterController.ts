@@ -1,6 +1,5 @@
-import Order from "../../models/orderModel.js";
-import User from "../../models/userModel.js";
 import { Request, Response } from "express";
+import Order from "../../models/orderModel.js";
 
 export const orderTest = (req: Request, res: Response) => {
   return res.status(200).json({ message: "Working Order Router" });
@@ -35,7 +34,7 @@ export const orderCheckout = async (req: Request, res: Response) => {
   }
   const order = await Order.findOneAndUpdate(
     { email: email },
-    { $push: { order_data: data } }
+    { $push: { order_data: data } },
   );
   if (!order) {
     return res.status(204).json({ message: "Order Can't be added" });

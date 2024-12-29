@@ -1,5 +1,6 @@
 import {
   Anchor,
+  Box,
   Button,
   Divider,
   Drawer,
@@ -26,6 +27,7 @@ import InputPassword from "../Inputs/InputPassword";
 import InputPasswordReq from "../Inputs/InputPasswordReq";
 import Spinner from "../Loader/Spinner";
 import classes from "./LoginDrawer.module.css";
+import { useNavigate } from "react-router-dom";
 
 interface DrawerProps {
   variant: string;
@@ -34,6 +36,7 @@ interface DrawerProps {
 
 const LoginDrawer = ({ variant, title }: DrawerProps) => {
   const theme = useMantineTheme();
+  const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false);
   const [isNewUser, setIsNewUser] = useState(true);
   const [loginRequest, { isLoading: isLoginLoading }] =
@@ -105,6 +108,11 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
     }
   };
 
+  const handleLoginGoogle = () => {
+    // navigate("http://localhost:3000/auth/google");
+    window.location.href = "http://localhost:3000/auth/google";
+  };
+
   const handleSignUp = async () => {
     const response = await registerRequest(form.values);
     if (response.data && response.data.message) {
@@ -112,6 +120,8 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
       toast.success("User Registered Successfully");
     }
   };
+
+
 
   return (
     <>
@@ -153,6 +163,31 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
             <Button fullWidth type="submit" className={classes.bg_orange}>
               {isNewUser ? "CONTINUE" : "LOGIN"}
             </Button>
+            <button
+              onClick={handleLoginGoogle}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                backgroundColor: "#4285F4",
+                color: "white",
+                padding: "10px 20px",
+                textDecoration: "none",
+                borderRadius: "5px",
+                fontFamily: "Arial, sans-serif",
+                fontSize: "14px",
+              }}
+            >
+              <img
+                src="https://developers.google.com/identity/images/g-logo.png"
+                alt="Google logo"
+                style={{
+                  width: "18px",
+                  height: "18px",
+                  marginRight: "8px",
+                }}
+              />
+              Login with Google
+            </button>
 
             <Text size="sm">
               {isNewUser ? RegisterUser.message : LoginUser.message}

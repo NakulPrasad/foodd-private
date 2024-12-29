@@ -1,6 +1,5 @@
-import foodService from "../../services/foodService.js";
 import { Request, Response } from "express";
-import FoodItem from "../../models/foodModel.js";
+import foodService from "../../services/foodService.js";
 
 const FoodService = foodService.getInstance();
 
@@ -22,7 +21,7 @@ export const addFoodCategory = async (req: Request, res: Response) => {
   const foodCategory = req.body;
   const response: Response = await FoodService.addFoodCategory(
     foodCategory,
-    res
+    res,
   );
   return response;
 };
@@ -37,7 +36,7 @@ export const deleteFoodItemByName = async (req: Request, res: Response) => {
   const foodName: string = req.body.name;
   const foodDelete: Response = await FoodService.deleteFoodItemByName(
     foodName,
-    res
+    res,
   );
   return foodDelete;
 };

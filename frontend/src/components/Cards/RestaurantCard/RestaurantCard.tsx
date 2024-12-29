@@ -1,8 +1,9 @@
-import { Box, Flex, Paper, Text, Title, useMantineTheme } from "@mantine/core";
+import { Box, Flex, Paper, Text, Title, useMantineTheme, Image } from "@mantine/core";
 import { IconPointFilled } from "@tabler/icons-react";
 import classes from "./RestaurantCard.module.css";
 import IconStar from "../../../assets/icons/starFilled.svg?react";
 import { useNavigate } from "react-router-dom";
+import Pizza from "/img/pizzahut.jpg";
 
 interface IRestaurant {
   id: string;
@@ -37,7 +38,7 @@ interface RestrauntCardProps {
 }
 
 const restaurant = (props: RestrauntCardProps) => {
-  const theme = useMantineTheme();
+  // const theme = useMantineTheme();
   const navigate = useNavigate();
   const handleClick = (address : string)=>{
     // console.log(address);
@@ -49,7 +50,8 @@ const restaurant = (props: RestrauntCardProps) => {
       <Paper
         p="xl"
         radius="md"
-        style={{ backgroundImage: `url(${props.restraunt.image})` }}
+        style={{ backgroundImage: `url(${Pizza})` }}
+        // style={{ backgroundImage: `url(${props.restraunt.image})` }}
         className={classes.image}
       ></Paper>
       <Box className={classes.wrapper}>

@@ -21,7 +21,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action:PayloadAction<ICartItem>) => {
-      const { id, name, price, restaurantId } = action.payload;
+      const { id, price, restaurantId } = action.payload;
       const existingItem = state.cartItems.find(item => item.id === id);
 
       // Validate restaurant context

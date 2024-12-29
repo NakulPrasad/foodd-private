@@ -2,6 +2,7 @@ import "@mantine/carousel/styles.css";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import React from "react";
+import { Provider } from "react-redux";
 import {
   createBrowserRouter,
   Navigate,
@@ -9,18 +10,15 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import Root from "./components/Root/Root";
-import { AuthProvider } from "./context/AuthContext";
-import { CartProvider } from "./context/ContextReducer";
-import { useCookie } from "./hooks/useCookie";
-import Checkout from "./screens/Checkout/Checkout";
-import City from "./screens/City/City";
-import Error from "./screens/Error/Error";
-import MyOrder from "./screens/MyOrder/MyOrder";
-import Partner from "./screens/Partner/Partner";
-import Theme from "./theme/theme";
-import Restaurant from "./screens/Restaurant/Restaurant";
-import { Provider } from 'react-redux';
+import { useAuth } from "./hooks/useAuth";
 import store from "./redux/store";
+import Auth from "./screens/Auth/Auth";
+import Checkout from "./screens/Checkout/Checkout";
+import Error from "./screens/Error/Error";
+import Home from "./screens/Home/Home";
+import Partner from "./screens/Partner/Partner";
+import Restaurant from "./screens/Restaurant/Restaurant";
+import Theme from "./theme/theme";
 
 interface PrivateRouteProps {
   element: React.ReactElement;
@@ -33,10 +31,9 @@ interface PrivateRouteProps {
  */
 
 const PrivateRoute = ({ element }: PrivateRouteProps) => {
-  const { getItem } = useCookie();
-  const isAuthenticated = getItem("user");
+  const { isAuthenticated } = useAuth();
 
-  return isAuthenticated ? element : <Navigate to="/login" />;
+  return isAuthenticated() ? element : <Navigate to="/" />;
 };
 
 const router = createBrowserRouter([
@@ -46,12 +43,8 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path:"/",
-        element: <City/>
-      },
-      {
-        path: "/myOrder",
-        element: <MyOrder />,
+        path: "/",
+        element: <Home />,
       },
       {
         path: "/partner-with-us/new/",
@@ -61,7 +54,6 @@ const router = createBrowserRouter([
         path: "/restraunt/*",
         element: <Restaurant />,
       },
-
     ],
   },
   {
@@ -74,19 +66,26 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+  {
+    element: <Root />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/auth",
+        element: <Auth />,
+      },
+    ],
+  },
+],
+);
 
 function App() {
   return (
-    // <AuthProvider>
-    //   <CartProvider>
-      <Provider store={store}>
-        <MantineProvider theme={Theme}>
-          <RouterProvider router={router} />
-        </MantineProvider>
-        </Provider>
-      /* </CartProvider>
-    </AuthProvider> */
+    <Provider store={store}>
+      <MantineProvider theme={Theme}>
+        <RouterProvider router={router} />
+      </MantineProvider>
+    </Provider>
   );
 }
 

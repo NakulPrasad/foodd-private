@@ -1,5 +1,9 @@
+import City from "../City/City";
+
 const Home = () => {
-  return <div>Home</div>;
+  return (
+    <City />
+  )
 };
 
 export default Home;

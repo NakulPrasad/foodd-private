@@ -11,7 +11,7 @@
 }
 
 .description {
-  font-weight: 200;
+  font-weight: 500;
   font-size: 16px;
   letter-spacing: -0.3px;
   overflow: hidden;
@@ -20,11 +20,11 @@
 }
 
 .description_sm {
-  font-weight: 200;
+  font-weight: 500;
   font-size: 13px;
   line-height: 16px;
   letter-spacing: -0.3px;
-  color: rgba(2, 6, 12, 0.45);
+  color: rgba(2, 6, 12, 0.6);
 }
 
 .description_sm_bold {
@@ -36,8 +36,8 @@
 }
 
 .rating {
-  font-weight: 400;
-  font-size: 13px;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 16px;
   letter-spacing: -0.3px;
   color: rgba(2, 6, 12, 0.6);

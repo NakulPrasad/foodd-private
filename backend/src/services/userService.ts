@@ -1,7 +1,8 @@
-import { check, checkSchema, validationResult } from "express-validator";
-import bcrypt, { genSalt, hash } from "bcrypt";
+import { genSalt, hash } from "bcrypt";
+import { Response } from "express";
+import { checkSchema, validationResult } from "express-validator";
 import User, { userInterface } from "../models/userModel.js";
-import { Request, Response } from "express";
+
 class userService {
   private static instance: userService;
   private constructor() {}
@@ -14,7 +15,7 @@ class userService {
 
   async validateUser(
     user: userInterface,
-    res: Response
+    res?: Response,
   ): Promise<Response | boolean> {
     const userValidationSchema = checkSchema({
       name: {
@@ -47,14 +48,14 @@ class userService {
 
     // Run validation
     await Promise.all(
-      userValidationSchema.map((validation) => validation.run(mockRequest))
+      userValidationSchema.map((validation) => validation.run(mockRequest)),
     );
 
     // Collect validation results
     const errors = validationResult(mockRequest);
 
     // If there are errors, return false and log the errors
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty() && res) {
       // console.error("Validation errors:", errors.array());
       return res.status(400).json({
         message: "All fields are required",
@@ -67,7 +68,7 @@ class userService {
   }
 
   async registerUser(user: userInterface, res: Response): Promise<Response> {
-    console.log(user);
+    // console.log(user);
 
     const isValidUser = await this.validateUser(user, res);
     if (typeof isValidUser !== "boolean") {
@@ -79,12 +80,13 @@ class userService {
     user.password = secPassword;
 
     const sucess = await User.create(user);
-    if (!sucess) {
+    if (!sucess && res) {
       // console.error("Failed to register user, can't update database");
       return res
         .status(500)
         .json({ message: "Failed to register user, invalid user inputs" });
     }
+    // if(res)
     return res.status(200).json({ message: "User Added Successfull" });
   }
 
@@ -96,14 +98,14 @@ class userService {
   async getUserByEmail(email: string): Promise<userInterface | null> {
     const user: userInterface | null = await User.findOne(
       { email: email },
-      { password: 0 }
+      { password: 0 },
     );
     return user || null;
   }
 
   async getUserByIdAndUpdate(
     id: string,
-    update: userInterface
+    update: userInterface,
   ): Promise<boolean> {
     const user: userInterface | null = await User.findByIdAndUpdate(id, update);
     return user ? true : false;
