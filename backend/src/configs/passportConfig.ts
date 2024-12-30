@@ -8,6 +8,8 @@ import userService from "../services/userService.js";
 
 const CLIENT_ID = process.env.GOOGLE_CLIENTID || "error";
 const CLIENT_SEC = process.env.GOOGLE_CLIENTSECRET || "error";
+const BACKEND_URL = process.env.BACKEND_URL || 'error'
+const FRONTEND_URL = process.env.FRONTEND_URL || 'error'
 const UserService = userService.getInstance();
 const AuthService = authService.getInstance();
 
@@ -16,7 +18,7 @@ passport.use(
     {
       clientID: CLIENT_ID,
       clientSecret: CLIENT_SEC,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: `${BACKEND_URL}/auth/google/callback`,
     },
     (accessToken, refreshToken, profile, done) => {
       // Handle user information (e.g., save to DB)
@@ -66,10 +68,9 @@ export const passportRoutes = (app: any) => {
   app.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-      failureRedirect: process.env.FRONTEND_URL,
+      failureRedirect: FRONTEND_URL,
     }),
     (req: Request, res: Response) => {
-      const url = process.env.FRONTEND_URL || "";
 
       const payload = {
         id: req.user.id, // Use a unique identifier from the user object
@@ -88,7 +89,7 @@ export const passportRoutes = (app: any) => {
       // const authToken = jwt.sign(req.user._json, JWT_KEY, options);
       const authToken = jwt.sign(payload, JWT_KEY, options);
 
-      return res.redirect(`${url}?token=${authToken}`);
+      return res.redirect(`${FRONTEND_URL}?token=${authToken}`);
       // res.redirect("/profile");
     },
   );

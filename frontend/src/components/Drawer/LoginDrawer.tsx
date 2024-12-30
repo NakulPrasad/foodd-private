@@ -1,10 +1,10 @@
 import {
   Anchor,
-  Box,
   Button,
   Divider,
   Drawer,
   Group,
+  Image,
   Text,
   TextInput,
   Title,
@@ -14,6 +14,7 @@ import { isEmail, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconUser } from "@tabler/icons-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { useUser } from "../../hooks/useUser";
@@ -27,7 +28,6 @@ import InputPassword from "../Inputs/InputPassword";
 import InputPasswordReq from "../Inputs/InputPasswordReq";
 import Spinner from "../Loader/Spinner";
 import classes from "./LoginDrawer.module.css";
-import { useNavigate } from "react-router-dom";
 
 interface DrawerProps {
   variant: string;
@@ -121,8 +121,6 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
     }
   };
 
-
-
   return (
     <>
       {isLoginLoading || (isRegisterLoading && <Spinner />)}
@@ -160,24 +158,11 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
             </>
           )}
           <Group mt="md">
-            <Button fullWidth type="submit" className={classes.bg_orange}>
+            <Button fullWidth type="submit" >
               {isNewUser ? "CONTINUE" : "LOGIN"}
             </Button>
-            <button
-              onClick={handleLoginGoogle}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                backgroundColor: "#4285F4",
-                color: "white",
-                padding: "10px 20px",
-                textDecoration: "none",
-                borderRadius: "5px",
-                fontFamily: "Arial, sans-serif",
-                fontSize: "14px",
-              }}
-            >
-              <img
+            <Button fullWidth onClick={handleLoginGoogle}>
+              <Image
                 src="https://developers.google.com/identity/images/g-logo.png"
                 alt="Google logo"
                 style={{
@@ -187,7 +172,7 @@ const LoginDrawer = ({ variant, title }: DrawerProps) => {
                 }}
               />
               Login with Google
-            </button>
+            </Button>
 
             <Text size="sm">
               {isNewUser ? RegisterUser.message : LoginUser.message}

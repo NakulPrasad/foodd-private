@@ -66,27 +66,6 @@ const NavBar = () => {
               Home
             </Link>
 
-            {user && (
-              <>
-                <Menu
-                  trigger="hover"
-                  openDelay={100}
-                  closeDelay={400}
-                  shadow="md"
-                  width={300}
-                >
-                  <Avatar src={avatarUrl} alt="it's me" />
-                  <Menu.Target>
-                    <Text fw={600}>{user?.name}</Text>
-                  </Menu.Target>
-                  <Menu.Dropdown className={classes.dropdownMenu} fw={600}>
-                    <Menu.Item>Profile</Menu.Item>
-                    <Menu.Item>Orders</Menu.Item>
-                    <Menu.Item>Logout</Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              </>
-            )}
 
             <HoverCard
               width={600}
@@ -152,6 +131,7 @@ const NavBar = () => {
                           );
                         })}
                       </Flex>
+                      <Divider p={theme.spacing.sm} />
                       <Flex justify={"space-between"}>
                         <Text fw={700}>SubTotal : </Text>
                         <Text fw={700}>{cart.price}</Text>
@@ -168,6 +148,23 @@ const NavBar = () => {
           <Group visibleFrom="sm">
             {isAuthenticated ? (
               <>
+                              <Menu
+                  trigger="hover"
+                  openDelay={100}
+                  closeDelay={400}
+                  shadow="md"
+                  width={300}
+                >
+                  <Avatar  size="sm" src={avatarUrl} alt="it's me" />
+                  <Menu.Target>
+                    <Text fw={600}>{user?.name}</Text>
+                  </Menu.Target>
+                  <Menu.Dropdown className={classes.dropdownMenu} fw={600}>
+                    <Menu.Item>Profile</Menu.Item>
+                    <Menu.Item>Orders</Menu.Item>
+                    <Menu.Item>Logout</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
                 <Button
                   onClick={() =>
                     (window.location.href =
